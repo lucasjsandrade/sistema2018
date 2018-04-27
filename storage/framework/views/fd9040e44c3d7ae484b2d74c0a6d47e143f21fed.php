@@ -1,0 +1,144 @@
+<?php $__env->startSection('conteudo'); ?>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <h3>Novo Fornecedor</h3>
+      <?php if(count($errors)>0): ?> <!-- Se existir erro vai mostrar um alerta e vai listar os erros --> 
+      <div class="alert alert-danger">
+        <ul>
+        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+          <li><?php echo e($error); ?></li>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+        </ul>
+      </div>
+      <?php endif; ?>
+
+    </div>
+  </div>
+
+      <?php echo Form::open(array('url'=>'pessoa/fornecedor','method'=>'POST','autocomplete'=>'off')); ?><!-- Metodo POST está passando informação -->
+            <?php echo e(Form::token()); ?>
+
+            
+            <div class="row">
+              
+              <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="razaoSocial">Razão social</label>
+                  <input type="text" name="razaoSocial" required value="<?php echo e(old('razaoSocial')); ?>" class="form-control" placeholder="Razão Social">
+                 </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="nomeFantasia">Nome fantasia</label>
+                  <input type="text" name="nomeFantasia" required value="<?php echo e(old('nomeFantasia')); ?>" class="form-control" placeholder="Nome fantasia">
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="cnpj">CNPJ</label>
+                  <input type="text" name="cnpj" required value="<?php echo e(old('cnpj')); ?>" class="form-control" placeholder="CNPJ">
+                </div>
+              </div>
+            
+            <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="inscricaoEstadual">Inscrição Estadual</label>
+                  <input type="text" name="inscricaoEstadual" value="<?php echo e(old('inscricaoEstadual')); ?>" class="form-control" placeholder="Inscrição Estadual">
+                </div>
+              </div>
+
+               <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="email">E-mail</label>
+                  <input type="email" name="email" value="<?php echo e(old('email')); ?>" class="form-control" placeholder="E-mail">
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="telefone">Telefone</label>
+                  <input type="number" name="telefone" required value="<?php echo e(old('telefone')); ?>"class="form-control" placeholder="Telefone">
+                 </div>
+              </div>
+
+               <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="faz">Fax</label>
+                  <input type="number" name="fax" value="<?php echo e(old('fax')); ?>" class="form-control" placeholder="Fax">
+                 </div>
+              </div>
+
+               <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="whatsapp">Whatsapp</label>
+                  <input type="number" name="whatsapp" value="<?php echo e(old('whatsapp')); ?>" class="form-control" placeholder="Whatsapp">
+                 </div>
+              </div>
+
+               <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="logradouro">Logradouro</label>
+                  <input type="text" name="logradouro" required value="<?php echo e(old('logradouro')); ?>" class="form-control" placeholder="Logradouro">
+                 </div>
+              </div>
+
+               <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="numero">Numero</label>
+                  <input type="number" name="numero"  required value="<?php echo e(old('numero')); ?>" class="form-control" placeholder="Numero">
+                 </div>
+              </div>
+
+               <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="bairro">Bairro</label>
+                  <input type="text" name="bairro" required value="<?php echo e(old('bairro')); ?>" class="form-control" placeholder="bairro">
+                 </div>
+              </div>
+
+               <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label for="cep">CEP</label>
+                  <input type="number" name="cep" value="<?php echo e(old('cep')); ?>" class="form-control" placeholder="cep">
+                 </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-6 col-xs-12">
+               <div class="form-group">
+                <label>Cidade</label>
+                <select name="idcidade" class="form-control">
+                  <?php $__currentLoopData = $cidade; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cid): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                  <option value="<?php echo e($cid->idcidade); ?>"><!-- Aqui vai recuperar o objeto do banco -->
+                  <?php echo e($cid->nomeCidade); ?>
+
+                  </option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                </select>
+                </div>
+              </div>
+
+              
+              <div class="form-group">                
+                
+              </div>
+             
+
+            </div>
+    <div class="col-lg-6 col-sm-6 col-xs-12">
+
+           <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Salvar</button>
+                  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/fornecedor';">Cancelar</button>
+            
+           <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button">Nova Cidade </button></a>
+           </div>
+
+    </div>
+
+      <?php echo Form::close(); ?>   
+            
+    
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
