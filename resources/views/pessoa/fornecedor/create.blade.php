@@ -20,7 +20,6 @@
 {{Form::token()}}
 
 
-
 <div class="row">
  <div class="col-lg-6 col-sm-6 col-xs-12">
     <div class="form-group">
@@ -44,7 +43,7 @@
     <div class="form-group">
       <label for="cnpj">CNPJ</label>
       <span class="ob">*</span>
-      <input type="text" name="cnpj" required value="{{old('cnpj')}}" class="cnpj form-control" placeholder="CNPJ">
+      <input type="text" name="cnpj" id="cnpj" required value="{{old('cnpj')}}" class="cnpj form-control" placeholder="CNPJ">
     </div>
   </div>
   

@@ -169,73 +169,77 @@
                   <li><a href="/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>
                   <li><a href="/venda/agendamento"><i class="fa fa-calendar"></i> Agendamento</a></li>
                 </ul>
-              </li>             
-              <li>
-                <a href="#">
-                  <i class="fa fa-plus-square"></i> <span>Ajuda</span>
-                  <small class="label pull-right bg-red">PDF</small>
-                </a>
-              </li>
-            -->
-            <li>
+              </li> 
+
+
+
+            <li class="treeview">
               <a href="#">
-                <i class="fa fa-info-circle"></i> <span>Sobre...</span>
-                <small class="label pull-right bg-yellow">IT</small>
+                <i class="fa fa-lock"></i> <span>Login</span>
+                <i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li> 
+              <ul class="treeview-menu">
+               <li><a href="/seguranca/usuario"><i class="fa fa-user"></i> Usuarios</a></li>
 
-          </ul>
-        </section>
-        <!-- /.sidebar -->
-      </aside>
+             </ul>
+           </li>
+           <li>
+            <a href="#">
+              <i class="fa fa-plus-square"></i> <span>Ajuda</span>
+              <small class="label pull-right bg-red">PDF</small>
+            </a>
+          </li>
+        -->
+        <li>
+          <a href="#">
+            <i class="fa fa-info-circle"></i> <span>Sobre...</span>
+            <small class="label pull-right bg-yellow">IT</small>
+          </a>
+        </li> 
 
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-lock"></i> <span>Login</span>
-          <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-         <li><a href="/seguranca/usuario"><i class="fa fa-user"></i> Usuarios</a></li>
-
-       </ul>
-     </li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
 
 
 
-     <!--Contenido-->
-     <!-- Content Wrapper. Contains page content -->
-     <div class="content-wrapper">
 
-      <!-- Main content -->
-      <section class="content">
 
-        <div class="row">
-          <div class="col-md-12">
-            <div class="box">
-              <div class="box-header with-border">
-                <h3 class="box-title">Sistema Persianas Capricho</h3>
-                <div class="box-tools pull-right">
-                  <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+  <!--Contenido-->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
 
-                  <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                </div>
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Sistema Persianas Capricho</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
               </div>
-              <!-- /.box-header -->
-              <div class="box-body">
-               <div class="row">
-                <div class="col-md-12">
-                  <!--Conteudo-->
-                  @yield('conteudo')
-                  <!--Fim Conteudo-->
-                </div>
-              </div>
-
             </div>
-          </div><!-- /.row -->
-        </div><!-- /.box-body -->
-      </div><!-- /.box -->
-    </div><!-- /.col -->
-  </div><!-- /.row -->
+            <!-- /.box-header -->
+            <div class="box-body">
+             <div class="row">
+              <div class="col-md-12">
+                <!--Conteudo-->
+                @yield('conteudo')
+                <!--Fim Conteudo-->
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /.row -->
+      </div><!-- /.box-body -->
+    </div><!-- /.box -->
+  </div><!-- /.col -->
+</div><!-- /.row -->
 
 </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
@@ -263,10 +267,78 @@
       jQuery(function($){
        $(".phone").mask("(99) 9999-9999"); 
        $(".cpf").mask("999.999.999-99"); 
-       $("cep").mask("99.999-999");
-       $("cnpj").mask("999.999.99-99");
+       $(".cep").mask("99.999-999");
+       $(".cnpj").mask("99.999.999/9999-99");
 
      });
+
+
+      $('#cnpj').blur(
+        function(){
+          if( validarCNPJ($(this).val()) ){
+            //alert('CNPJ válido');
+          }else{
+            alert('CNPJ Invállido');
+            $('#cnpj').val('');
+          }
+            
+
+        }
+      );
+
+      function validarCNPJ(cnpj) {
+
+        cnpj = cnpj.replace(/[^\d]+/g, '');
+
+        if (cnpj == '')
+            return false;
+
+        if (cnpj.length != 14)
+            return false;
+
+        // Elimina CNPJs invalidos conhecidos
+        if (cnpj == "00000000000000" ||
+                cnpj == "11111111111111" ||
+                cnpj == "22222222222222" ||
+                cnpj == "33333333333333" ||
+                cnpj == "44444444444444" ||
+                cnpj == "55555555555555" ||
+                cnpj == "66666666666666" ||
+                cnpj == "77777777777777" ||
+                cnpj == "88888888888888" ||
+                cnpj == "99999999999999")
+            return false;
+
+        // Valida DVs
+        tamanho = cnpj.length - 2
+        numeros = cnpj.substring(0, tamanho);
+        digitos = cnpj.substring(tamanho);
+        soma = 0;
+        pos = tamanho - 7;
+        for (i = tamanho; i >= 1; i--) {
+            soma += numeros.charAt(tamanho - i) * pos--;
+            if (pos < 2)
+                pos = 9;
+        }
+        resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+        if (resultado != digitos.charAt(0))
+            return false;
+
+        tamanho = tamanho + 1;
+        numeros = cnpj.substring(0, tamanho);
+        soma = 0;
+        pos = tamanho - 7;
+        for (i = tamanho; i >= 1; i--) {
+            soma += numeros.charAt(tamanho - i) * pos--;
+            if (pos < 2)
+                pos = 9;
+        }
+        resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+        if (resultado != digitos.charAt(1))
+            return false;
+
+        return true;
+    }
 
 
    </script>
