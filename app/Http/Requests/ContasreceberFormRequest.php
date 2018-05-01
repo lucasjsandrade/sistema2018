@@ -26,7 +26,7 @@ class ContasreceberFormRequest extends FormRequest
         return [
             
         
-            'descricao' => 'requireds',
+            'descricao' => 'required',
             'data'=>'required',
             'valor'=>'required',
             'idcompra',
