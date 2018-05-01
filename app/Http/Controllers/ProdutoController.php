@@ -126,34 +126,57 @@ public function update(ProdutoFormRequest $request, $id){
     return Redirect::to('estoque/produto');
 }
 
+/*echo "Aqui";
+dd($produto->quantidade);
+
+die();
+*/
+
 public function destroy($id){
-    try{
+
+
+   $produto = DB::table('produto')->where('status','==','ativo');
+   echo "Aqui";
+   dd($produto);
+
+   die();
+
+   try{
+
+
+
+     if ($produto->quantidade == 0) {
+
+
         $produto=Produto::findOrFail($id);
+
         $produto->delete();
+
         $produto->update();
+
         return Redirect::to('estoque/produto');
     }
-    catch(\Exception $Exception){
-      DB::rollback();
-      $produto=DB::table('produto')
-      ->where('status', '=', 'ativo')
-      ->get();
-      if ($produto->quantidade == 0) {
-        dd($produto->quantidade);
-        echo "Aqui";
-        die();
-        echo "<script>alert('Produto tem uma movimentacao nao pode ser excluido! Status alterado para Inativo');</script>"; 
-        $produto->status='Inativo';
-        $produto->update();
 
-        echo "<script>window.location = '/estoque/produto';</script>";
+}
+
+catch(\Exception $Exception){
+    $produto=Produto::findOrFail($id);
+    DB::rollback();
+    if ($produto->quantidade!== 0) {
+       echo "<script>alert('Não é possivel excluir um produto que possua estoque');</script>";
+       echo "<script>window.location = '/estoque/produto';</script>";
+
+   }else{
 
 
-    }else{
-        echo "<script>alert('Não é possivel excluir um produto que possua estoque');</script>";
-    }
+    echo "<script>alert('Produto tem uma movimentacao nao pode ser excluido! Status alterado para Inativo');</script>"; 
+    $produto->status='Inativo';
+    $produto->update();
 
-    echo "<script>window.location = '/estoque/produto';</script>";
+
+}
+
+echo "<script>window.location = '/estoque/produto';</script>";
 }
 
 }
