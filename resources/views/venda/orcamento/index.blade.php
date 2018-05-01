@@ -17,38 +17,31 @@
 					
 					<th>Numero do Orçamento</th>
 					<th>Fucionario  : cod</th>
-					<th>Cliente   : cod</th>
-					
-					<th>status</th>			
-
-					<th>Opções</th>
-					
-					
-					
+					<th>Cliente   : cod</th>					
+					<th>status</th>	
+					<th>Opções</th>					
 				</thead>
 
-				
+				 <?php
+			        function converteData($data)
+			        {
+			          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+			        }
+			      ?>
 
 				@foreach ($orcamento as $o)
 				<tr>
-					<td>{{ $o->dataOrcamento}}</td>
+					<td>{{ converteData ($o->dataOrcamento)}}</td>
 					<td>{{ $o->idorcamento}}</td>					
 					<td>{{ $o->nomeFuncionario." : ".$o->idfuncionario}}</td>					
 					<td>{{ $o->nomeCliente." :     ".$o->idcliente}}</td>					
 					<td>{{ $o->status}}</td>
-					
-
-
 
 					<td>
-						<a href="{{URL::action('orcamentoController@show',$o->idorcamento)}}"><button class="btn btn-info">Detalhe</button></a>
-						 
+						<a href="{{URL::action('orcamentoController@show',$o->idorcamento)}}"><button class="btn btn-info">Detalhe</button></a>						 
 						<a href="{{URL::action('orcamentoController@edit',$o->idorcamento)}}"><button type="submit" class="btn btn-info">Alterar</button></a>
 						 
 					</td>
-
-
-
 				</tr>
 
 				

@@ -25,10 +25,15 @@
 					<th>Custo</th>
 					<th>Status</th>	
 					<th>Data Cadastro</th>
-					<th>Opções</th>
-					
-					
+					<th>Opções</th>					
 				</thead>
+
+				 <?php
+			        function converteData($data){
+			          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+			        }
+			      ?>
+
 				@foreach ($produtos as $prod)
 				<tr>
 					<td>{{ $prod->idproduto}}</td>
@@ -43,7 +48,7 @@
 					<td>{{ $prod->preco}}</td>
 					<td>{{ $prod->custo}}</td>
 					<td>{{ $prod->status}}</td>
-					<td>{{ $prod->dataCadastro}}</td>
+					<td>{{ converteData ($prod->dataCadastro)}}</td>
 					<td>
 						<a href="{{URL::action('ProdutoController@edit',$prod->idproduto)}}"><button class="btn btn-info">Alterar</button></a></td>
 						<td> <a href="" data-target="#modal-delete-{{$prod->idproduto}}" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a></td> 

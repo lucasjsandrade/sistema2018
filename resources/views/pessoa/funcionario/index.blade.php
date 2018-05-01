@@ -27,6 +27,13 @@
           <th>Cidade</th>
         </thead>
 
+         <?php
+          function converteData($data)
+          {
+          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+          }
+        ?>
+
          @foreach ($funcionario as $fun)
 
         <tr>
@@ -34,9 +41,9 @@
           <td>{{ $fun->nomeFuncionario}}</td>
           <td>{{ $fun->logradouro}}</td>
           <td>{{ $fun->numero}}</td>
-          <td>{{ $fun->dataNascimento }}</td>
+          <td>{{ converteData ($fun->dataNascimento)}}</td>
           <td>{{ $fun->status}}</td>
-          <td>{{ $fun->dataCadastro}}</td>
+          <td>{{ converteData ($fun->dataCadastro)}}</td>
           <td>{{ $fun->cidade}}</td>
 
         <td>

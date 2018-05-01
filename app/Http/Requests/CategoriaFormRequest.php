@@ -30,8 +30,8 @@ class CategoriaFormRequest extends FormRequest
 
         return [
 
-            'nome' => 'required|alpha',
-            'descricao'=>'required|alpha',
+            'nome' => 'required',
+            'descricao'=>'required',
             'status|alpha',
            // 'nome'=>'sometimes|required|nome|unique:categoria','nome', {{$idcategoria}},
 

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('conteudo')
-<div class="row"
+<div class="row">
 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 	<h3>Lista de Agendamento <a href="agendamento/create"><button class="btn btn-success">Incluir</button></a></h3>
 	@include('venda.agendamento.search')

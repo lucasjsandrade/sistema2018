@@ -91,18 +91,6 @@
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-laptop"></i>
-                <span>Estoque</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/estoque/produto"><i class="fa fa-cubes"></i> Produtos</a></li>
-                <li><a href="/estoque/categoria"><i class="fa fa-inbox"></i> Categorias</a></li>
-                <li><a href="/estoque/marca"><i class="fa fa-tags"></i> Marca</a></li>
-              </ul>
-            </li>       
-            <li class="treeview">
-              <a href="#">
                 <i class="fa fa-globe"></i>
                 <span>Região</span>
                 <i class="fa fa-angle-left pull-right"></i>
@@ -114,6 +102,20 @@
                 <li><a href="/regiao/cidade"><i class="fa fa-building-o"></i> Cidade</a></li>
               </ul>
             </li>
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>Estoque</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/estoque/produto"><i class="fa fa-cubes"></i> Produtos</a></li>
+                <li><a href="/estoque/categoria"><i class="fa fa-inbox"></i> Categorias</a></li>
+                <li><a href="/estoque/marca"><i class="fa fa-tags"></i> Marca</a></li>
+              </ul>
+            </li>       
+            
 
             <li class="treeview">
               <a href="#">
@@ -141,37 +143,30 @@
             </li>
 
             <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-shopping-cart"></i>
+                <span>Compras</span>
+                  <i class="fa fa-angle-left pull-right"></i>
+                </a> 
+
+                <ul class="treeview-menu">
+                  <li><a href="/compra"><i class="fa fa-shopping-cart"></i>Entradas</a></li>
+                  <li><a href="/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>                  
+                </ul>
+              </li> 
+
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
                 <span>Vendas</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a> 
-
               <ul class="treeview-menu">
-
                 <li><a href="/venda/agendamento"><i class="fa fa-calendar"></i> Agendamento</a>
                   <li><a href="/venda/orcamento"><i class="fa fa-calendar"></i> Orcamentos</a></li>
                   <li><a href="/venda/venda"><i class="fa fa-calendar"></i> Vendas</a></li>
                 </ul>
-              </li> 
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-shopping-cart"></i>
-
-                  <span>Compras</span>
-                  <i class="fa fa-angle-left pull-right"></i>
-                </a> 
-
-                <ul class="treeview-menu">
-
-                  <li><a href="/compra"><i class="fa fa-shopping-cart"></i>Entradas</a></li>
-
-                  <li><a href="/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>
-                  <li><a href="/venda/agendamento"><i class="fa fa-calendar"></i> Agendamento</a></li>
-                </ul>
-              </li> 
-
-
+              </li>   
 
             <li class="treeview">
               <a href="#">
@@ -265,6 +260,7 @@
     <script type="text/javascript">
 
       jQuery(function($){
+       $(".celular").mask("(99) 99999-9999"); 
        $(".phone").mask("(99) 9999-9999"); 
        $(".cpf").mask("999.999.999-99"); 
        $(".cep").mask("99.999-999");
