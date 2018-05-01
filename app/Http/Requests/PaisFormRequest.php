@@ -26,7 +26,7 @@ class PaisFormRequest extends FormRequest
     {
         return [
            
-           'nomePais' => 'required|alpha',
+           'nomePais' => 'required',
            'sigla'=>'required|max:3'
 
 

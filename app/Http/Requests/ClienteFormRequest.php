@@ -24,22 +24,25 @@ class ClienteFormRequest extends FormRequest
     public function rules()
     {
         return [
+            //testa ai zoi
             'idcidade'=>'required',
-            'nomeCliente'=>'required|alpha',
+            'nomeCliente'=>'required',
             'rg'=>'required',
             'cpf'=>'required',
             'sexo'=>'required|max:1',
             'telefone' =>'min:10|max:15',
-            'whatsapp'=>'numeric',
+            'whatsapp'=>'min:10|max:15',
             'celular'=>'min:10|max:15',
+            'dataNascimento'=>'date|before:tomorrow',
             'email' => 'min:10|max:50|email',
             'logradouro'=>'required|max:50',
             'numero'=>'min:2|numeric',
             'bairro'=>'required|max:50',
             'cep'=>'min:8',
-            'dataNascimento'=>'required'
+
+
         ];
 
-                   
+
     }
 }

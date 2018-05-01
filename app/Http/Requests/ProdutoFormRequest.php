@@ -27,8 +27,8 @@ class ProdutoFormRequest extends FormRequest
             'idcategoria'=>'required',
             'codigo'=>'required',
             'modelo'=>'required|max:50',
-            'cor'=>'required|max:50|alpha',
-            'material'=>'max:50|alpha',
+            'cor'=>'required|max:50',
+            'material'=>'max:50',
             'unidadeMedida'=>'max:50',
           
             
