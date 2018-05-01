@@ -25,7 +25,7 @@ class FuncionarioFormRequest extends FormRequest
     {
         return [
             'idcidade'=>'required',
-            'nomeFuncionario'=>'required|max:45|alpha',
+            'nomeFuncionario'=>'required|max:45',
             'rg'=>'required',
             'cpf'=>'required|max:45',
             'sexo'=>'required|max:15',
@@ -34,10 +34,10 @@ class FuncionarioFormRequest extends FormRequest
             'whatsapp|max50',
             'email|max50',
             'logradouro'=>'required|max:45',
-            'numero'=>'required|max:45',
+            'numero'=>'required|max:10',
             'bairro'=>'required|max:45',
             'cep|max:50',
-            'dataNascimento'=>'required|date',
+            'dataNascimento'=>'required|date|before:tomorrow',
         ];
     }
 }

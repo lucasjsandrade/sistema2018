@@ -26,7 +26,7 @@ class EstadoFormRequest extends FormRequest
         return [
          
       
-        'nomeEstado' => 'required|alpha',
+        'nomeEstado' => 'required',
         'sigla'=>'required|max:2',
         
 

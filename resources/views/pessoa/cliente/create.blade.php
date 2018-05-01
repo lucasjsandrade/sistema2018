@@ -120,15 +120,17 @@
   placeholder="bairro">
 </div>
 </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="cep">CEP</label>
   <span class="ob">*</span>
-  <input type="number" name="cep" required value="{{old('cep')}}" 
+  <input type="text" name="cep" required value="{{old('cep')}}" 
   class="cep form-control"
-  placeholder="cep">
+  placeholder="CEP 00.000-000">
 </div>
 </div> 
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="dataNascimento">Data Nascimento</label>
