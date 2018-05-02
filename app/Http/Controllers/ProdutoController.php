@@ -26,7 +26,7 @@ class ProdutoController extends Controller
             ->join('marca as m', 'm.codigo', '=', 
                 'p.codigo')
             ->select('p.idproduto', 'p.modelo', 
-             'p.cor','p.material','p.unidadeMedida','p.quantidade','p.preco','p.custo','p.status','p.dataCadastro','c.nome as categoria','m.nome as marca')
+               'p.cor','p.material','p.unidadeMedida','p.quantidade','p.preco','p.custo','p.status','p.dataCadastro','c.nome as categoria','m.nome as marca')
             ->where('p.modelo', 'LIKE', '%'.$query.'%') 
             ->orwhere('C.nome', 'LIKE', '%'.$query.'%') 
             
@@ -56,24 +56,24 @@ class ProdutoController extends Controller
     public function store(ProdutoFormRequest $request){
 
         try{
-        $produto = new Produto;
-        $produto->idcategoria=$request->get('idcategoria');
-        $produto->codigo=$request->get('codigo');
-        $produto->modelo=$request->get('modelo');
-        $produto->cor=$request->get('cor');
-        $produto->material=$request->get('material');
-        $produto->unidadeMedida=$request->get('unidadeMedida');
-        $produto->quantidade=0;
-        $produto->preco=0;
-        $produto->custo=0;
-        $produto->status='Ativo';
-        $mytime = Carbon::now('America/Sao_Paulo'); 
-        $produto->dataCadastro=$mytime->toDateTimeString();
+            $produto = new Produto;
+            $produto->idcategoria=$request->get('idcategoria');
+            $produto->codigo=$request->get('codigo');
+            $produto->modelo=$request->get('modelo');
+            $produto->cor=$request->get('cor');
+            $produto->material=$request->get('material');
+            $produto->unidadeMedida=$request->get('unidadeMedida');
+            $produto->quantidade=0;
+            $produto->preco=0;
+            $produto->custo=0;
+            $produto->status='Ativo';
+            $mytime = Carbon::now('America/Sao_Paulo'); 
+            $produto->dataCadastro=$mytime->toDateTimeString();
 
 
 
-        $produto->save();
-        return Redirect::to('estoque/produto');
+            $produto->save();
+            return Redirect::to('estoque/produto');
         }
         
         catch(\Exception $Exception){
@@ -117,7 +117,7 @@ public function update(ProdutoFormRequest $request, $id){
     $produto->status=$request->get('status');
     $produto->preco=$request->get('preco');
     $produto->modelo=$request->get('modelo');
-    //$produto->custo=$request->get('custo');
+    
 
 
     $produto->update();
@@ -126,10 +126,41 @@ public function update(ProdutoFormRequest $request, $id){
     return Redirect::to('estoque/produto');
 }
 
+
 public function destroy($id){
+  $produto=Produto::findOrFail($id);
+  try{ 
+
+    if($produto->quantidade == 0){
+
+        $produto->delete();
+        $produto->update();
+        return Redirect::to('estoque/produto');
+    }
+
+    throw new \Exception("Some error message");
+}
+
+
+catch(\Exception $Exception){
     $produto=Produto::findOrFail($id);
+    DB::rollback();
+    if ($produto->quantidade!== 0) {
+     echo "<script>alert('Não é possivel excluir um produto que possua estoque');</script>";
+     echo "<script>window.location = '/estoque/produto';</script>";
+
+ }else{
+
+
+    echo "<script>alert('Produto tem uma movimentacao nao pode ser excluido! Status alterado para Inativo');</script>"; 
     $produto->status='Inativo';
     $produto->update();
-    return Redirect::to('estoque/produto');
+
+
+}
+
+echo "<script>window.location = '/estoque/produto';</script>";
+}
+
 }
 }

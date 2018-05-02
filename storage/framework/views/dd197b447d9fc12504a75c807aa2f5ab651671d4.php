@@ -24,10 +24,15 @@
 					<th>Custo</th>
 					<th>Status</th>	
 					<th>Data Cadastro</th>
-					<th>Opções</th>
-					
-					
+					<th>Opções</th>					
 				</thead>
+
+				 <?php
+			        function converteData($data){
+			          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+			        }
+			      ?>
+
 				<?php $__currentLoopData = $produtos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $prod): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 				<tr>
 					<td><?php echo e($prod->idproduto); ?></td>
@@ -42,7 +47,7 @@
 					<td><?php echo e($prod->preco); ?></td>
 					<td><?php echo e($prod->custo); ?></td>
 					<td><?php echo e($prod->status); ?></td>
-					<td><?php echo e($prod->dataCadastro); ?></td>
+					<td><?php echo e(converteData ($prod->dataCadastro)); ?></td>
 					<td>
 						<a href="<?php echo e(URL::action('ProdutoController@edit',$prod->idproduto)); ?>"><button class="btn btn-info">Alterar</button></a></td>
 						<td> <a href="" data-target="#modal-delete-<?php echo e($prod->idproduto); ?>" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a></td> 

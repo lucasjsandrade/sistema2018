@@ -91,18 +91,6 @@
 
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-laptop"></i>
-                <span>Estoque</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/estoque/produto"><i class="fa fa-cubes"></i> Produtos</a></li>
-                <li><a href="/estoque/categoria"><i class="fa fa-inbox"></i> Categorias</a></li>
-                <li><a href="/estoque/marca"><i class="fa fa-tags"></i> Marca</a></li>
-              </ul>
-            </li>       
-            <li class="treeview">
-              <a href="#">
                 <i class="fa fa-globe"></i>
                 <span>Região</span>
                 <i class="fa fa-angle-left pull-right"></i>
@@ -114,6 +102,20 @@
                 <li><a href="/regiao/cidade"><i class="fa fa-building-o"></i> Cidade</a></li>
               </ul>
             </li>
+
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>Estoque</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/estoque/produto"><i class="fa fa-cubes"></i> Produtos</a></li>
+                <li><a href="/estoque/categoria"><i class="fa fa-inbox"></i> Categorias</a></li>
+                <li><a href="/estoque/marca"><i class="fa fa-tags"></i> Marca</a></li>
+              </ul>
+            </li>       
+            
 
             <li class="treeview">
               <a href="#">
@@ -141,37 +143,30 @@
             </li>
 
             <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-shopping-cart"></i>
+                <span>Compras</span>
+                  <i class="fa fa-angle-left pull-right"></i>
+                </a> 
+
+                <ul class="treeview-menu">
+                  <li><a href="/compra"><i class="fa fa-shopping-cart"></i>Entradas</a></li>
+                  <li><a href="/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>                  
+                </ul>
+              </li> 
+
+            <li class="treeview">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
                 <span>Vendas</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a> 
-
               <ul class="treeview-menu">
-
                 <li><a href="/venda/agendamento"><i class="fa fa-calendar"></i> Agendamento</a>
                   <li><a href="/venda/orcamento"><i class="fa fa-calendar"></i> Orcamentos</a></li>
                   <li><a href="/venda/venda"><i class="fa fa-calendar"></i> Vendas</a></li>
                 </ul>
-              </li> 
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-shopping-cart"></i>
-
-                  <span>Compras</span>
-                  <i class="fa fa-angle-left pull-right"></i>
-                </a> 
-
-                <ul class="treeview-menu">
-
-                  <li><a href="/compra"><i class="fa fa-shopping-cart"></i>Entradas</a></li>
-
-                  <li><a href="/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>
-                  <li><a href="/venda/agendamento"><i class="fa fa-calendar"></i> Agendamento</a></li>
-                </ul>
-              </li> 
-
-
+              </li>   
 
             <li class="treeview">
               <a href="#">
@@ -265,6 +260,7 @@
     <script type="text/javascript">
 
       jQuery(function($){
+       $(".celular").mask("(99) 99999-9999"); 
        $(".phone").mask("(99) 9999-9999"); 
        $(".cpf").mask("999.999.999-99"); 
        $(".cep").mask("99.999-999");
@@ -286,7 +282,8 @@
         }
       );
 
-      function validarCNPJ(cnpj) {
+      function validarCNPJ(cnpj) 
+      {
 
         cnpj = cnpj.replace(/[^\d]+/g, '');
 
@@ -338,8 +335,96 @@
             return false;
 
         return true;
-    }
+      }
 
+
+      $('.cpf').blur(
+        function(){
+          if( validaCpf($(this).val()) ){
+            //alert('CPF Válido');
+          }else{
+            alert('CPF Invállido');
+            $('.cpf').val('');
+          }
+        }
+      )
+
+      function validaCpf( valor ) 
+      {
+        // Garante que o valor é uma string
+        valor = valor.toString();
+        
+        // Remove caracteres inválidos do valor
+        valor = valor.replace(/[^0-9]/g, '');
+
+
+        // Captura os 9 primeiros dígitos do CPF
+        // Ex.: 02546288423 = 025462884
+        var digitos = valor.substr(0, 9);
+
+        // Faz o cálculo dos 9 primeiros dígitos do CPF para obter o primeiro dígito
+        var novo_cpf = calc_digitos_posicoes( digitos );
+
+        // Faz o cálculo dos 10 dígitos do CPF para obter o último dígito
+        var novo_cpf = calc_digitos_posicoes( novo_cpf, 11 );
+
+        // Verifica se o novo CPF gerado é idêntico ao CPF enviado
+        if ( novo_cpf === valor ) {
+            // CPF válido
+            return true;
+        } else {
+            // CPF inválido
+            return false;
+        }
+      } 
+
+      function calc_digitos_posicoes( digitos, posicoes = 10, soma_digitos = 0 ) 
+      {
+        // Garante que o valor é uma string
+        digitos = digitos.toString();
+
+        // Faz a soma dos dígitos com a posição
+        // Ex. para 10 posições:
+        //   0    2    5    4    6    2    8    8   4
+        // x10   x9   x8   x7   x6   x5   x4   x3  x2
+        //   0 + 18 + 40 + 28 + 36 + 10 + 32 + 24 + 8 = 196
+        for ( var i = 0; i < digitos.length; i++  ) {
+            // Preenche a soma com o dígito vezes a posição
+            soma_digitos = soma_digitos + ( digitos[i] * posicoes );
+
+            // Subtrai 1 da posição
+            posicoes--;
+
+            // Parte específica para CNPJ
+            // Ex.: 5-4-3-2-9-8-7-6-5-4-3-2
+            if ( posicoes < 2 ) {
+                // Retorno a posição para 9
+                posicoes = 9;
+            }
+        }
+
+        // Captura o resto da divisão entre soma_digitos dividido por 11
+        // Ex.: 196 % 11 = 9
+        soma_digitos = soma_digitos % 11;
+
+        // Verifica se soma_digitos é menor que 2
+        if ( soma_digitos < 2 ) {
+            // soma_digitos agora será zero
+            soma_digitos = 0;
+        } else {
+            // Se for maior que 2, o resultado é 11 menos soma_digitos
+            // Ex.: 11 - 9 = 2
+            // Nosso dígito procurado é 2
+            soma_digitos = 11 - soma_digitos;
+        }
+
+        // Concatena mais um dígito aos primeiro nove dígitos
+        // Ex.: 025462884 + 2 = 0254628842
+        var cpf = digitos + soma_digitos;
+
+        // Retorna
+        return cpf;
+      }
 
    </script>
 
