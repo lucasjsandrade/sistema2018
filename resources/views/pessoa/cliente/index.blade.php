@@ -21,15 +21,24 @@
           <th>data Cadastro</th>
           <th>Cidade</th>
         </thead>
+
+        <?php
+        function converteData($data)
+        {
+          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+        }
+        ?>
+
+
         @foreach ($cliente as $cli)
         <tr>
           <td>{{ $cli->idcliente}}</td>
           <td>{{ $cli->nomeCliente}}</td>
           <td>{{ $cli->logradouro}}</td>
           <td>{{ $cli->numero}}</td>
-          <td>{{ $cli->dataNascimento}}</td>
+          <td>{{ converteData ($cli->dataNascimento)}}</td>
           <td>{{ $cli->status}}</td>
-          <td>{{ $cli->dataCadastro}}</td>
+          <td>{{ converteData ($cli->dataCadastro)}}</td>
           <td>{{ $cli->cidade}}</td>
 
           <td>

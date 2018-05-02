@@ -29,14 +29,14 @@
                 <div class="form-group ">
                    <label for="rg">RG</label>
                    <span class="ob">*</span>
-                   <input type="text" name="rg" required value="{{old('rg')}}"class="form-control" placeholder="RG">
+                   <input type="text" name="rg" required value="{{old('rg')}}" class="form-control" placeholder="RG">
                 </div>
             </div>
            <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="form-group ">
                <label for="cpf">CPF</label>
                <span class="ob">*</span>
-               <input type="text" name="cpf" required value="{{old('cpf')}}" class="cpf form-control" placeholder="000.000.000-00">
+               <input type="text" name="cpf" required value="{{old('cpf')}}" class="cpf form-control" placeholder="Informe o CPF">
              </div>
             </div>
         <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -60,14 +60,14 @@
          <div class="form-group">
             <label for="celular">Celular</label>
             <input type="text" name="celular" 
-            value="{{old('celular')}}" class="phone form-control"
+            value="{{old('celular')}}" class="celular form-control"
             placeholder="Celular">
          </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-xs-12">
          <div class="form-group">
             <label for="whatsapp">Whatsapp</label>
-            <input type="text" name="whatsapp" value="{{old('whatsapp')}}" class="phone form-control"
+            <input type="text" name="whatsapp" value="{{old('whatsapp')}}" class="celular form-control"
             placeholder="whatsapp">
          </div>
         </div>

@@ -11,56 +11,36 @@
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-condensed table-hover">
-				<thead>
-					
-					<th>Data</th>
-					
+				<thead>					
+					<th>Data</th>					
 					<th>Numero da Compra</th>
 					<th>ID:Fucionario</th>
-					<th>ID:Fornecedor</th>
-                    <!--<th>Produto</th>
-                    
-					<th>Quantidade</th>
-					<th>Valor Unitario</th> -->
-					
-					
-					<th>status</th>
-					<!--<th>Forma Pagamento</th>
-					<th>Condicao Pagamento</th> -->
-
+					<th>ID:Fornecedor</th>                
+					<th>status</th>				
 					<th>Total</th>
-
-					<th>Opções</th>
-					
-					
-					
+					<th>Opções</th>						
 				</thead>
 
-				
+				 <?php
+			        function converteData($data)
+			        {
+			          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+			        }
+			     ?>
 
 				@foreach ($compra as $com)
 				<tr>
 					
-					<td>{{ $com->dataCompra}}</td>
+					<td>{{ converteData($com->dataCompra)}}</td>
 					<td>{{ $com->idcompra}}</td>
 					<td>{{ $com->nomeFuncionario}}</td>
 					<td>{{ $com->nomeFantasia}}</td>
 					<td>{{ $com->status}}</td>
-					<td>{{ $com->totalCompra}}</td>
-					<!---->
-					
-					
-					
-
-					
-					
-					
-
+					<td>{{ $com->totalCompra}}</td>					
+				
 					<td>
 						<a href="{{URL::action('CompraController@show',$com->idcompra)}}"><button class="btn btn-info">Detalhe</button></a>
-						</td>
-
-
+					</td>
 				</tr>
 
 				@include('compra.modal')

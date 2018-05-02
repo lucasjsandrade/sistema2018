@@ -58,7 +58,7 @@
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
-    <label for="sexo">Sexo*</label>
+    <label for="sexo">Sexo</label>
     <span class="ob">*</span>
     <select name="sexo"  class="form-control">
       <option value="<?php echo e($cliente->sexo); ?>"><?php echo e($cliente->sexo); ?></option>
@@ -70,7 +70,7 @@
 <div class="col-lg-6 col-sm-6 col-xs-12">             
   <div class="form-group">
     <label for="telefone">Telefone</label>
-    <input type="text" name="telefone" class="form-control" 
+    <input type="text" name="telefone" class="phone form-control" 
     value="<?php echo e($cliente->telefone); ?>"
     placeholder="Telefone...">
   </div>
@@ -79,7 +79,7 @@
 <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
     <label for="celular">Celular</label>
-    <input type="text" name="celular" class="form-control" 
+    <input type="text" name="celular" class="celular form-control" 
     value="<?php echo e($cliente->celular); ?>"
     placeholder="Celular...">
   </div>
@@ -88,7 +88,7 @@
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="whatsapp">Whatsapp</label>
-  <input type="text" name="whatsapp" class="form-control" 
+  <input type="text" name="whatsapp" class="celualr form-control" 
   value="<?php echo e($cliente->whatsapp); ?>"
   placeholder="whatsapp">
 </div>

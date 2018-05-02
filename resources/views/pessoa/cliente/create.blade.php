@@ -70,7 +70,7 @@
  <div class="form-group">
   <label for="celular">Celular</label>
   <input type="text" name="celular" 
-  value="{{old('celular')}}" class="phone form-control"
+  value="{{old('celular')}}" class="celular form-control"
   placeholder="Celular">
 </div>
 </div>
@@ -78,7 +78,7 @@
  <div class="form-group">
   <label for="whatsapp">Whatsapp</label>
   <input type="text" name="whatsapp"  
-  value="{{old('whatsapp')}}" class="phone form-control"
+  value="{{old('whatsapp')}}" class="celular form-control"
   placeholder="whatsapp">
 </div>
 </div>

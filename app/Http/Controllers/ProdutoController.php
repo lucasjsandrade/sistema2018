@@ -26,7 +26,7 @@ class ProdutoController extends Controller
             ->join('marca as m', 'm.codigo', '=', 
                 'p.codigo')
             ->select('p.idproduto', 'p.modelo', 
-             'p.cor','p.material','p.unidadeMedida','p.quantidade','p.preco','p.custo','p.status','p.dataCadastro','c.nome as categoria','m.nome as marca')
+               'p.cor','p.material','p.unidadeMedida','p.quantidade','p.preco','p.custo','p.status','p.dataCadastro','c.nome as categoria','m.nome as marca')
             ->where('p.modelo', 'LIKE', '%'.$query.'%') 
             ->orwhere('C.nome', 'LIKE', '%'.$query.'%') 
             
@@ -126,47 +126,30 @@ public function update(ProdutoFormRequest $request, $id){
     return Redirect::to('estoque/produto');
 }
 
-/*echo "Aqui";
-dd($produto->quantidade);
-
-die();
-*/
 
 public function destroy($id){
+  $produto=Produto::findOrFail($id);
+  try{ 
 
-
-   $produto = DB::table('produto')->where('status','==','ativo');
-   echo "Aqui";
-   dd($produto);
-
-   die();
-
-   try{
-
-
-
-     if ($produto->quantidade == 0) {
-
-
-        $produto=Produto::findOrFail($id);
+    if($produto->quantidade == 0){
 
         $produto->delete();
-
         $produto->update();
-
         return Redirect::to('estoque/produto');
     }
 
+    throw new \Exception("Some error message");
 }
+
 
 catch(\Exception $Exception){
     $produto=Produto::findOrFail($id);
     DB::rollback();
     if ($produto->quantidade!== 0) {
-       echo "<script>alert('Não é possivel excluir um produto que possua estoque');</script>";
-       echo "<script>window.location = '/estoque/produto';</script>";
+     echo "<script>alert('Não é possivel excluir um produto que possua estoque');</script>";
+     echo "<script>window.location = '/estoque/produto';</script>";
 
-   }else{
+ }else{
 
 
     echo "<script>alert('Produto tem uma movimentacao nao pode ser excluido! Status alterado para Inativo');</script>"; 

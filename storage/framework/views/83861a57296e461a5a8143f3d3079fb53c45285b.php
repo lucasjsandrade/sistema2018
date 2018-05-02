@@ -70,7 +70,7 @@
  <div class="form-group">
   <label for="celular">Celular</label>
   <input type="text" name="celular" 
-  value="<?php echo e(old('celular')); ?>" class="phone form-control"
+  value="<?php echo e(old('celular')); ?>" class="celular form-control"
   placeholder="Celular">
 </div>
 </div>
@@ -78,7 +78,7 @@
  <div class="form-group">
   <label for="whatsapp">Whatsapp</label>
   <input type="text" name="whatsapp"  
-  value="<?php echo e(old('whatsapp')); ?>" class="phone form-control"
+  value="<?php echo e(old('whatsapp')); ?>" class="celular form-control"
   placeholder="whatsapp">
 </div>
 </div>
@@ -120,15 +120,17 @@
   placeholder="bairro">
 </div>
 </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="cep">CEP</label>
   <span class="ob">*</span>
-  <input type="number" name="cep" required value="<?php echo e(old('cep')); ?>" 
+  <input type="text" name="cep" required value="<?php echo e(old('cep')); ?>" 
   class="cep form-control"
-  placeholder="cep">
+  placeholder="CEP 00.000-000">
 </div>
 </div> 
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="dataNascimento">Data Nascimento</label>

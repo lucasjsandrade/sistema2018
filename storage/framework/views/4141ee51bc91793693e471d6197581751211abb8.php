@@ -20,15 +20,24 @@
           <th>data Cadastro</th>
           <th>Cidade</th>
         </thead>
+
+        <?php
+        function converteData($data)
+        {
+          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+        }
+        ?>
+
+
         <?php $__currentLoopData = $cliente; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cli): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
         <tr>
           <td><?php echo e($cli->idcliente); ?></td>
           <td><?php echo e($cli->nomeCliente); ?></td>
           <td><?php echo e($cli->logradouro); ?></td>
           <td><?php echo e($cli->numero); ?></td>
-          <td><?php echo e($cli->dataNascimento); ?></td>
+          <td><?php echo e(converteData ($cli->dataNascimento)); ?></td>
           <td><?php echo e($cli->status); ?></td>
-          <td><?php echo e($cli->dataCadastro); ?></td>
+          <td><?php echo e(converteData ($cli->dataCadastro)); ?></td>
           <td><?php echo e($cli->cidade); ?></td>
 
           <td>
