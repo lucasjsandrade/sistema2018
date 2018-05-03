@@ -1,7 +1,7 @@
 <?php $__env->startSection('conteudo'); ?>
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-   <h3>Cadastro Cliente</h3>
+   <h3>Cadastro de cliente</h3>
    <?php if(count($errors)>0): ?> <!-- Se existir erro vai mostrar um alerta e vai listar os erros --> 
    <div class="alert alert-danger">
     <ul>
@@ -18,11 +18,11 @@
 <?php echo e(Form::token()); ?>
 
 
-
+<div class="row">
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
-   <label for="nomeCliente">Nome</label>
+   <label for="nomeCliente">Nome do cliente</label>
    <span class="ob">*</span>
    <input type="text" name="nomeCliente" required value="<?php echo e(old('nomeCliente')); ?>" class="form-control" placeholder="Nome do Cliente">
  </div>
@@ -42,7 +42,7 @@
    <label for="cpf">CPF</label>
    <span class="ob">*</span>
    <input type="text" name="cpf" required value="<?php echo e(old('cpf')); ?>" 
-   class="cpf form-control" placeholder="000.000.000-00">
+   class="cpf form-control" placeholder="Informe o CPF">
  </div>
 </div>
 
@@ -77,7 +77,7 @@
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="whatsapp">Whatsapp</label>
-  <input type="text" name="whatsapp"  
+  <input type="text" name="Whatsapp"  
   value="<?php echo e(old('whatsapp')); ?>" class="celular form-control"
   placeholder="whatsapp">
 </div>
@@ -85,10 +85,10 @@
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
-  <label for="email">Email</label>
+  <label for="email">E-mail</label>
   <input type="email" name="email" 
   value="<?php echo e(old('email')); ?>" class="form-control"
-  placeholder="email">
+  placeholder="E-mail">
 </div>
 </div>
 
@@ -98,26 +98,27 @@
   <span class="ob">*</span>
   <input type="text" name="logradouro" 
   required value="<?php echo e(old('logradouro')); ?>" class="form-control"
-  placeholder="logradouro">
+  placeholder="Logradouro">
 </div>
 </div>
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
-  <label for="numero">Numero</label>
+  <label for="numero">Numero da residencia</label>
   <span class="ob">*</span>
   <input type="text" name="numero" 
   required value="<?php echo e(old('numero')); ?>" class="form-control"
-  placeholder="numero">
+  placeholder="Numero da residencia">
 </div>
 </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12"> 
  <div class="form-group">
   <label for="bairro">Bairro</label>
   <span class="ob">*</span>
   <input type="text" name="bairro" 
   required value="<?php echo e(old('bairro')); ?>" class="form-control"
-  placeholder="bairro">
+  placeholder="Bairro">
 </div>
 </div>
 
@@ -127,7 +128,7 @@
   <span class="ob">*</span>
   <input type="text" name="cep" required value="<?php echo e(old('cep')); ?>" 
   class="cep form-control"
-  placeholder="CEP 00.000-000">
+  placeholder="CEP da residencia">
 </div>
 </div> 
 
@@ -136,10 +137,11 @@
   <label for="dataNascimento">Data Nascimento</label>
   <span class="ob">*</span>
   <input type="date" name="dataNascimento" required value="<?php echo e(old('dataNascimento')); ?>" class="form-control"
-  placeholder="dd/mm/aaaa">
+  placeholder="Data de nascimento">
 </div>
 </div>
-<div class="col-lg-6 col-sm-6 col-xs-12">
+
+<div class="col-lg-4 col-sm-4 col-xs-12">
  <div class="form-group">
   <label>Cidade</label>
   <span class="ob">*</span>
@@ -154,18 +156,27 @@
 </div> 
 </div>
 
+<div class="col-lg-1 col-sm-1 col-xs-1">
+         <div class="form-group">
+             <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
+              position: absolute;
+              top:25px;
+              left: 0px;
+              "/> Nova cidade </button></a>
+         </div>
+       </div>
+</div>
 
 <div class="form-group">
  <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
- <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/cliente';">Cancelar</button>
- <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button">Nova Cidade </button></a>
+ <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/cliente';">Cancelar</button> 
 </div>
 
-</div>
+
 
 <?php echo Form::close(); ?>     
 
-</div>
+
 </div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

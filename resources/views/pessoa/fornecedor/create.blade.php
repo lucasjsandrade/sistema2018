@@ -21,6 +21,7 @@
 
 
 <div class="row">
+
  <div class="col-lg-6 col-sm-6 col-xs-12">
     <div class="form-group">
       <label for="nomeFantasia">Nome fantasia</label>
@@ -123,7 +124,7 @@
     </div>
   </div>
 
-  <div class="col-lg-6 col-sm-6 col-xs-12">
+  <div class="col-lg-4 col-sm-4 col-xs-12">
    <div class="form-group">
     <label>Cidade</label>
     <span class="ob">*</span>
@@ -137,25 +138,26 @@
   </div>
 </div>
 
+<div class="col-lg-1 col-sm-1 col-xs-1">
+         <div class="form-group">
+             <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
+              position: absolute;
+              top:25px;
+              left: 0px;
+              "/> Nova cidade </button></a>
+         </div>
+       </div>
 
-<div class="form-group">                
-  
-</div>
 
-
-</div>
 <div class="col-lg-6 col-sm-6 col-xs-12">
-
  <div class="form-group">
   <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/fornecedor';">Cancelar</button>
-  
-  <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button">Nova Cidade </button></a>
+  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/fornecedor';">Cancelar</button>  
 </div>
-
 </div>
 
 {!!Form::close()!!}   
+</div>
 
 
 @stop

@@ -53,6 +53,7 @@
 </div>
 </div>
 
+
 <div class="col-lg-1 col-sm-1 col-xs-1">
          <div class="form-group">
              <a href=/regiao/pais/create target="_blank"><button class="btn btn-primary" type="button" style="
@@ -62,18 +63,6 @@
               "/>  Novo pais </button></a>
          </div>
        </div>
-
-
- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-          <label for="status">Status</label>
-          <span class="ob">*</span>
-          <select name="status"  class="form-control">
-            <option value="<?php echo e($estado->status); ?>"><?php echo e($estado->status); ?></option>
-            <option value="ativo">Ativo</option> 
-            <option value="Inativo">Inativo</option>
-      </select>
-
-</div>
 
  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     <div class="form-group">

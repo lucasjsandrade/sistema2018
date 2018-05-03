@@ -17,12 +17,14 @@
 
          {!!Form::open(array('url'=>'pessoa/funcionario','method'=>'POST','autocomplete'=>'off'))!!}<!-- Metodo POST está passando informação -->
             {{Form::token()}}
+
+            <div class="row">
              
             <div class="col-lg-6 col-sm-6 col-xs-12">
                 <div class="form-group">
-                   <label for="nomeFuncionario">Nome</label>
+                   <label for="nomeFuncionario">Nome do funcionário</label>
                    <span class="ob">*</span>
-                   <input type="text" name="nomeFuncionario" required value="{{old('nomeFuncionario')}}" class="form-control" placeholder="Nome">
+                   <input type="text" name="nomeFuncionario" required value="{{old('nomeFuncionario')}}" class="form-control" placeholder="Nome do funcionário">
                 </div>
             </div>
             <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -68,16 +70,16 @@
          <div class="form-group">
             <label for="whatsapp">Whatsapp</label>
             <input type="text" name="whatsapp" value="{{old('whatsapp')}}" class="celular form-control"
-            placeholder="whatsapp">
+            placeholder="Whatsapp">
          </div>
         </div>
 
         <div class="col-lg-6 col-sm-6 col-xs-12">
          <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">E-mail</label>
             <input type="email" name="email" 
             value="{{old('email')}}" class="form-control"
-            placeholder="email">
+            placeholder="E-mail">
          </div>
         </div>
         
@@ -86,16 +88,16 @@
             <label for="logradouro">Logradouro</label>
             <span class="ob">*</span>
             <input type="text" name="logradouro" required value="{{old('logradouro')}}" class="form-control"
-            placeholder="logradouro">
+            placeholder="Logradouro">
          </div>
         </div>
 
         <div class="col-lg-6 col-sm-6 col-xs-12">
          <div class="form-group">
-            <label for="numero">Numero</label>
+            <label for="numero">Numero da residencia</label>
             <span class="ob">*</span>
             <input type="text" name="numero" required value="{{old('numero')}}" class="form-control"
-            placeholder="numero">
+            placeholder="Numero da residencia">
          </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-xs-12"> 
@@ -103,7 +105,7 @@
             <label for="bairro">Bairro</label>
             <span class="ob">*</span>
             <input type="text" name="bairro" required value="{{old('bairro')}}" class="form-control"
-            placeholder="bairro">
+            placeholder="Bairro">
          </div>
         </div>
         <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -111,7 +113,7 @@
             <label for="cep">CEP</label>
             <span class="ob">*</span>
             <input type="text" name="cep" required value="{{old('cep')}}" class="cep form-control"
-            placeholder="cep">
+            placeholder="CEP da residencia">
          </div>
         </div> 
         <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -121,7 +123,7 @@
             <input type="date" name="dataNascimento" required value="{{old('dataNascimento')}}" class="form-control">
          </div>
         </div>
-        <div class="col-lg-6 col-sm-6 col-xs-12">
+        <div class="col-lg-4 col-sm-4 col-xs-12">
              <div class="form-group">
                   <label>Cidade</label>
                   <span class="ob">*</span>
@@ -135,16 +137,26 @@
              </div> 
             </div>
 
+            <div class="col-lg-1 col-sm-1 col-xs-1">
+         <div class="form-group">
+             <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
+              position: absolute;
+              top:25px;
+              left: 0px;
+              "/> Nova cidade </button></a>
+         </div>
+       </div>
+</div>
+
            
             <div class="form-group">
                   <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-                  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/funcionario';">Cancelar</button>
-            
-           <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button">Nova Cidade </button></a>
+                  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/funcionario';">Cancelar</button>         
+         
            </div>
 
          {!!Form::close()!!}     
             
-      </div>
+      
    </div>
 @stop

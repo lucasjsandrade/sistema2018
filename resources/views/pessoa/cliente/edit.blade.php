@@ -22,13 +22,14 @@
 {{Form::token()}}
 
 <div class="row">
+
  <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
-    <label for="nomeCliente">Nome</label>
+    <label for="nomeCliente">Nome do cliente</label>
     <span class="ob">*</span>
     <input type="text" name="nomeCliente" class="form-control" 
     value="{{ $cliente->nomeCliente }}"
-    placeholder="Nome...">
+    placeholder="Nome do cliente">
   </div>
 </div>   
 
@@ -39,7 +40,7 @@
     <label for="rg">RG</label>
     <input type="text" name="rg" class="form-control" 
     value="{{ $cliente->rg }}"
-    placeholder="RG...">
+    placeholder="RG">
   </div>
 </div>
 
@@ -49,10 +50,8 @@
     <span class="ob">*</span>
     <input type="text" name="cpf" class="cpf form-control" 
     value="{{ $cliente->cpf }}"
-    placeholder="CPF...">
-  </div> 
-
-  
+    placeholder="CPF">
+  </div>   
 </div>
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -66,12 +65,13 @@
     </select>
   </div>
 </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12">             
   <div class="form-group">
     <label for="telefone">Telefone</label>
     <input type="text" name="telefone" class="phone form-control" 
     value="{{ $cliente->telefone }}"
-    placeholder="Telefone...">
+    placeholder="Telefone">
   </div>
 </div>
 
@@ -80,7 +80,7 @@
     <label for="celular">Celular</label>
     <input type="text" name="celular" class="celular form-control" 
     value="{{ $cliente->celular }}"
-    placeholder="Celular...">
+    placeholder="Celular">
   </div>
 </div>
 
@@ -89,16 +89,16 @@
   <label for="whatsapp">Whatsapp</label>
   <input type="text" name="whatsapp" class="celualr form-control" 
   value="{{ $cliente->whatsapp }}"
-  placeholder="whatsapp">
+  placeholder="Whatsapp">
 </div>
 </div>
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
-    <label for="fax">Email</label>
+    <label for="fax">E-mail</label>
     <input type="text" name="email" class="form-control" 
     value="{{ $cliente->email }}"
-    placeholder="email">
+    placeholder="E-mail">
   </div>
 </div>
 
@@ -108,9 +108,10 @@
     <span class="ob">*</span>
     <input type="date" name="dataNascimento" class="form-control" 
     value="{{ $cliente->dataNascimento }}"
-    placeholder="aaaa/mm/dd">
+    placeholder="Data de Nascimento">
   </div>
 </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="'logradouro'">Logradouro</label>
@@ -123,33 +124,35 @@
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
-  <label for="numero">Numero</label>
+  <label for="numero">Numero da residencia</label>
   <span class="ob">*</span>
   <input type="text" name="numero" class="form-control" 
   value="{{ $cliente->numero }}"
-  placeholder="numero">
+  placeholder="Numero da residencia">
 </div>
 </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="bairro">Bairro</label>
   <span class="ob">*</span>
   <input type="text" name="bairro" class="form-control" 
   value="{{ $cliente->bairro }}"
-  placeholder="bairro">
+  placeholder="Bairro">
 </div>
 </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="cep">CEP</label>
   <span class="ob">*</span>
   <input type="text" name="cep" class="form-control" 
   value="{{ $cliente->cep }}"
-  placeholder="cep">
+  placeholder="CEP da residencia">
 </div>
 </div>
 
-<div class="col-lg-6 col-sm-6 col-xs-12">
+<div class="col-lg-4 col-sm-4 col-xs-12">
   <div class="form-group">
     <label>Cidade</label>
     <span class="ob">*</span>
@@ -169,6 +172,16 @@
   </div>                
 </div>
 
+<div class="col-lg-1 col-sm-1 col-xs-1">
+         <div class="form-group">
+             <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
+              position: absolute;
+              top:25px;
+              left: 0px;
+              "/> Nova cidade </button></a>
+         </div>
+       </div>
+
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="status">Status</label>
@@ -177,23 +190,20 @@
     <option value="{{$cliente->status}}">{{$cliente->status}}</option>
     <option value="ativo">Ativo</option> 
     <option value="Inativo">Inativo</option>
-
   </select>
-
 </div>
+</div>
+
 </div>
 
 <div class="col-lg-6 col-sm-6 col-xs-12">   
  <div class="form-group"><br>
   <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/cliente';">Cancelar</button>
-  <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button">Nova Cidade </button></a>
+  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/cliente';">Cancelar</button>  
 </div>
 </div>
-</div>
-</div>
-
 
 {!!Form::close()!!}		
 
+</div>
 @stop

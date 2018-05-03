@@ -1,7 +1,7 @@
 <?php $__env->startSection('conteudo'); ?>
 <div class="row">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-		<h3>Alterar País: <?php echo e($pais->nome); ?></h3>
+		<h3>Alterar Pais: <?php echo e($pais->nome); ?></h3>
 		<?php if(count($errors)>0): ?>
 		<div class="alert alert-danger">
 			<ul>
@@ -18,28 +18,17 @@
 
 
 		<div class="form-group">
-			<label for="nomePais">Nome do páis:</label>
+			<label for="nomePais">Nome</label>
 			<input type="text" name="nomePais" class="form-control" 
 			value="<?php echo e($pais->nomePais); ?>"
 			placeholder="Nomes...">
 		</div>
 
 		<div class="form-group">
-			<label for="nome">Sigla:</label>
+			<label for="nome">Sigla</label>
 			<input type="text" name="sigla" class="form-control" 
 			value="<?php echo e($pais->sigla); ?>"
 			placeholder="Sigla...">
-		</div>
-		<div class="form-group"> 
-			<label for="status">Status:</label>
-			<span class="ob">*</span>
-			<select name="status"  class="form-control">
-				<option value="<?php echo e($pais->status); ?>"><?php echo e($pais->status); ?></option>
-				<option value="ativo">Ativo</option> 
-				<option value="Inativo">Inativo</option>
-
-			</select>
-
 		</div>
 
 		<div class="form-group">

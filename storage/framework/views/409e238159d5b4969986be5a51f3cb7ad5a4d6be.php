@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-    <h3>Funcionario   <a href="funcionario/create"><button class="btn btn-success">Incluir</button></a></h3>
+    <h3>Funcionário   <a href="funcionario/create"><button class="btn btn-success">Incluir</button></a></h3>
     <?php echo $__env->make('pessoa.funcionario.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
   </div>
 </div>
@@ -16,7 +16,7 @@
 
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead>
-          <th>Id Funcionario</th>
+          <th>Código Funcionário</th>
           <th>Nome</th>
           <th>Logradouro</th>
           <th>numero</th>
