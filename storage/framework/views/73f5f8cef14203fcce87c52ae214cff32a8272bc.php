@@ -26,6 +26,13 @@
           <th>Cidade</th>
         </thead>
 
+         <?php
+          function converteData($data)
+          {
+          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+          }
+        ?>
+
          <?php $__currentLoopData = $funcionario; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $fun): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 
         <tr>
@@ -33,9 +40,9 @@
           <td><?php echo e($fun->nomeFuncionario); ?></td>
           <td><?php echo e($fun->logradouro); ?></td>
           <td><?php echo e($fun->numero); ?></td>
-          <td><?php echo e($fun->dataNascimento); ?></td>
+          <td><?php echo e(converteData ($fun->dataNascimento)); ?></td>
           <td><?php echo e($fun->status); ?></td>
-          <td><?php echo e($fun->dataCadastro); ?></td>
+          <td><?php echo e(converteData ($fun->dataCadastro)); ?></td>
           <td><?php echo e($fun->cidade); ?></td>
 
         <td>

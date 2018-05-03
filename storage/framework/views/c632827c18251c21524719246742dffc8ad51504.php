@@ -26,7 +26,7 @@
 
 					<td>
 						<a href="<?php echo e(URL::action('CategoriaController@edit',$cat->idcategoria)); ?>"><button class="btn btn-info">Alterar</button></a>
-						<a href="" data-target="#modal-delete-<?php echo e($cat->idcategoria); ?>" data-toggle="modal"><button class="btn btn-danger">Inativar</button></a>
+						<a href="" data-target="#modal-delete-<?php echo e($cat->idcategoria); ?>" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
 					</td>
 				</tr>
 				<?php echo $__env->make('estoque.categoria.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

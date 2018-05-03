@@ -32,18 +32,6 @@
 		</div>
 
 		<div class="form-group">
-			<label for="status">Status</label>
-			<span class="ob">*</span>
-			<select name="status"  class="form-control">
-				<option value="{{$categoria->status}}">{{$categoria->status}}</option>
-				<option value="ativo">Ativo</option> 
-				<option value="Inativo">Inativo</option>
-
-			</select>
-
-		</div>
-
-		<div class="form-group">
 			<button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
 			<button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/categoria';">Cancelar</button>
 

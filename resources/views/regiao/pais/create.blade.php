@@ -16,8 +16,8 @@
                   {!!Form::open(array('url'=>'regiao/pais','method'=>'POST','autocomplete'=>'off'))!!}
             {{Form::token()}}
             <div class="form-group">
-                  <label for="nomePais">Nome</label>
-                  <input type="text" name="nomePais" class="form-control" placeholder="Nome...">
+                  <label for="nomePais">Nome do país</label>
+                  <input type="text" name="nomePais" class="form-control" placeholder="Nome país..">
             </div>
 
              <div class="form-group">

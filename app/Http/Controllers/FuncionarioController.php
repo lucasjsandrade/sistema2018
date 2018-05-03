@@ -71,7 +71,7 @@ class FuncionarioController extends Controller
       return Redirect::to('pessoa/funcionario');
     }
 
-      catch(\Exception $Exception){
+    catch(\Exception $Exception){
       DB::rollback();
       echo "<script>alert('Já existe um CPF/RG cadastrado para este Funcionario!');</script>"; 
 
@@ -124,9 +124,19 @@ class FuncionarioController extends Controller
   }
 
   public function destroy($id){
-    $funcionario=Funcionario::findOrFail($id);
-      $funcionario->status='Inativo'; //Condição igual a zero pois a categoria vai ser inativa
+    try{
+      $funcionario=Funcionario::findOrFail($id);
+      $funcionario->delete();
       $funcionario->update();
       return Redirect::to('pessoa/funcionario');   
     }
+    catch(\Exception $Exception){
+      DB::rollback();
+      echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>"; 
+
+
+
+      echo "<script>window.location = '/pessoa/funcionario';</script>";
+    }
   }
+}

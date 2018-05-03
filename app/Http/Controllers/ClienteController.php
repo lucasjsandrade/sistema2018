@@ -51,56 +51,56 @@ class ClienteController extends Controller
 
   public function store(ClienteFormRequest $request){
     try{
-    $cliente = new Cliente;
-    $cliente->idcidade=$request->get('idcidade');
-    $cliente->nomeCliente=$request->get('nomeCliente');
-    $cliente->rg=$request->get('rg');
-    $cliente->cpf=$request->get('cpf');
-    $cliente->sexo=$request->get('sexo');
-    $cliente->telefone=$request->get('telefone');
-    $cliente->celular=$request->get('celular');
-    $cliente->whatsapp=$request->get('whatsapp');
-    $cliente->email=$request->get('email');
-    $cliente->logradouro=$request->get('logradouro');
-    $cliente->numero=$request->get('numero');
-    $cliente->bairro=$request->get('bairro');
-    $cliente->cep=$request->get('cep');
-    $mytime = Carbon::now('America/Sao_Paulo'); 
-    $cliente->dataCadastro=$mytime->toDateTimeString();
-    $cliente->dataNascimento=$request->get('dataNascimento');
-    $cliente->status='Ativo';
+      $cliente = new Cliente;
+      $cliente->idcidade=$request->get('idcidade');
+      $cliente->nomeCliente=$request->get('nomeCliente');
+      $cliente->rg=$request->get('rg');
+      $cliente->cpf=$request->get('cpf');
+      $cliente->sexo=$request->get('sexo');
+      $cliente->telefone=$request->get('telefone');
+      $cliente->celular=$request->get('celular');
+      $cliente->whatsapp=$request->get('whatsapp');
+      $cliente->email=$request->get('email');
+      $cliente->logradouro=$request->get('logradouro');
+      $cliente->numero=$request->get('numero');
+      $cliente->bairro=$request->get('bairro');
+      $cliente->cep=$request->get('cep');
+      $mytime = Carbon::now('America/Sao_Paulo'); 
+      $cliente->dataCadastro=$mytime->toDateTimeString();
+      $cliente->dataNascimento=$request->get('dataNascimento');
+      $cliente->status='Ativo';
 
-    $cliente->save();
-    return Redirect::to('pessoa/cliente');
+      $cliente->save();
+      return Redirect::to('pessoa/cliente');
+    }
+
+
+    catch(\Exception $Exception){
+      DB::rollback();
+      echo "<script>alert('Ja existe um CPF/RG cadastrado para este Cliente!');</script>"; 
+
+
+
+      echo "<script>window.location = '/pessoa/cliente';</script>";
+    }
+
+
   }
 
-
-  catch(\Exception $Exception){
-    DB::rollback();
-    echo "<script>alert('Ja existe um CPF/RG cadastrado para este Cliente!');</script>"; 
-
-
-
-    echo "<script>window.location = '/pessoa/cliente';</script>";
+  public function show($id){
+    return view("pessoa.cliente.show", 
+      ["cliente"=>Cliente::findOrFail($id)]);
   }
 
+  public function edit($id){
+   $cliente = Cliente::findOrFail($id);
+   $cidade  = DB::table('cidade')
+   ->get();
+   return view("pessoa.cliente.edit", 
+    ["cliente"=>$cliente,"cidade"=>$cidade]);
+ }
 
-}
-
-public function show($id){
-  return view("pessoa.cliente.show", 
-    ["cliente"=>Cliente::findOrFail($id)]);
-}
-
-public function edit($id){
- $cliente = Cliente::findOrFail($id);
- $cidade  = DB::table('cidade')
- ->get();
- return view("pessoa.cliente.edit", 
-  ["cliente"=>$cliente,"cidade"=>$cidade]);
-}
-
-public function update(ClienteFormRequest $request, $id){
+ public function update(ClienteFormRequest $request, $id){
   $cliente=Cliente::findOrFail($id);
   $cliente->idcidade=$request->get('idcidade');
   $cliente->nomeCliente=$request->get('nomeCliente');
@@ -121,9 +121,19 @@ public function update(ClienteFormRequest $request, $id){
 }
 
 public function destroy($id){
-  $cliente=Cliente::findOrFail($id);
-  $cliente->status='Inativo';
-  $cliente->update();
-  return Redirect::to('pessoa/cliente');
+  try{
+    $cliente=Cliente::findOrFail($id);
+    $cliente->delete();
+    $cliente->update();
+    return Redirect::to('pessoa/cliente');
+  }
+  catch(\Exception $Exception){
+    DB::rollback();
+    echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>"; 
+
+
+
+    echo "<script>window.location = '/pessoa/cliente';</script>";
+  }
 }
 }

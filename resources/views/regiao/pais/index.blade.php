@@ -2,7 +2,7 @@
 @section('conteudo')
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>Pais <a href="pais/create"><button class="btn btn-success">Incluir</button></a></h3>
+		<h3>País <a href="pais/create"><button class="btn btn-success">Incluir</button></a></h3>
 		@include('regiao.pais.search')
 	</div>
 </div>
@@ -12,8 +12,8 @@
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-condensed table-hover">
 				<thead>
-					<th>Id Pais</th>
-					<th>Nome</th>
+					<th>Código do Pais</th>
+					<th>Nome do país</th>
 					<th>Sigla</th>
 					
 				</thead>

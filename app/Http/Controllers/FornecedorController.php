@@ -48,8 +48,8 @@ public function index(Request $request){
 
     
     
-      public function store(fornecedorFormRequest $request){
-        try{
+    public function store(fornecedorFormRequest $request){
+      try{
         $fornecedor = new fornecedor;
         $fornecedor->idcidade=$request->get('idcidade');
         $fornecedor->razaoSocial=$request->get('razaoSocial');
@@ -124,9 +124,20 @@ public function index(Request $request){
   }
 
   public function destroy($id){
-    $fornecedor=fornecedor::findOrFail($id);
-      $fornecedor->status='Inativo'; //Condição igual a zero pois a categoria vai ser inativa
+    try{
+      $fornecedor=fornecedor::findOrFail($id);
+      $fornecedor->delete();
       $fornecedor->update();
       return Redirect::to('pessoa/fornecedor');   
     }
+
+  catch(\Exception $Exception){
+    DB::rollback();
+    echo "<script>alert('Já existe uma marca com este cadastro!');</script>"; 
+
+
+
+    echo "<script>window.location = '/pessoa/fornecedor';</script>";
   }
+}
+}
