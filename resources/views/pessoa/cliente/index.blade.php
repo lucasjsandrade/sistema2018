@@ -12,7 +12,7 @@
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead>
-          <th>Id Cliente</th>
+          <th>Código Cliente</th>
           <th>Nome</th>
           <th>Logradouro</th>
           <th>numero</th>

@@ -108,26 +108,6 @@ public function destroy($id){
     echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>";
     echo "<script>window.location = '/estoque/categoria';</script>";
 
-<<<<<<< HEAD
-public function destroy($id){
-  try{
-
-
-   $categoria=Categoria::findOrFail($id);
-   $categoria->delete();
-   $categoria->update();
-   return Redirect::to('estoque/categoria');}
-
-    catch(\Exception $Exception){
-          DB::rollback();
-          echo "<script>alert('Ja existe um cadastro para esta categoria!');</script>"; 
-
-
-
-          echo "<script>window.location = '/estoque/categoria';</script>";
-      }
-=======
   }
->>>>>>> dbae0a0c274cc63e41a515c60c7a6b8de27f8a9c
 }
 }

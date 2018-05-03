@@ -16,15 +16,19 @@
   {!!Form::model($cidade, ['method'=>'PUT', 'route'=>['cidade.update', $cidade->idcidade]])!!}
   {{Form::token()}}
 
+<div class="col-lg-9 col-sm-9 col-xs-9">
   <div class="form-group">
-   <label for="nome">NomeCidade</label>
+   <label for="nome">Nome da Cidade</label>
    <span class="ob">*</span>
    <input type="text" name="nomeCidade" class="form-control" 
    value="{{ $cidade->nomeCidade }}"
    placeholder="Nome cidade...">
  </div>
+ </div>
 
 
+
+<div class="col-lg-9 col-sm-9 col-xs-9">
  <div class="form-group">
   <label>Estado</label>
   <select name="idestado" class="form-control">
@@ -44,11 +48,24 @@
     @endif
     @endforeach
   </select>
+  </div>
+  </div>
+
+  <div class="col-lg-1 col-sm-1 col-xs-1">
+         <div class="form-group">
+             <a href=/regiao/estado/create target="_blank"><button class="btn btn-primary" type="button" style="
+              position: absolute;
+              top:25px;
+              left: 0px;
+              "/> Novo estado </button></a>
+         </div>
+       </div>
+
+
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
   <div class="form-group">
    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/cidade';">Cancelar</button>
-   <a href=/regiao/estado/create target="_blank"><button class="btn btn-primary" type="button">Novo Estado </button></a>
+   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/cidade';">Cancelar</button>   
  </div>
 </div>
 
