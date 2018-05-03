@@ -128,7 +128,9 @@ public function update(ProdutoFormRequest $request, $id){
 
 
 public function destroy($id){
+    
   $produto=Produto::findOrFail($id);
+
   try{ 
 
     if($produto->quantidade == 0){
@@ -152,9 +154,9 @@ catch(\Exception $Exception){
  }else{
 
 
-    echo "<script>alert('Produto tem uma movimentacao nao pode ser excluido! Status alterado para Inativo');</script>"; 
-    $produto->status='Inativo';
-    $produto->update();
+    echo "<script>alert('Produto tem uma movimentacao nao pode ser excluido!');</script>"; 
+    
+   
 
 
 }

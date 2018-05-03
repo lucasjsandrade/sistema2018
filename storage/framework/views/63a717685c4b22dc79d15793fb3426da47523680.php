@@ -52,8 +52,7 @@
   </select>
 </div>
 </div>
-<<<<<<< HEAD
-=======
+
 
 <div class="col-lg-1 col-sm-1 col-xs-1">
          <div class="form-group">
@@ -65,18 +64,6 @@
          </div>
        </div>
 
-
- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-          <label for="status">Status</label>
-          <span class="ob">*</span>
-          <select name="status"  class="form-control">
-            <option value="<?php echo e($estado->status); ?>"><?php echo e($estado->status); ?></option>
-            <option value="ativo">Ativo</option> 
-            <option value="Inativo">Inativo</option>
-      </select>
-</div>
-
->>>>>>> b0783e846d64c9e6259472f7d99dc1bc45f98431
  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     <div class="form-group">
      <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>

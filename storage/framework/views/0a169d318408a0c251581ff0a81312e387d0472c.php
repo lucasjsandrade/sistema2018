@@ -17,7 +17,7 @@
 		<?php echo e(Form::token()); ?>
 
 		<div class="form-group">
-			<label for="nome">Nome</label>
+			<label for="nome">Nome da categoria</label>
 			<span class="ob">*</span>
 			<input type="text" name="nome" required class="form-control" placeholder="Nome...">
 		</div>
