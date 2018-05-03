@@ -82,7 +82,7 @@
   <div class="col-lg-6 col-sm-6 col-xs-12">
     <div class="form-group">
       <label for="celular">Celular</label>
-      <input type="text" name="celular" class="phone form-control" 
+      <input type="text" name="celular" class="celular form-control" 
       value="<?php echo e($funcionario->celular); ?>"
       placeholder="Celular...">
     </div>
@@ -91,7 +91,7 @@
   <div class="col-lg-6 col-sm-6 col-xs-12">
    <div class="form-group">
     <label for="whatsapp">Whatsapp</label>
-    <input type="text" name="whatsapp" class="phone form-control" 
+    <input type="text" name="whatsapp" class="celular form-control" 
     value="<?php echo e($funcionario->whatsapp); ?>"
     placeholder="whatsapp">
   </div>

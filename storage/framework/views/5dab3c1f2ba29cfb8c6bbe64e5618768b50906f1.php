@@ -23,7 +23,7 @@
 
 <div class="row">
      
-      <div class="col-lg-6 col-sm-6 col-xs-12">
+      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
             <div class="form-group">
                   <label>Categoria</label>
                   <span class="ob">*</span>
@@ -38,6 +38,16 @@
             </div>
             
       </div>
+
+      <div class="col-lg-1 col-sm-1 col-xs-1">
+         <div class="form-group">
+             <a href=/regiao/pais/create target="_blank"><button class="btn btn-primary" type="button" style="
+              position: absolute;
+              top:25px;
+              left: 0px;
+              "/> Novo pais </button></a>
+         </div>
+       </div>
 
       <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="form-group">

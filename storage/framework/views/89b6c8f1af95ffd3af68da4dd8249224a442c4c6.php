@@ -45,7 +45,7 @@
     <div class="form-group">
       <label for="cnpj">CNPJ</label>
       <span class="ob">*</span>
-      <input type="text" name="cnpj" required value="<?php echo e($fornecedor->cnpj); ?>" class="form-control" placeholder="CNPJ">
+      <input type="text" name="cnpj" id="cnpj" required value="<?php echo e($fornecedor->cnpj); ?>" class="cnpj form-control" placeholder="CNPJ">
     </div>
   </div>
   

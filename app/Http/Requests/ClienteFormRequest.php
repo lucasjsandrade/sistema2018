@@ -24,7 +24,7 @@ class ClienteFormRequest extends FormRequest
     public function rules()
     {
         return [
-            //testa ai zoi
+            
             'idcidade'=>'required',
             'nomeCliente'=>'required',
             'rg'=>'required',

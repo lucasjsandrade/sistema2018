@@ -71,9 +71,9 @@ class FuncionarioController extends Controller
       return Redirect::to('pessoa/funcionario');
     }
 
-      catch(\Exception $Exception){
+    catch(\Exception $Exception){
       DB::rollback();
-      echo "<script>alert('Já existe um CPF/RG cadastrado para este Funcionario!');</script>"; 
+      echo "<script>alert('Já existe um este CPF/RG inserido cadastrado para um Funcionario!');</script>"; 
 
 
 
@@ -102,31 +102,50 @@ class FuncionarioController extends Controller
   }
 
   public function update(FuncionarioFormRequest $request, $id){
-    $funcionario = Funcionario::findOrFail($id);
-    $funcionario->idcidade=$request->get('idcidade');
-    $funcionario->nomeFuncionario=$request->get('nomeFuncionario');
-    $funcionario->rg=$request->get('rg'); 
-    $funcionario->cpf=$request->get('cpf');   
-    $funcionario->sexo=$request->get('sexo');   
-    $funcionario->telefone=$request->get('telefone');   
-    $funcionario->celular=$request->get('celular');     
-    $funcionario->whatsapp=$request->get('whatsapp');   
-    $funcionario->email=$request->get('email');   
-    $funcionario->logradouro=$request->get('logradouro');   
-    $funcionario->numero=$request->get('numero');  
-    $funcionario->bairro=$request->get('bairro');   
-    $funcionario->cep=$request->get('cep');   
-    $funcionario->dataNascimento=$request->get('dataNascimento'); 
-    $funcionario->status=$request->get('status'); 
+    try{
+      $funcionario = Funcionario::findOrFail($id);
+      $funcionario->idcidade=$request->get('idcidade');
+      $funcionario->nomeFuncionario=$request->get('nomeFuncionario');
+      $funcionario->rg=$request->get('rg'); 
+      $funcionario->cpf=$request->get('cpf');   
+      $funcionario->sexo=$request->get('sexo');   
+      $funcionario->telefone=$request->get('telefone');   
+      $funcionario->celular=$request->get('celular');     
+      $funcionario->whatsapp=$request->get('whatsapp');   
+      $funcionario->email=$request->get('email');   
+      $funcionario->logradouro=$request->get('logradouro');   
+      $funcionario->numero=$request->get('numero');  
+      $funcionario->bairro=$request->get('bairro');   
+      $funcionario->cep=$request->get('cep');   
+      $funcionario->dataNascimento=$request->get('dataNascimento'); 
+      $funcionario->status=$request->get('status'); 
 
-    $funcionario->update();
-    return Redirect::to('pessoa/funcionario');
-  }
-
-  public function destroy($id){
-    $funcionario=Funcionario::findOrFail($id);
-      $funcionario->status='Inativo'; //Condição igual a zero pois a categoria vai ser inativa
       $funcionario->update();
-      return Redirect::to('pessoa/funcionario');   
+      return Redirect::to('pessoa/funcionario');
+    }
+    catch(\Exception $Exception){
+      DB::rollback();
+      echo "<script>alert('Já existe um este CPF/RG inserido cadastrado para um Funcionario!');</script>"; 
+
+
+
+      echo "<script>window.location = '/pessoa/funcionario';</script>";
+    }
+  }
+    public function destroy($id){
+      try{
+        $funcionario=Funcionario::findOrFail($id);
+        $funcionario->delete();
+        $funcionario->update();
+        return Redirect::to('pessoa/funcionario');   
+      }
+      catch(\Exception $Exception){
+        DB::rollback();
+        echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>"; 
+
+
+
+        echo "<script>window.location = '/pessoa/funcionario';</script>";
+      }
     }
   }

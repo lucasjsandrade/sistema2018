@@ -15,29 +15,29 @@ use DB;
 class CidadeController extends Controller
 {
  public function __construct(){
-    	 $this->middleware('auth');
- }
+  $this->middleware('auth');
+}
 
- public function index(Request $request){
+public function index(Request $request){
 
-   if($request){
-    $query=trim($request->get('searchText'));
-    $cidade=DB::table('cidade as c')
-    ->join('estado as e', 'e.idestado', '=', 
-     'c.idestado')
-    ->join('pais as p', 'p.idpais', '=', 
-     'e.idpais')
-    ->select('c.idcidade', 'c.nomeCidade', 
-     'e.nomeEstado','p.nomePais','c.status')
-    ->where('c.nomeCidade', 'LIKE', '%'.$query.'%')
-    ->where('c.status','=','Ativo')
-    ->orwhere('e.nomeEstado', 'LIKE', '%'.$query.'%')
-    ->orderBy('idcidade','desc')
-    ->paginate(7);
-    return view('regiao.cidade.index', [
-     "cidade"=>$cidade, "searchText"=>$query
-   ]);
-  }
+ if($request){
+  $query=trim($request->get('searchText'));
+  $cidade=DB::table('cidade as c')
+  ->join('estado as e', 'e.idestado', '=', 
+   'c.idestado')
+  ->join('pais as p', 'p.idpais', '=', 
+   'e.idpais')
+  ->select('c.idcidade', 'c.nomeCidade', 
+   'e.nomeEstado','p.nomePais','c.status')
+  ->where('c.nomeCidade', 'LIKE', '%'.$query.'%')
+  ->where('c.status','=','Ativo')
+  ->orwhere('e.nomeEstado', 'LIKE', '%'.$query.'%')
+  ->orderBy('idcidade','desc')
+  ->paginate(7);
+  return view('regiao.cidade.index', [
+   "cidade"=>$cidade, "searchText"=>$query
+ ]);
+}
 }
 
 public function create(){
@@ -114,22 +114,31 @@ public function update(CidadeFormRequest $request, $id){
    return Redirect::to('regiao/cidade');
    BD::commit();
  }
-   catch(\Exception $Exception){
-    DB::rollback();
-    echo "<script>alert('Já existe um cadastro para esta Cidade!');</script>"; 
+ catch(\Exception $Exception){
+  DB::rollback();
+  echo "<script>alert('Já existe um cadastro para esta Cidade!');</script>"; 
 
 
 
-    echo "<script>window.location = '/regiao/cidade';</script>";
-  }
+  echo "<script>window.location = '/regiao/cidade';</script>";
+}
 
 
 }
 public function destroy($id){
- $cidade=Cidade::findOrFail($id);
- $cidade->status='Inativo';
- $cidade->update();
- return Redirect::to('regiao/cidade');
+ try{
+   $cidade=Cidade::findOrFail($id);
+   $cidade->delete();
+   $cidade->update();
+   return Redirect::to('regiao/cidade');
+ }
+
+ catch (\Exception $Exception ){
+  DB::rollback();
+  echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>";
+  echo "<script>window.location = '/regiao/cidade';</script>";
+
+}
 }
 
 

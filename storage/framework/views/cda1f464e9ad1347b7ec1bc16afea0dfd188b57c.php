@@ -51,7 +51,6 @@
     <div class="form-group">
 
       <label for="inscricaoEstadual">Inscrição Estadual</label>
-        <span class="ob">*</span>
       <input type="text" name="inscricaoEstadual" value="<?php echo e(old('inscricaoEstadual')); ?>" class="form-control" placeholder="Inscrição Estadual">
     </div>
   </div>
@@ -81,7 +80,7 @@
   <div class="col-lg-6 col-sm-6 col-xs-12">
     <div class="form-group">
       <label for="whatsapp">Whatsapp</label>
-      <input type="text" name="whatsapp" value="<?php echo e(old('whatsapp')); ?>" class="phone form-control" placeholder="Whatsapp">
+      <input type="text" name="whatsapp" value="<?php echo e(old('whatsapp')); ?>" class="celular form-control" placeholder="Whatsapp">
     </div>
   </div>
   
