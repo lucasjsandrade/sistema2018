@@ -77,7 +77,7 @@ class ClienteController extends Controller
 
     catch(\Exception $Exception){
       DB::rollback();
-      echo "<script>alert('Ja existe um CPF/RG cadastrado para este Cliente!');</script>"; 
+      echo "<script>alert('Já existe um este CPF/RG inserido cadastrado para um Cliente!');</script>"; 
 
 
 
@@ -101,24 +101,40 @@ class ClienteController extends Controller
  }
 
  public function update(ClienteFormRequest $request, $id){
-  $cliente=Cliente::findOrFail($id);
-  $cliente->idcidade=$request->get('idcidade');
-  $cliente->nomeCliente=$request->get('nomeCliente');
-  $cliente->rg=$request->get('rg');
-  $cliente->cpf=$request->get('cpf');
-  $cliente->sexo=$request->get('sexo');
-  $cliente->telefone=$request->get('telefone');
-  $cliente->celular=$request->get('celular');
-  $cliente->whatsapp=$request->get('whatsapp');
-  $cliente->email=$request->get('email');
-  $cliente->logradouro=$request->get('logradouro');
-  $cliente->numero=$request->get('numero');
-  $cliente->bairro=$request->get('bairro');
-  $cliente->dataNascimento=$request->get('dataNascimento'); 
+  try{
+    $cliente=Cliente::findOrFail($id);
+    $cliente->idcidade=$request->get('idcidade');
+    $cliente->nomeCliente=$request->get('nomeCliente');
+    $cliente->rg=$request->get('rg');
+    $cliente->cpf=$request->get('cpf');
+    $cliente->sexo=$request->get('sexo');
+    $cliente->telefone=$request->get('telefone');
+    $cliente->celular=$request->get('celular');
+    $cliente->whatsapp=$request->get('whatsapp');
+    $cliente->email=$request->get('email');
+    $cliente->logradouro=$request->get('logradouro');
+    $cliente->numero=$request->get('numero');
+    $cliente->bairro=$request->get('bairro');
+    $cliente->dataNascimento=$request->get('dataNascimento'); 
 
-  $cliente->update();
-  return Redirect::to('pessoa/cliente');
+    $cliente->update();
+    return Redirect::to('pessoa/cliente');
+
+  }
+
+  catch(\Exception $Exception){
+    DB::rollback();
+    echo "<script>alert('Já existe um este CPF/RG inserido cadastrado para um Cliente!');</script>"; 
+
+
+
+    echo "<script>window.location = '/pessoa/cliente';</script>";
+  }
+
+
+
 }
+
 
 public function destroy($id){
   try{

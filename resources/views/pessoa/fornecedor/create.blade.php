@@ -51,7 +51,6 @@
     <div class="form-group">
 
       <label for="inscricaoEstadual">Inscrição Estadual</label>
-        <span class="ob">*</span>
       <input type="text" name="inscricaoEstadual" value="{{old('inscricaoEstadual')}}" class="form-control" placeholder="Inscrição Estadual">
     </div>
   </div>

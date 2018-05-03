@@ -51,7 +51,6 @@
     <div class="form-group">
 
       <label for="inscricaoEstadual">Inscrição Estadual</label>
-        <span class="ob">*</span>
       <input type="text" name="inscricaoEstadual" value="<?php echo e(old('inscricaoEstadual')); ?>" class="form-control" placeholder="Inscrição Estadual">
     </div>
   </div>

@@ -74,7 +74,7 @@ public function index(Request $request){
 
       catch(\Exception $Exception){
         DB::rollback();
-        echo "<script>alert('Ja existe um CNPJ/IE para este Fornecedor!');</script>"; 
+        echo "<script>alert('Ja existe um Cadastro para este Fornecedor!');</script>"; 
 
 
 
@@ -99,41 +99,41 @@ public function index(Request $request){
     return view("pessoa.fornecedor.edit",
      ["fornecedor"=>$fornecedor, "cidade"=>$cidade]);
 
-  }
+}
 
-  public function update(fornecedorFormRequest $request, $id){
-    $fornecedor = fornecedor::findOrFail($id);
-    $fornecedor->idcidade=$request->get('idcidade');
-    $fornecedor->razaoSocial=$request->get('razaoSocial');
-    $fornecedor->nomeFantasia=$request->get('nomeFantasia');
-    $fornecedor->nomeContato=$request->get('nomeContato');
-    $fornecedor->cnpj=$request->get('cnpj');
-    $fornecedor->inscricaoEstadual=$request->get('inscricaoEstadual');
-    $fornecedor->telefone=$request->get('telefone');
-    $fornecedor->fax=$request->get('fax');
-    $fornecedor->whatsapp=$request->get('whatsapp');
-    $fornecedor->email=$request->get('email');
-    $fornecedor->logradouro=$request->get('logradouro');
-    $fornecedor->numero=$request->get('numero');
-    $fornecedor->bairro=$request->get('bairro');
-    $fornecedor->cep=$request->get('cep');          
-    $fornecedor->status=$request->get('status');          
-    
+public function update(fornecedorFormRequest $request, $id){
+  $fornecedor = fornecedor::findOrFail($id);
+  $fornecedor->idcidade=$request->get('idcidade');
+  $fornecedor->razaoSocial=$request->get('razaoSocial');
+  $fornecedor->nomeFantasia=$request->get('nomeFantasia');
+  $fornecedor->nomeContato=$request->get('nomeContato');
+  $fornecedor->cnpj=$request->get('cnpj');
+  $fornecedor->inscricaoEstadual=$request->get('inscricaoEstadual');
+  $fornecedor->telefone=$request->get('telefone');
+  $fornecedor->fax=$request->get('fax');
+  $fornecedor->whatsapp=$request->get('whatsapp');
+  $fornecedor->email=$request->get('email');
+  $fornecedor->logradouro=$request->get('logradouro');
+  $fornecedor->numero=$request->get('numero');
+  $fornecedor->bairro=$request->get('bairro');
+  $fornecedor->cep=$request->get('cep');          
+  $fornecedor->status=$request->get('status');          
+
+  $fornecedor->update();
+  return Redirect::to('pessoa/fornecedor');
+}
+
+public function destroy($id){
+  try{
+    $fornecedor=fornecedor::findOrFail($id);
+    $fornecedor->delete();
     $fornecedor->update();
-    return Redirect::to('pessoa/fornecedor');
+    return Redirect::to('pessoa/fornecedor');   
   }
-
-  public function destroy($id){
-    try{
-      $fornecedor=fornecedor::findOrFail($id);
-      $fornecedor->delete();
-      $fornecedor->update();
-      return Redirect::to('pessoa/fornecedor');   
-    }
 
   catch(\Exception $Exception){
     DB::rollback();
-    echo "<script>alert('Já existe uma marca com este cadastro!');</script>"; 
+    echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>"; 
 
 
 
