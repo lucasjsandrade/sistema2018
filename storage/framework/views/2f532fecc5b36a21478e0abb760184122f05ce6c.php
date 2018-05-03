@@ -1,28 +1,29 @@
-@extends('layouts.admin')
-@section('conteudo')
+<?php $__env->startSection('conteudo'); ?>
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-   <h3>Alterar Estado: {{ $estado->nomeEstado }}</h3>
-   @if (count($errors)>0)
+   <h3>Alterar Estado: <?php echo e($estado->nomeEstado); ?></h3>
+   <?php if(count($errors)>0): ?>
    <div class="alert alert-danger">
     <ul>
-      @foreach ($errors->all() as $error)
-      <li>{{$error}}</li>
-      @endforeach 
+      <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+      <li><?php echo e($error); ?></li>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?> 
     </ul>
   </div>
-  @endif
+  <?php endif; ?>
 
 
-  {!!Form::model($estado, ['method'=>'PATCH', 'route'=>['estado.update', $estado->idestado]])!!}
-  {{Form::token()}}
+  <?php echo Form::model($estado, ['method'=>'PATCH', 'route'=>['estado.update', $estado->idestado]]); ?>
+
+  <?php echo e(Form::token()); ?>
+
 
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
     <div class="form-group">
      <label for="nomeEstado">Nome do Estado</label>
      <span class="ob">*</span>
      <input type="text" name="nomeEstado" required class="form-control" 
-     value="{{ $estado->nomeEstado }}"
+     value="<?php echo e($estado->nomeEstado); ?>"
      placeholder="Nome Do Estado...">
    </div>
  </div>
@@ -32,7 +33,7 @@
      <label for="sigla">Sigla</label>
      <span class="ob">*</span>
      <input type="text" name="sigla" required class="form-control" 
-     value="{{ $estado->sigla }}"
+     value="<?php echo e($estado->sigla); ?>"
      placeholder="Sigla...">
    </div>
  </div>
@@ -42,11 +43,12 @@
   <label>Pais</label>
   <span class="ob">*</span>
   <select name="idpais" class="form-control">
-    @foreach($pais as $pai)
-    <option value="{{$pai->idpais}}">
-      {{$pai->nomePais}}
+    <?php $__currentLoopData = $pais; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pai): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+    <option value="<?php echo e($pai->idpais); ?>">
+      <?php echo e($pai->nomePais); ?>
+
     </option>
-    @endforeach
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
   </select>
 </div>
 </div>
@@ -66,10 +68,11 @@
           <label for="status">Status</label>
           <span class="ob">*</span>
           <select name="status"  class="form-control">
-            <option value="{{$estado->status}}">{{$estado->status}}</option>
+            <option value="<?php echo e($estado->status); ?>"><?php echo e($estado->status); ?></option>
             <option value="ativo">Ativo</option> 
             <option value="Inativo">Inativo</option>
       </select>
+
 </div>
 
  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -80,7 +83,8 @@
  </div>
 
 
-{!!Form::close()!!}		
+<?php echo Form::close(); ?>		
 
 
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

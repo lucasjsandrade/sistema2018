@@ -1,36 +1,39 @@
-@extends('layouts.admin')
-@section('conteudo')
+<?php $__env->startSection('conteudo'); ?>
 <div class="row">
 		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<h3>Cadastro de Cidade</h3>
-			@if (count($errors)>0)
+			<?php if(count($errors)>0): ?>
 			<div class="alert alert-danger">
 				<ul>
-				@foreach ($errors->all() as $error)
-					<li>{{$error}}</li>
-				@endforeach
+				<?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+					<li><?php echo e($error); ?></li>
+				<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 				</ul>
 			</div>
-			@endif
+			<?php endif; ?>
 
-			{!!Form::open(array('url'=>'regiao/cidade','method'=>'POST','autocomplete'=>'off','files'=>'true'))!!}
-            {{Form::token()}}
+			<?php echo Form::open(array('url'=>'regiao/cidade','method'=>'POST','autocomplete'=>'off','files'=>'true')); ?>
+
+            <?php echo e(Form::token()); ?>
+
             
             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">  
             <div class="form-group">
             	<label for="nomeCidade">Nome Cidade</label>
             	<input type="text" name="nomeCidade" class="form-control" placeholder="Nome...">
             </div>            
-               
+            </div>   
+
           <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">      
             <div class="form-group">
              <label>Estado</label>
                <select name="idestado" class="form-control">
-                @foreach($estado as $est)
-                              <option value="{{$est->idestado}}">
-                              {{$est->nomeEstado}}
+                <?php $__currentLoopData = $estado; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $est): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                              <option value="<?php echo e($est->idestado); ?>">
+                              <?php echo e($est->nomeEstado); ?>
+
                               </option>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                 </select>
             </div>
          </div>
@@ -52,8 +55,9 @@
             </div>
             </div>
 
-			{!!Form::close()!!}		
+			<?php echo Form::close(); ?>		
             
 		</div>
 	</div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

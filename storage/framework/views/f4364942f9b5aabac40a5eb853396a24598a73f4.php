@@ -1,27 +1,28 @@
-@extends('layouts.admin')
-@section('conteudo')
+<?php $__env->startSection('conteudo'); ?>
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-   <h3>Alterar Cidade: {{ $cidade->nomeCidade }}</h3>
-   @if (count($errors)>0)
+   <h3>Alterar Cidade: <?php echo e($cidade->nomeCidade); ?></h3>
+   <?php if(count($errors)>0): ?>
    <div class="alert alert-danger">
     <ul>
-      @foreach ($errors->all() as $error)
-      <li>{{$error}}</li>
-      @endforeach
+      <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+      <li><?php echo e($error); ?></li>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
     </ul>
   </div>
-  @endif
+  <?php endif; ?>
 
-  {!!Form::model($cidade, ['method'=>'PUT', 'route'=>['cidade.update', $cidade->idcidade]])!!}
-  {{Form::token()}}
+  <?php echo Form::model($cidade, ['method'=>'PUT', 'route'=>['cidade.update', $cidade->idcidade]]); ?>
+
+  <?php echo e(Form::token()); ?>
+
 
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="form-group">
      <label for="nome">Nome da Cidade</label>
      <span class="ob">*</span>
      <input type="text" name="nomeCidade" class="form-control" 
-     value="{{ $cidade->nomeCidade }}"
+     value="<?php echo e($cidade->nomeCidade); ?>"
      placeholder="Nome cidade...">
    </div>
   </div>
@@ -31,17 +32,19 @@
     <label>Estado</label>
     <select name="idestado" class="form-control">
       <span class="ob">*</span>
-      @foreach($estado as $est)
-      @if($est->idestado==$cidade->idestado)
-      <option value="{{$est->idestado}}" selected><!-- Aqui vai recuperar o objeto do banco -->
-        {{$est->nomeEstado}}
+      <?php $__currentLoopData = $estado; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $est): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+      <?php if($est->idestado==$cidade->idestado): ?>
+      <option value="<?php echo e($est->idestado); ?>" selected><!-- Aqui vai recuperar o objeto do banco -->
+        <?php echo e($est->nomeEstado); ?>
+
       </option>
-      @else
-      <option value="{{$est->idestado}}">
-        {{$est->nomeEstado}}
+      <?php else: ?>
+      <option value="<?php echo e($est->idestado); ?>">
+        <?php echo e($est->nomeEstado); ?>
+
       </option>
-      @endif
-      @endforeach
+      <?php endif; ?>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
     </select>
   </div>
  </div>
@@ -62,7 +65,7 @@
       <label for="status">Status</label>
       <span class="ob">*</span>
       <select name="status"  class="form-control">
-        <option value="{{$cidade->status}}">{{$cidade->status}}</option>
+        <option value="<?php echo e($cidade->status); ?>"><?php echo e($cidade->status); ?></option>
         <option value="ativo">Ativo</option> 
         <option value="Inativo">Inativo</option>
       </select>
@@ -82,8 +85,9 @@
 
 </div>
 
-{!!Form::close()!!}		
+<?php echo Form::close(); ?>		
 
 </div>
 </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

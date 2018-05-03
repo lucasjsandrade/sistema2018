@@ -1,23 +1,23 @@
-@extends('layouts.admin')
-@section('conteudo')
+<?php $__env->startSection('conteudo'); ?>
 <div class="row">
 
    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
       <h3>Cadastro de Estado</h3>
-      @if (count($errors)>0) <!-- Se existir erro vai mostrar um alerta e vai listar os erros --> 
+      <?php if(count($errors)>0): ?> <!-- Se existir erro vai mostrar um alerta e vai listar os erros --> 
       <div class="alert alert-danger">
          <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{$error}}</li>
-            @endforeach
+            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+            <li><?php echo e($error); ?></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
          </ul>
       </div>
-      @endif
+      <?php endif; ?>
 </div>
 </div>
 
-      {!!Form::open(array('url'=>'regiao/estado','method'=>'POST','autocomplete'=>'off'))!!}<!-- Metodo POST está passando informação -->
-      {{Form::token()}}
+      <?php echo Form::open(array('url'=>'regiao/estado','method'=>'POST','autocomplete'=>'off')); ?><!-- Metodo POST está passando informação -->
+      <?php echo e(Form::token()); ?>
+
 
       <div class="row">
 
@@ -42,11 +42,12 @@
             <label>País</label>
             <span class="ob">*</span>
             <select name="idpais" class="form-control">
-               @foreach($pais as $pai)
-               <option value="{{$pai->idpais}}"><!-- Aqui vai recuperar o objeto do banco -->
-                  {{$pai->nomePais}}
+               <?php $__currentLoopData = $pais; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pai): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+               <option value="<?php echo e($pai->idpais); ?>"><!-- Aqui vai recuperar o objeto do banco -->
+                  <?php echo e($pai->nomePais); ?>
+
                </option>
-               @endforeach
+               <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
             </select>
          </div>          
       </div>       
@@ -72,8 +73,9 @@
       </div>
    
 
-   {!!Form::close()!!}     
+   <?php echo Form::close(); ?>     
 
 </div>
 </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

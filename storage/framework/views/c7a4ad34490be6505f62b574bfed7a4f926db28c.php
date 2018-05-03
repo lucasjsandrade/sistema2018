@@ -11,8 +11,8 @@
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-condensed table-hover">
         <thead>
-          <th>Id Estado</th>
-          <th>Estado</th>
+          <th>Código do Estado</th>
+          <th>Nome estado</th>
           <th>Sigla</th>
           <th>Pais</th>
           <th>Status</th>
