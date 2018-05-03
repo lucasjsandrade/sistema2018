@@ -96,9 +96,21 @@ try{
 
 
 public function destroy($id){
+  try{
+
+
    $categoria=Categoria::findOrFail($id);
-   $categoria->status='Inativo';
+   $categoria->delete();
    $categoria->update();
-   return Redirect::to('estoque/categoria');
+   return Redirect::to('estoque/categoria');}
+
+    catch(\Exception $Exception){
+          DB::rollback();
+          echo "<script>alert('Ja existe um cadastro para esta categoria!');</script>"; 
+
+
+
+          echo "<script>window.location = '/estoque/categoria';</script>";
+      }
 }
 }

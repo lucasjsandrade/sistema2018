@@ -1,20 +1,21 @@
-@extends('layouts.admin')
-@section('conteudo')
+<?php $__env->startSection('conteudo'); ?>
 <div class="row">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 		<h3>Cadastro de Categoria</h3>
-		@if (count($errors)>0)
+		<?php if(count($errors)>0): ?>
 		<div class="alert alert-danger">
 			<ul>
-				@foreach ($errors->all() as $error)
-				<li>{{$error}}</li>
-				@endforeach
+				<?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+				<li><?php echo e($error); ?></li>
+				<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 			</ul>
 		</div>
-		@endif
+		<?php endif; ?>
 
-		{!!Form::open(array('url'=>'estoque/categoria','method'=>'POST','autocomplete'=>'off'))!!}
-		{{Form::token()}}
+		<?php echo Form::open(array('url'=>'estoque/categoria','method'=>'POST','autocomplete'=>'off')); ?>
+
+		<?php echo e(Form::token()); ?>
+
 		<div class="form-group">
 			<label for="nome">Nome da categoria</label>
 			<span class="ob">*</span>
@@ -31,8 +32,9 @@
 			
 		</div>
 
-		{!!Form::close()!!}		
+		<?php echo Form::close(); ?>		
 		
 	</div>
 </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
