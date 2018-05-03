@@ -47,7 +47,6 @@
     <?php endif; ?>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
   </select>
-</div>
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
   <div class="form-group">
    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
@@ -60,7 +59,7 @@
 
 </div>
 
-<?php echo Form::close(); ?>		
+<?php echo Form::close(); ?>   
 
 </div>
 </div>
