@@ -44,20 +44,6 @@
     @endif
     @endforeach
   </select>
-
-
-
-  <div class="form-group">
-    <label for="status">Status</label>
-    <span class="ob">*</span>
-    <select name="status"  class="form-control">
-      <option value="{{$cidade->status}}">{{$cidade->status}}</option>
-      <option value="ativo">Ativo</option> 
-      <option value="Inativo">Inativo</option>
-
-    </select>
-
-  </div>
 </div>
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
   <div class="form-group">

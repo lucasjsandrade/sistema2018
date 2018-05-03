@@ -29,17 +29,6 @@
 			value="{{ $pais->sigla }}"
 			placeholder="Sigla...">
 		</div>
-		<div class="form-group"> 
-			<label for="status">Status</label>
-			<span class="ob">*</span>
-			<select name="status"  class="form-control">
-				<option value="{{$pais->status}}">{{$pais->status}}</option>
-				<option value="ativo">Ativo</option> 
-				<option value="Inativo">Inativo</option>
-
-			</select>
-
-		</div>
 
 		<div class="form-group">
 			<button class="btn btn-success" type="submity">Confirmar</button>

@@ -102,13 +102,21 @@ public function update(EstadoFormRequest $request, $id){
 }
 
 public function destroy($id){
-    $estado = Estado::findOrFail($id);
-    $estado->status='Inativo';
-    $estado->update();
-    return Redirect::to('regiao/estado');
+    try{
+        $estado = Estado::findOrFail($id);
+        $estado->delete();
+        $estado->update();
+        return Redirect::to('regiao/estado');
+    }
+
+
+    catch (\Exception $Exception ){
+        DB::rollback();
+        echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>";
+        echo "<script>window.location = '/regiao/estado';</script>";
+
+    }
 }
-
-
 
 
 }

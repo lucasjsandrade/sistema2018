@@ -96,11 +96,21 @@ public function update(PaisFormRequest $request, $id){
 
 
 }
-public function destroy($id){
-    $pais=Pais::findOrFail($id);
-    $pais->status='Inativo';
 
-    $pais->update();
-    return Redirect::to('regiao/pais');
+public function destroy($id){
+
+    try{
+        $pais=Pais::findOrFail($id);    
+        $pais->delete();
+        $pais->update();
+        return Redirect::to('regiao/pais');
+    }
+
+    catch (\Exception $Exception ){
+        DB::rollback();
+        echo "<script>alert('Não é possivel Excluir um Cadastro em uso!');</script>";
+        echo "<script>window.location = '/regiao/pais';</script>";
+
+    }
 }
 }
