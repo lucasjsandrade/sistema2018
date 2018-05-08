@@ -3,7 +3,7 @@
 
 <div class="row">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-		<h3>Alterar Orçamento: {{ $orcamento->idorcamento }}</h3>
+		<h3>Alterar Orçamento: {{ $orcamento->idvenda }}</h3>
 		@if (count($errors)>0)
 		<div class="alert alert-danger">
 			<ul>
@@ -16,7 +16,7 @@
 	</div>
 </div>
 
-{!!Form::model($orcamento, ['method'=>'PATCH', 'route'=>['orcamento.update', $orcamento->idorcamento], 'files'=>'true'])!!}
+{!!Form::model($orcamento, ['method'=>'PATCH', 'route'=>['orcamento.update', $orcamento->idvenda], 'files'=>'true'])!!}
 {{Form::token()}}
 
 

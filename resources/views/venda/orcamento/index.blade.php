@@ -2,7 +2,7 @@
 @section('conteudo')
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>Novo Orcamento <a href="/venda/orcamento/create"><button class="btn btn-success">Incluir</button></a></h3>
+		<h3>Novo Orcamento de Venda <a href="/venda/orcamento/create"><button class="btn btn-success">Incluir</button></a></h3>
 		@include('venda.orcamento.search')
 	</div>
 </div>
@@ -29,17 +29,17 @@
 			        }
 			      ?>
 
-				@foreach ($orcamento as $o)
+				@foreach ($venda as $o)
 				<tr>
-					<td>{{ converteData ($o->dataOrcamento)}}</td>
-					<td>{{ $o->idorcamento}}</td>					
+					<td>{{ converteData ($o->dataVenda)}}</td>
+					<td>{{ $o->idvenda}}</td>					
 					<td>{{ $o->nomeFuncionario." : ".$o->idfuncionario}}</td>					
 					<td>{{ $o->nomeCliente." :     ".$o->idcliente}}</td>					
 					<td>{{ $o->status}}</td>
 
 					<td>
-						<a href="{{URL::action('orcamentoController@show',$o->idorcamento)}}"><button class="btn btn-info">Detalhe</button></a>						 
-						<a href="{{URL::action('orcamentoController@edit',$o->idorcamento)}}"><button type="submit" class="btn btn-info">Alterar</button></a>
+						<a href="{{URL::action('orcamentoController@show',$o->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>						 
+						<a href="{{URL::action('orcamentoController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-info">Alterar</button></a>
 						 
 					</td>
 				</tr>
@@ -49,7 +49,7 @@
 			</table>
 
 		</div>
-		{{$orcamento->render()}}
+		{{$venda->render()}}
 	</div>
 </div>
 @stop

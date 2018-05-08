@@ -104,26 +104,26 @@
 
 </div>
 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-<div class="form-group">
-  <span class="ob">*</span>
-  <label>Numero De parcelas</label>
-  <select name="numeroDeParcelas" id="numeroDeParcelas" class="form-control">
+  <div class="form-group">
+    <span class="ob">*</span>
+    <label>Numero De parcelas</label>
+    <select name="numeroDeParcelas" id="numeroDeParcelas" class="form-control">
 
-    <option value=1>1x </option>
-    <option value=2>2x </option>
-    <option value=3>3x </option>
-    <option value=4>4x </option>
-    <option value=5>5x </option>
-    <option value=6>6x </option>
-    <option value=7>7x </option>
-    <option value=8>8x </option>
-    <option value=9>9x </option>
-    <option value=10>10x </option>
+      <option value=1>1x </option>
+      <option value=2>2x </option>
+      <option value=3>3x </option>
+      <option value=4>4x </option>
+      <option value=5>5x </option>
+      <option value=6>6x </option>
+      <option value=7>7x </option>
+      <option value=8>8x </option>
+      <option value=9>9x </option>
+      <option value=10>10x </option>
 
 
 
-  </select>
-</div>
+    </select>
+  </div>
 </div>
 
 
@@ -156,92 +156,93 @@
             <?php echo e($pro->produto); ?>    
           </option>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-        </select>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+          <label for="quantidade">Quantidade</label>
+          <span class="ob">*</span>
+          <input type="number" name="quantidade" value="<?php echo e(old('quantidade')); ?>" 
+          id="pquantidade"  class="form-control" placeholder="Quantidade">
+
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+          <label for="preco">Valor Unitario</label>
+          <input type="number" name="preco" 
+          id="ppreco"
+          disabled
+          class="form-control" placeholder="Valor Unitario...">
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+          <label for="estoque">Estoque</label>
+          <input type="number" name="estoque" 
+          id="pqestoque"
+          disabled
+          class="form-control" placeholder="Estoque...">
+        </div>
+      </div>
+
+
+      <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+          <label for="desconto">Desconto</label>
+          <span class="ob">*</span>
+          <input type="number" name="desconto"
+          id="pdesconto"   class="form-control" value="0" placeholder="Insira um desconto ou '0'">
+
+        </div>
+      </div>
+
+
+
+
+      <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+          <button type="button" id="bt_add"
+          class="btn btn-info">
+          Adicionar
+        </button>
+
       </div>
     </div>
 
-    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-      <div class="form-group">
-        <label for="quantidade">Quantidade</label>
-        <span class="ob">*</span>
-        <input type="number" name="quantidade" value="<?php echo e(old('quantidade')); ?>" 
-        id="pquantidade"  class="form-control" placeholder="Quantidade">
-
-      </div>
-    </div>
-
-    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-      <div class="form-group">
-        <label for="preco">Valor Unitario</label>
-        <input type="number" name="preco" 
-        id="ppreco"
-        disabled
-        class="form-control" placeholder="Valor Unitario...">
-      </div>
-    </div>
-
-    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-      <div class="form-group">
-        <label for="estoque">Estoque</label>
-        <input type="number" name="estoque" 
-        id="pqestoque"
-        disabled
-        class="form-control" placeholder="Estoque...">
-      </div>
-    </div>
-
-    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-      <div class="form-group">
-        <label for="desconto">Desconto</label>
-        <span class="ob">*</span>
-        <input type="number" name="desconto"
-        id="pdesconto"  class="form-control" placeholder="Desconto">
-
-      </div>
-    </div>
-
-    
 
 
+    <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
+      <table id="detalhes" class="table table-striped table-bordered table-condensed table-hover">
+        <thead style="background-color:#A9D0F5">
+          <th>Opções</th>
+          <th>Produtos</th>
+          <th>Quantidade</th>
+          <th>Valor Unitario</th>
+          <th>Desconto</th>
 
-    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-      <div class="form-group">
-        <button type="button" id="bt_add"
-        class="btn btn-info">
-        Adicionar
-      </button>
+          <th>Total</th>
+        </thead>
+        <tfoot>
+          <th></th>
 
-    </div>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+          <td>
+            <input type="text" name="valorTotal" readonly id="total" class="form-control" style="width: 100px;">
+          </td>     
+        </tfoot>   
+      </tfoot>
+    </table>
   </div>
-
-
-
-  <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
-    <table id="detalhes" class="table table-striped table-bordered table-condensed table-hover">
-      <thead style="background-color:#A9D0F5">
-        <th>Opções</th>
-        <th>Produtos</th>
-        <th>Quantidade</th>
-        <th>Valor Unitario</th>
-        <th>Desconto</th>
-
-        <th>Total</th>
-      </thead>
-      <tfoot>
-        <th></th>
-
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-
-        <td>
-          <input type="text" name="valorTotal" readonly id="total" class="form-control" style="width: 100px;">
-        </td>     
-      </tfoot>   
-    </tfoot>
-  </table>
-</div>
 
 </div>
 </div>

@@ -30,8 +30,13 @@ class orcamentoFormRequest extends FormRequest
             'status',   
             'observacao',
             'maodeobra',
-        ];
+            'origemVenda',
+            'dataVenda',
 
+        ];
+        
+        
+        
 
 
         

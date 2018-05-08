@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Orcamento extends Model
 {
-	protected $table = 'orcamento';
-	protected $primaryKey = 'idorcamento';
+	protected $table = 'venda';
+	protected $primaryKey = 'idvenda';
 
 	public $timestamps = false;
 	protected $fillable = [
 		
 		'idcliente',
 		'idfuncionario',
-		'status',	
-		'observacao',	
-		'maodeobra',	
+		'status',		
+		'maodeobra',
+		'origemVenda'	
 
 
 		

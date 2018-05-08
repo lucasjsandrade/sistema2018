@@ -82,11 +82,6 @@ class VendaController extends Controller
 			$mytime = Carbon::now('America/Sao_Paulo'); 
 			$venda->dataVenda=$mytime->toDateTimeString();
 			$venda->valorTotal=$request->get('valorTotal');
-
-		//$venda->desconto=10;
-
-
-
 			$venda->idcliente=$request->get('idcliente');			
 			$venda->idfuncionario=$request->get('idfuncionario');
 			$venda->condicaoPagamento=$request->get('condicaoPagamento');
@@ -139,12 +134,7 @@ class VendaController extends Controller
 
 				$dataParcela = date("Y-m-d",strtotime("+1 month",strtotime($dataParcela)));
 				$parcela->dataVencimento = $dataParcela;
-           // [...] Gravar a parcela
-
-
-
-
-
+        		 
 				$cont=$cont+1;
 
 
@@ -172,7 +162,6 @@ class VendaController extends Controller
 
 				$itens = new Itensv();
 				$itens->idvenda=$venda->idvenda;
-				$itens->desconto=$venda->idvenda[$cont];
 				$itens->idproduto=$idproduto[$cont];
 				$itens->quantidade=$quantidade[$cont];
 				$itens->desconto=$desconto[$cont];

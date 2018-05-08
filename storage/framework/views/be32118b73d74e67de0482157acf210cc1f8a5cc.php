@@ -50,13 +50,6 @@
       </select>
     </div>
   </div>
-
-  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-    <div class="form-group">
-      <label>Observação</label>
-      <input type="text" name="observacao"  value="<?php echo e(old('Observação')); ?>" class="form-control" placeholder="Observação">
-    </div>
-  </div>
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
    <div class="form-group">
     <a href=/estoque/produto/create target="_blank"><button class="btn btn-primary" type="button">Novo Produto</button></a>
