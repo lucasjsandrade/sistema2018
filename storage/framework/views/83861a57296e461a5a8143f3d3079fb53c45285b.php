@@ -31,6 +31,7 @@
 <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
    <label for="rg">RG</label>
+   <span class="ob">*</span>
    <input type="text" name="rg"  value="<?php echo e(old('rg')); ?>"class="form-control" placeholder="RG">
  </div>
 </div>
@@ -167,9 +168,14 @@
        </div>
 </div>
 
-<div class="form-group">
- <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
- <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/cliente';">Cancelar</button> 
+</div>
+
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
+        <div class="form-group"><br>
+            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+            <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>  
+            <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
+        </div> 
 </div>
 
 

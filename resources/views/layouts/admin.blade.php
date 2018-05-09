@@ -356,25 +356,37 @@
         
         // Remove caracteres inválidos do valor
         valor = valor.replace(/[^0-9]/g, '');
+        if (valor == "00000000000" ||
+          valor == "11111111111" ||
+          valor == "22222222222" ||
+          valor == "33333333333" ||
+          valor == "44444444444" ||
+          valor == "55555555555" ||
+          valor == "66666666666" ||
+          valor == "77777777777" ||
+          valor == "88888888888" ||
+          valor == "99999999999"){
+         return false;
+       }else{      
+          // Captura os 9 primeiros dígitos do CPF
+          // Ex.: 02546288423 = 025462884
+          var digitos = valor.substr(0, 9);
 
+          // Faz o cálculo dos 9 primeiros dígitos do CPF para obter o primeiro dígito
+          var novo_cpf = calc_digitos_posicoes( digitos );
 
-        // Captura os 9 primeiros dígitos do CPF
-        // Ex.: 02546288423 = 025462884
-        var digitos = valor.substr(0, 9);
+          // Faz o cálculo dos 10 dígitos do CPF para obter o último dígito
+          var novo_cpf = calc_digitos_posicoes( novo_cpf, 11 );
+          
 
-        // Faz o cálculo dos 9 primeiros dígitos do CPF para obter o primeiro dígito
-        var novo_cpf = calc_digitos_posicoes( digitos );
-
-        // Faz o cálculo dos 10 dígitos do CPF para obter o último dígito
-        var novo_cpf = calc_digitos_posicoes( novo_cpf, 11 );
-
-        // Verifica se o novo CPF gerado é idêntico ao CPF enviado
-        if ( novo_cpf === valor ) {
-            // CPF válido
-            return true;
-        } else {
-            // CPF inválido
-            return false;
+          // Verifica se o novo CPF gerado é idêntico ao CPF enviado
+          if ( novo_cpf === valor ) {
+              // CPF válido
+              return true;
+          } else {
+              // CPF inválido
+              return false;
+          }
         }
       } 
 

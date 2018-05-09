@@ -110,21 +110,6 @@
 
 </div>
 
-<div class="col-lg-6 col-sm-6 col-xs-12">
- <div class="form-group">
-  <label for="status">Status</label>
-  <span class="ob">*</span>
-  <select name="status"  class="form-control">
-    <option value="<?php echo e($produto->status); ?>"><?php echo e($produto->status); ?></option>
-    <option value="ativo">Ativo</option> 
-    <option value="Inativo">Inativo</option>
-
-  </select>
-
-</div>
-</div>
-
-
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
@@ -136,12 +121,13 @@
   </div>
 </div>
 
+</div>
 
-
-<div class="col-lg-6 col-sm-6 col-xs-12"> 
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
   <div class="form-group"><br>
     <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-    <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>     
+    <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button> 
+    <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>    
   </div>
 </div>
 <?php echo Form::close(); ?>           

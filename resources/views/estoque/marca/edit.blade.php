@@ -32,7 +32,6 @@
 				<option value="Inativo">Inativo</option>
 
 			</select>
-
 		</div>
 		
 		<div class="form-group">

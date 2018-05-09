@@ -11,6 +11,8 @@
 			</ul>
 		</div>
 		<?php endif; ?>
+	</div>
+</div>
 
 		<?php echo Form::model($categoria, ['method'=>'PUT', 'route'=>['categoria.update', $categoria->idcategoria]]); ?>
 
@@ -32,25 +34,14 @@
 			placeholder="Descrição...">
 		</div>
 
-		<div class="form-group">
-			<label for="status">Status</label>
-			<span class="ob">*</span>
-			<select name="status"  class="form-control">
-				<option value="<?php echo e($categoria->status); ?>"><?php echo e($categoria->status); ?></option>
-				<option value="ativo">Ativo</option> 
-				<option value="Inativo">Inativo</option>
-
-			</select>
-
-		</div>
-
-		<div class="form-group">
-			<button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-			<button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/categoria';">Cancelar</button>
-
-			<?php echo Form::close(); ?>		
-			
-		</div>
+		<div class="col-lg-12 col-sm-12 col-xs-12"> 
+	    	<div class="form-group"><br>
+		        <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+		        <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>  
+		        <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
+	        </div> 
+        </div>
+		<?php echo Form::close(); ?>		
 	</div>
 	<?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

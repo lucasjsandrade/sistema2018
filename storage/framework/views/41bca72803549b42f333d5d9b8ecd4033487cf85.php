@@ -163,17 +163,18 @@
     <option value="<?php echo e($fornecedor->status); ?>"><?php echo e($fornecedor->status); ?></option>
     <option value="ativo">Ativo</option> 
     <option value="Inativo">Inativo</option>
-
   </select>
-
+ </div>
 </div>
 
 
-<div class="form-group">
-  <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/fornecedor';">Cancelar</button>  
-</div>
-</div>
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
+        <div class="form-group"><br>
+            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+            <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>  
+            <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
+          </div> 
+        </div>
 <?php echo Form::close(); ?>   
 </div>
 <?php $__env->stopSection(); ?>

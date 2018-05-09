@@ -12,31 +12,36 @@
 			</ul>
 		</div>
 		@endif
-
-		{!!Form::model($categoria, ['method'=>'PUT', 'route'=>['categoria.update', $categoria->idcategoria]])!!}
-		{{Form::token()}}
-
-		<div class="form-group">
-			<label for="nome">Nome</label>
-			<span class="ob">*</span>
-			<input type="text" name="nome" required class="form-control" 
-			value="{{ $categoria->nome }}"
-			placeholder="Nome...">
-		</div>
-		<div class="form-group">
-			<label for="descricao">Descrição</label>
-			<span class="ob">*</span>
-			<input type="text" name="descricao" required class="form-control"
-			value="{{ $categoria->descricao }}"
-			placeholder="Descrição...">
-		</div>
-
-		<div class="form-group">
-			<button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-			<button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/categoria';">Cancelar</button>
-
-			{!!Form::close()!!}		
-			
-		</div>
 	</div>
-	@stop
+</div>
+
+{!!Form::model($categoria, ['method'=>'PUT', 'route'=>['categoria.update', $categoria->idcategoria]])!!}
+{{Form::token()}}
+
+<div class="form-group">
+	<label for="nome">Nome</label>
+	<span class="ob">*</span>
+	<input type="text" name="nome" required class="form-control" 
+	value="{{ $categoria->nome }}"
+	placeholder="Nome...">
+</div>
+
+<div class="form-group">
+	<label for="descricao">Descrição</label>
+	<span class="ob">*</span>
+	<input type="text" name="descricao" required class="form-control"
+	value="{{ $categoria->descricao }}"
+	placeholder="Descrição...">
+</div>
+
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
+	<div class="form-group"><br>
+		<button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+		<button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>  
+		<label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
+	</div> 
+</div>
+
+{!!Form::close()!!}		
+</div>
+@stop

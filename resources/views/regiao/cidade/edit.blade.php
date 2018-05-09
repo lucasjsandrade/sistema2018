@@ -16,50 +16,50 @@
   {!!Form::model($cidade, ['method'=>'PUT', 'route'=>['cidade.update', $cidade->idcidade]])!!}
   {{Form::token()}}
 
-<div class="col-lg-9 col-sm-9 col-xs-9">
-  <div class="form-group">
-   <label for="nome">Nome da Cidade</label>
-   <span class="ob">*</span>
-   <input type="text" name="nomeCidade" class="form-control" 
-   value="{{ $cidade->nomeCidade }}"
-   placeholder="Nome cidade...">
+  <div class="col-lg-9 col-sm-9 col-xs-9">
+    <div class="form-group">
+     <label for="nome">Nome da Cidade</label>
+     <span class="ob">*</span>
+     <input type="text" name="nomeCidade" class="form-control" 
+     value="{{ $cidade->nomeCidade }}"
+     placeholder="Nome cidade...">
+   </div>
  </div>
- </div>
 
 
 
-<div class="col-lg-9 col-sm-9 col-xs-9">
+ <div class="col-lg-9 col-sm-9 col-xs-9">
+   <div class="form-group">
+    <label>Estado</label>
+    <select name="idestado" class="form-control">
+      <span class="ob">*</span>
+
+      @foreach($estado as $est)
+
+      @if($est->idestado==$cidade->idestado)
+
+      <option value="{{$est->idestado}}" selected><!-- Aqui vai recuperar o objeto do banco -->
+        {{$est->nomeEstado}}
+      </option>
+      @else
+      <option value="{{$est->idestado}}">
+        {{$est->nomeEstado}}
+      </option>
+      @endif
+      @endforeach
+    </select>
+  </div>
+</div>
+
+<div class="col-lg-1 col-sm-1 col-xs-1">
  <div class="form-group">
-  <label>Estado</label>
-  <select name="idestado" class="form-control">
-    <span class="ob">*</span>
-
-    @foreach($estado as $est)
-
-    @if($est->idestado==$cidade->idestado)
-
-    <option value="{{$est->idestado}}" selected><!-- Aqui vai recuperar o objeto do banco -->
-      {{$est->nomeEstado}}
-    </option>
-    @else
-    <option value="{{$est->idestado}}">
-      {{$est->nomeEstado}}
-    </option>
-    @endif
-    @endforeach
-  </select>
+   <a href=/regiao/estado/create target="_blank"><button class="btn btn-primary" type="button" style="
+    position: absolute;
+    top:25px;
+    left: 0px;
+    "/> Novo estado </button></a>
   </div>
-  </div>
-
-  <div class="col-lg-1 col-sm-1 col-xs-1">
-         <div class="form-group">
-             <a href=/regiao/estado/create target="_blank"><button class="btn btn-primary" type="button" style="
-              position: absolute;
-              top:25px;
-              left: 0px;
-              "/> Novo estado </button></a>
-         </div>
-       </div>
+</div>
 
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

@@ -38,6 +38,7 @@
 <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
     <label for="rg">RG</label>
+    <span class="ob">*</span>
     <input type="text" name="rg" class="form-control" 
     value="{{ $cliente->rg }}"
     placeholder="RG">
@@ -87,7 +88,7 @@
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
   <label for="whatsapp">Whatsapp</label>
-  <input type="text" name="whatsapp" class="celualr form-control" 
+  <input type="text" name="whatsapp" class="celular form-control" 
   value="{{ $cliente->whatsapp }}"
   placeholder="Whatsapp">
 </div>
@@ -173,14 +174,14 @@
 </div>
 
 <div class="col-lg-1 col-sm-1 col-xs-1">
-         <div class="form-group">
-             <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
-              position: absolute;
-              top:25px;
-              left: 0px;
-              "/> Nova cidade </button></a>
-         </div>
-       </div>
+ <div class="form-group">
+   <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
+    position: absolute;
+    top:25px;
+    left: 0px;
+    "/> Nova cidade </button></a>
+  </div>
+</div>
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
  <div class="form-group">
@@ -196,11 +197,14 @@
 
 </div>
 
-<div class="col-lg-6 col-sm-6 col-xs-12">   
- <div class="form-group"><br>
-  <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/cliente';">Cancelar</button>  
 </div>
+
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
+  <div class="form-group"><br>
+    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+    <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>  
+    <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
+  </div> 
 </div>
 
 {!!Form::close()!!}		
