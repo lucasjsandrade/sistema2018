@@ -1,5 +1,7 @@
 <?php $__env->startSection('conteudo'); ?>
 
+
+
 <div class="row">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 		<h3>Alterar Orçamento: <?php echo e($orcamento->idvenda); ?></h3>
@@ -68,36 +70,56 @@
 			</select>
 		</div>                
 	</div>
-
-
-	
-
+	<!--
 	<div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
 		<div class="form-group">
-			<label>Observação</label>
-			<input type="text" name="observacao"  value="<?php echo e(old('Observação')); ?>" class="form-control" placeholder="Observação">
-		</div>
-	</div>
-	<div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-		<div class="form-group">
-			<label for="status">Status</label>
+			<label>itens</label>
 			<span class="ob">*</span>
-			<select name="status"  class="form-control">
-				<option value="<?php echo e($orcamento->status); ?>"><?php echo e($orcamento->status); ?></option>
-				<option value="ativo">Ativo</option> 
-				<option value="Inativo">Inativo</option>
+			<select name="idcliente" class="form-control">
+				<?php $__currentLoopData = $itensv; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itens): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+				<?php if($itens->iditensv==$orcamento->idvenda): ?>
+				<option value="<?php echo e($itens->iditensv); ?>" selected>
+					<?php echo e($itens->iditensv); ?>
 
+				</option>
+				<?php else: ?>
+				<option value="<?php echo e($itens->iditensv); ?>">
+					<?php echo e($itens->iditensv); ?>
+
+					<?php echo e($itens->quantidade); ?>
+
+					<?php echo e($itens->valorUnitario); ?>
+
+					
+				</option>
+				<?php endif; ?>
+				<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 			</select>
-
-		</div>
+		</div>                
 	</div>
 
-	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-		<div class="form-group">
-			<a href=/estoque/produto/create target="_blank"><button class="btn btn-primary" type="button">Novo Produto</button></a>
-		</div>
+-->
+
+<div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+	<div class="form-group">
+		<label for="status">Status</label>
+		<span class="ob">*</span>
+		<select name="status"  class="form-control">
+			<option value="<?php echo e($orcamento->status); ?>"><?php echo e($orcamento->status); ?></option>
+			<option value="ativo">Ativo</option> 
+			<option value="Inativo">Inativo</option>
+
+		</select>
 
 	</div>
+</div>
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+	<div class="form-group">
+		<a href=/estoque/produto/create target="_blank"><button class="btn btn-primary" type="button">Novo Produto</button></a>
+	</div>
+
+</div>
 </div>
 
 
@@ -185,17 +207,18 @@
 					<th>Total</th>
 				</thead>
 				<tfoot>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
+				<?php $__currentLoopData = $itensv; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itens): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+				<?php if($itens->idvenda == $orcamento->idvenda): ?>
+				<button id="itensv" value="<?php echo e($itensv); ?>" style="display: none;"></button>
+				<button id="idvenda" value="<?php echo e($orcamento->idvenda); ?>" style="display: none;"> 
+					<?php endif; ?>
+				<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+				
+				</tfoot>  
 
-					<td>
-						<input type="text" name="valorTotal" readonly id="total" class="form-control" style="width: 100px;">
-					</td>     
-				</tfoot>   
+				
+
+
 			</tfoot>
 		</table>
 	</div>
@@ -203,6 +226,7 @@
 </div>
 </div>
 </div>
+
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="salvar">
 	<div class="form-group">
 		<input name="_token" value= "<?php echo e(csrf_token()); ?>" type="hidden"> 
@@ -213,18 +237,49 @@
 
 
 </div>
+<script >
+	sessionStorage.setItem('chave', '$itensv');	
+
+	var dadosItensv = sessionStorage.getItem('chave');
+
+</script>
++
+
+
 
 <?php echo Form::close(); ?>  
 
 <?php $__env->startPush('scripts'); ?>
-<script>
 
+
+
+
+
+<script>
 	$(document).ready(function(){
 		$('#bt_add').click(function(){
 			adicionar();
 
 		});
+
+		var itensv = $('#itensv').val();
+		var itensv = JSON.parse(itensv);
+		var idvenda = parseInt($('#idvenda').val());
+
+		var itens = [];
+
+		console.log(itens);
+		for( i =0; i< itensv.length; i++){
+			var produtos = parseInt(itensv[i].idvenda);
+			if( produtos === idvenda ){
+				//console.log(itensv[i]);
+				var linha = '<tr class="selected" id="linha'+i+'">    <td> <button type="button" class="btn btn-warning" onclick="apagar('+i+');"> X </button></td>      <td> <input type="hidden" name="idproduto[]" value="'+itensv[i].idproduto+'">'+itensv[i].idproduto+'</td><td> <input type="number" name="pquantidade[]" value="'+itensv[i].quantidade+'"readonly></td> <td> <input type="number" name="pvalorUnitario[]" value="'+itensv[i].valorUnitario+'"readonly></td> <td> <input type="number" name="pmaodeobra[]" value="'+itensv[i].maodeobra+'"readonly></td> <td> <input type="number" name="pdesconto[]" value="'+itensv[i].desconto+'"readonly></td> <td> '+subtotal[cont]+' </td> </tr>'				
+
+				$('#detalhes').append(linha);
+			}
+		}
 	});
+
 
 	var cont=0;
 	total = 0;
@@ -239,6 +294,8 @@
 		$("#ppreco").val(dadosProdutos[2]);
 		$("#pqestoque").val(dadosProdutos[1]);
 	}
+
+
 
 	function adicionar(){
 		dadosProdutos=document.getElementById('pidproduto').value.split('_');

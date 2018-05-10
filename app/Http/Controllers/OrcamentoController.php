@@ -30,131 +30,133 @@ class OrcamentoController extends Controller
 
 			->select('o.idvenda','o.dataVenda', 'o.status','func.idfuncionario','func.nomeFuncionario','cli.idcliente','cli.nomeCliente')
             ->where('o.status','=','Aberta')
-			->where('o.idvenda','LIKE', '%'.$query.'%') 	
-			->orderBy('o.idvenda', 'desc')
-			->paginate(7);
+            ->where('o.idvenda','LIKE', '%'.$query.'%') 	
+            ->orderBy('o.idvenda', 'desc')
+            ->paginate(7);
 
 
-			return view('venda/orcamento.index', [
-				"venda"=>$venda, "searchText"=>$query
-			]);
-		}
-	}
-
-	public function create(){
-
-		$funcionario=DB::table('funcionario')
-		->where('status','=','Ativo')
-		->get();
-		$cliente=DB::table('cliente')		 
-		->where('status','=','Ativo')
-		->get();
-		$produto=DB::table('produto as pro')
-		
-		->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
-
-		->where('status','=','Ativo')
-		
-		->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
-		->get();
-
-		
-
-		return view("venda.orcamento.create",
-			["produto"=>$produto,"funcionario"=>$funcionario, "cliente"=>$cliente]);
-	}
-
-
-
-    public function store(orcamentoFormRequest $request){
-
-
-    	try{
-
-    		DB::beginTransaction();
-
-
-    		$orcamento = new venda;
-            $mytime = Carbon::now('America/Sao_Paulo'); 
-            $orcamento->dataVenda=$mytime->toDateTimeString();
-    		$orcamento->idcliente=$request->get('idcliente');			
-    		$orcamento->idfuncionario=$request->get('idfuncionario');	
-    		$orcamento->status='Aberta';
-    		$orcamento->origemVenda='Orçamento'; 
-
-    		$orcamento->save();
-
-
-    		$idproduto=$request->get('idproduto');
-    		$quantidade=$request->get('pquantidade');
-    		$valorUnitario=$request->get('pvalorUnitario');
-    		$desconto= $request->get('pdesconto');
-    		$maodeobra= $request->get('pmaodeobra');
-
-
-
-    		for( $cont= 0; $cont < count($idproduto); $cont++ ){
-    			$itens = new Itensv();
-    			$itens->idvenda=$orcamento->idvenda;
-    			$itens->desconto=$orcamento->idorcamento[$cont];
-    			$itens->idproduto=$idproduto[$cont];
-    			$itens->quantidade=$quantidade[$cont];
-    			$itens->desconto=$desconto[$cont];
-    			$itens->maodeobra=$maodeobra[$cont];
-    			$itens->valorUnitario=$valorUnitario[$cont];
-    			$itens->status='orcamento';
-
-    			$itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
-
-
-    			$itens->save();
-    		}
-
-
-    		DB::commit();
-
-    		return Redirect::to('/venda/orcamento');
-
-
-    	}catch(\Exception $e){
-    		echo "<script>alert('Erro ao salvar no BD!');</script>";
-
-    		DB::rollback();
-
-    		echo "<script>window.location = '/venda/orcamento';</script>"; 
-
-    	}
-
+            return view('venda/orcamento.index', [
+                "venda"=>$venda, "searchText"=>$query
+            ]);
+        }
     }
 
-    
-    public function edit($id){
+    public function create(){
 
-        $orcamento = Orcamento::findOrFail($id);
-        $produto = DB::table('produto')
-        ->get();
-        $funcionario = DB::table('funcionario')
-        ->get();
-        $cliente = DB::table('cliente')
-        ->get();    
+      $funcionario=DB::table('funcionario')
+      ->where('status','=','Ativo')
+      ->get();
+      $cliente=DB::table('cliente')		 
+      ->where('status','=','Ativo')
+      ->get();
+      $produto=DB::table('produto as pro')
 
-        $produto=DB::table('produto as pro')
-        ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
+      ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
 
-        ->where('status','=','Ativo')
-        
-        ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
-        ->get();
+      ->where('status','=','Ativo')
+
+      ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
+      ->get();
 
 
-        return view("venda.orcamento.edit",
-          ["orcamento"=>$orcamento, "produto"=>$produto, "funcionario"=>$funcionario,"cliente"=>$cliente]);
 
-    }
+      return view("venda.orcamento.create",
+       ["produto"=>$produto,"funcionario"=>$funcionario, "cliente"=>$cliente]);
+  }
 
-    public function update(OrcamentoFormRequest $request, $id){
-        $orcamento=Orcamento::findOrFail($id);
-        
+
+
+  public function store(orcamentoFormRequest $request){
+
+
+     try{
+
+      DB::beginTransaction();
+
+
+      $orcamento = new venda;
+      $mytime = Carbon::now('America/Sao_Paulo'); 
+      $orcamento->dataVenda=$mytime->toDateTimeString();
+      $orcamento->idcliente=$request->get('idcliente');			
+      $orcamento->idfuncionario=$request->get('idfuncionario');	
+      $orcamento->status='Aberta';
+      $orcamento->origemVenda='Orçamento'; 
+
+      $orcamento->save();
+
+
+      $idproduto=$request->get('idproduto');
+      $quantidade=$request->get('pquantidade');
+      $valorUnitario=$request->get('pvalorUnitario');
+      $desconto= $request->get('pdesconto');
+      $maodeobra= $request->get('pmaodeobra');
+
+
+      for( $cont= 0; $cont < count($idproduto); $cont++ ){
+       $itens = new Itensv();
+       $itens->idvenda=$orcamento->idvenda;
+       $itens->desconto=$orcamento->idorcamento[$cont];
+       $itens->idproduto=$idproduto[$cont];
+       $itens->quantidade=$quantidade[$cont];
+       $itens->desconto=$desconto[$cont];
+       $itens->maodeobra=$maodeobra[$cont];
+       $itens->valorUnitario=$valorUnitario[$cont];
+       $itens->status='orcamento';
+
+       $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+
+
+       $itens->save();
+   }
+
+
+   DB::commit();
+
+   return Redirect::to('/venda/orcamento');
+
+
+}catch(\Exception $e){
+  echo "<script>alert('Erro ao salvar no BD!');</script>";
+
+  DB::rollback();
+
+  echo "<script>window.location = '/venda/orcamento';</script>"; 
+
+}
+
+}
+
+
+public function edit($id){
+
+    $orcamento = Orcamento::findOrFail($id);
+    $produto = DB::table('produto')
+    ->get();
+    $funcionario = DB::table('funcionario')
+    ->get();
+    $cliente = DB::table('cliente')
+    ->get();    
+    $venda = DB::table('venda')
+    ->get();    
+    $itensv = DB::table('itensv')
+    ->get(); 
+    $produto=DB::table('produto as pro')
+    ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
+
+    ->where('status','=','Ativo')
+
+    ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
+    ->get();
+
+
+    return view("venda.orcamento.edit",
+      ["orcamento"=>$orcamento, "produto"=>$produto, "funcionario"=>$funcionario,"cliente"=>$cliente,"venda"=>$venda,"itensv"=>$itensv]);
+
+}
+
+public function update(OrcamentoFormRequest $request, $id){
+    $orcamento=Orcamento::findOrFail($id);
+
        /* 
         $orcamento->idorcamento=$request->get('idorcamento');
         $orcamento->idcliente=$request->get('idcliente');
@@ -174,7 +176,7 @@ class OrcamentoController extends Controller
 
 
 
-   public function show($id){
+    public function show($id){
 
         $venda=DB::table('venda as v')
         ->join('itensv as i', 'i.idvenda','=','v.idvenda')
@@ -199,8 +201,8 @@ class OrcamentoController extends Controller
         ->get();
 
 
-    	return view("venda/orcamento.show", 
-    		["venda"=>$venda, "itens"=>$itens]);
+        return view("venda/orcamento.show", 
+          ["venda"=>$venda, "itens"=>$itens]);
 
     }
 
