@@ -67,7 +67,7 @@
  <div class="form-group">
   <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/estado';">Cancelar</button>
-  
+  <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
 </div>   
 </div>
 

@@ -17,58 +17,59 @@
   <?php echo e(Form::token()); ?>
 
 
-<div class="col-lg-9 col-sm-9 col-xs-9">
-  <div class="form-group">
-   <label for="nome">Nome da Cidade</label>
-   <span class="ob">*</span>
-   <input type="text" name="nomeCidade" class="form-control" 
-   value="<?php echo e($cidade->nomeCidade); ?>"
-   placeholder="Nome cidade...">
+  <div class="col-lg-9 col-sm-9 col-xs-9">
+    <div class="form-group">
+     <label for="nome">Nome da Cidade</label>
+     <span class="ob">*</span>
+     <input type="text" name="nomeCidade" class="form-control" 
+     value="<?php echo e($cidade->nomeCidade); ?>"
+     placeholder="Nome cidade...">
+   </div>
  </div>
- </div>
 
 
 
-<div class="col-lg-9 col-sm-9 col-xs-9">
+ <div class="col-lg-9 col-sm-9 col-xs-9">
+   <div class="form-group">
+    <label>Estado</label>
+    <select name="idestado" class="form-control">
+      <span class="ob">*</span>
+
+      <?php $__currentLoopData = $estado; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $est): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+
+      <?php if($est->idestado==$cidade->idestado): ?>
+
+      <option value="<?php echo e($est->idestado); ?>" selected><!-- Aqui vai recuperar o objeto do banco -->
+        <?php echo e($est->nomeEstado); ?>
+
+      </option>
+      <?php else: ?>
+      <option value="<?php echo e($est->idestado); ?>">
+        <?php echo e($est->nomeEstado); ?>
+
+      </option>
+      <?php endif; ?>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+    </select>
+  </div>
+</div>
+
+<div class="col-lg-1 col-sm-1 col-xs-1">
  <div class="form-group">
-  <label>Estado</label>
-  <select name="idestado" class="form-control">
-    <span class="ob">*</span>
-
-    <?php $__currentLoopData = $estado; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $est): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-
-    <?php if($est->idestado==$cidade->idestado): ?>
-
-    <option value="<?php echo e($est->idestado); ?>" selected><!-- Aqui vai recuperar o objeto do banco -->
-      <?php echo e($est->nomeEstado); ?>
-
-    </option>
-    <?php else: ?>
-    <option value="<?php echo e($est->idestado); ?>">
-      <?php echo e($est->nomeEstado); ?>
-
-    </option>
-    <?php endif; ?>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-  </select>
+   <a href=/regiao/estado/create target="_blank"><button class="btn btn-primary" type="button" style="
+    position: absolute;
+    top:25px;
+    left: 0px;
+    "/> Novo estado </button></a>
   </div>
-  </div>
-
-  <div class="col-lg-1 col-sm-1 col-xs-1">
-         <div class="form-group">
-             <a href=/regiao/estado/create target="_blank"><button class="btn btn-primary" type="button" style="
-              position: absolute;
-              top:25px;
-              left: 0px;
-              "/> Novo estado </button></a>
-         </div>
-       </div>
+</div>
 
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
   <div class="form-group">
    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/cidade';">Cancelar</button>   
+   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/cidade';">Cancelar</button>
+   <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>   
  </div>
 </div>
 

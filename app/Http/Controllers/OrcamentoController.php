@@ -29,39 +29,39 @@ class OrcamentoController extends Controller
 			->join('cliente as cli', 'cli.idcliente', '=', 'o.idcliente')
 
 			->select('o.idvenda','o.dataVenda', 'o.status','func.idfuncionario','func.nomeFuncionario','cli.idcliente','cli.nomeCliente')
-            ->where('o.status','=','Aberta')
-            ->where('o.idvenda','LIKE', '%'.$query.'%') 	
-            ->orderBy('o.idvenda', 'desc')
-            ->paginate(7);
+      ->where('o.status','=','Aberta')
+      ->where('o.idvenda','LIKE', '%'.$query.'%') 	
+      ->orderBy('o.idvenda', 'desc')
+      ->paginate(7);
 
 
-            return view('venda/orcamento.index', [
-                "venda"=>$venda, "searchText"=>$query
-            ]);
-        }
+      return view('venda/orcamento.index', [
+        "venda"=>$venda, "searchText"=>$query
+      ]);
     }
+  }
 
-    public function create(){
+  public function create(){
 
-      $funcionario=DB::table('funcionario')
-      ->where('status','=','Ativo')
-      ->get();
-      $cliente=DB::table('cliente')		 
-      ->where('status','=','Ativo')
-      ->get();
-      $produto=DB::table('produto as pro')
+    $funcionario=DB::table('funcionario')
+    ->where('status','=','Ativo')
+    ->get();
+    $cliente=DB::table('cliente')		 
+    ->where('status','=','Ativo')
+    ->get();
+    $produto=DB::table('produto as pro')
 
-      ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
+    ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
 
-      ->where('status','=','Ativo')
+    ->where('status','=','Ativo')
 
-      ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
-      ->get();
+    ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
+    ->get();
 
 
 
-      return view("venda.orcamento.create",
-       ["produto"=>$produto,"funcionario"=>$funcionario, "cliente"=>$cliente]);
+    return view("venda.orcamento.create",
+     ["produto"=>$produto,"funcionario"=>$funcionario, "cliente"=>$cliente]);
   }
 
 
@@ -69,44 +69,44 @@ class OrcamentoController extends Controller
   public function store(orcamentoFormRequest $request){
 
 
-     try{
+   try{
 
-      DB::beginTransaction();
-
-
-      $orcamento = new venda;
-      $mytime = Carbon::now('America/Sao_Paulo'); 
-      $orcamento->dataVenda=$mytime->toDateTimeString();
-      $orcamento->idcliente=$request->get('idcliente');			
-      $orcamento->idfuncionario=$request->get('idfuncionario');	
-      $orcamento->status='Aberta';
-      $orcamento->origemVenda='Orçamento'; 
-
-      $orcamento->save();
+    DB::beginTransaction();
 
 
-      $idproduto=$request->get('idproduto');
-      $quantidade=$request->get('pquantidade');
-      $valorUnitario=$request->get('pvalorUnitario');
-      $desconto= $request->get('pdesconto');
-      $maodeobra= $request->get('pmaodeobra');
+    $orcamento = new venda;
+    $mytime = Carbon::now('America/Sao_Paulo'); 
+    $orcamento->dataVenda=$mytime->toDateTimeString();
+    $orcamento->idcliente=$request->get('idcliente');			
+    $orcamento->idfuncionario=$request->get('idfuncionario');	
+    $orcamento->status='Aberta';
+    $orcamento->origemVenda='Orçamento'; 
+
+    $orcamento->save();
 
 
-      for( $cont= 0; $cont < count($idproduto); $cont++ ){
-       $itens = new Itensv();
-       $itens->idvenda=$orcamento->idvenda;
-       $itens->desconto=$orcamento->idorcamento[$cont];
-       $itens->idproduto=$idproduto[$cont];
-       $itens->quantidade=$quantidade[$cont];
-       $itens->desconto=$desconto[$cont];
-       $itens->maodeobra=$maodeobra[$cont];
-       $itens->valorUnitario=$valorUnitario[$cont];
-       $itens->status='orcamento';
-
-       $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+    $idproduto=$request->get('idproduto');
+    $quantidade=$request->get('pquantidade');
+    $valorUnitario=$request->get('pvalorUnitario');
+    $desconto= $request->get('pdesconto');
+    $maodeobra= $request->get('pmaodeobra');
 
 
-       $itens->save();
+    for( $cont= 0; $cont < count($idproduto); $cont++ ){
+     $itens = new Itensv();
+     $itens->idvenda=$orcamento->idvenda;
+     $itens->desconto=$orcamento->idorcamento[$cont];
+     $itens->idproduto=$idproduto[$cont];
+     $itens->quantidade=$quantidade[$cont];
+     $itens->desconto=$desconto[$cont];
+     $itens->maodeobra=$maodeobra[$cont];
+     $itens->valorUnitario=$valorUnitario[$cont];
+     $itens->status='orcamento';
+
+     $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+
+
+     $itens->save();
    }
 
 
@@ -115,7 +115,7 @@ class OrcamentoController extends Controller
    return Redirect::to('/venda/orcamento');
 
 
-}catch(\Exception $e){
+ }catch(\Exception $e){
   echo "<script>alert('Erro ao salvar no BD!');</script>";
 
   DB::rollback();
@@ -129,92 +129,124 @@ class OrcamentoController extends Controller
 
 public function edit($id){
 
-    $orcamento = Orcamento::findOrFail($id);
-    $produto = DB::table('produto')
-    ->get();
-    $funcionario = DB::table('funcionario')
-    ->get();
-    $cliente = DB::table('cliente')
-    ->get();    
-    $venda = DB::table('venda')
-    ->get();    
-    $itensv = DB::table('itensv')
-    ->get(); 
-    $produto=DB::table('produto as pro')
-    ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
+  $orcamento = Orcamento::findOrFail($id);
+  $produto = DB::table('produto')
+  ->get();
+  $funcionario = DB::table('funcionario')
+  ->get();
+  $cliente = DB::table('cliente')
+  ->get();    
+  $venda = DB::table('venda')
+  ->get();    
+  $itensv = DB::table('itensv')
+  ->get(); 
+  $produto=DB::table('produto as pro')
+  ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
 
-    ->where('status','=','Ativo')
+  ->where('status','=','Ativo')
 
-    ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
-    ->get();
+  ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
+  ->get();
 
 
-    return view("venda.orcamento.edit",
-      ["orcamento"=>$orcamento, "produto"=>$produto, "funcionario"=>$funcionario,"cliente"=>$cliente,"venda"=>$venda,"itensv"=>$itensv]);
+  return view("venda.orcamento.edit",
+    ["produto"=>$produto, "orcamento"=>$orcamento, "funcionario"=>$funcionario,"cliente"=>$cliente,"venda"=>$venda,"itensv"=>$itensv]);
 
 }
 
-public function update(OrcamentoFormRequest $request, $id){
-    $orcamento=Orcamento::findOrFail($id);
+public function update(orcamentoFormRequest $request, $id){
+ try{
+  DB::beginTransaction();
 
-       /* 
-        $orcamento->idorcamento=$request->get('idorcamento');
-        $orcamento->idcliente=$request->get('idcliente');
-        $orcamento->status=$request->get('status');
-        $orcamento->observacao=$request->get('observacao');
-        $orcamento->maodeobra=$request->get('maodeobra');
-        */
+  $orcamento = Orcamento::findOrFail($id);
+
+  $usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();
 
 
-        $orcamento->update();
+  $idproduto   =$request->get('idproduto');
+  $idvenda      =$request->get('idvenda');   
+  $quantidade      =$request->get('quantidade');   //chegando array ok
+  $desconto      =$request->get('desconto');   //chegando array ok
+  $maodeobra      =$request->get('maodeobra');   //chegando array ok
+  $valorUnitario      =$request->get('valorUnitario');   //chegando array ok
+  
+
+/* dd($status);
+ echo $status;
+ die();
+  */
 
 
-        return Redirect::to('venda/orcamento');
-    }
+  $cont = 0;
+  while($cont < count($desconto)){
+    $itens = new Itensv();
+    $itens->idvenda=$orcamento->idvenda;
+   // $itens->idproduto=$idproduto[$cont];
+    $itens->idproduto=25;
+    $itens->desconto=$orcamento->desconto[$cont];    
+    $itens->quantidade=$quantidade[$cont];
+    $itens->desconto=$desconto[$cont];
+    $itens->maodeobra=$maodeobra[$cont];
+    $itens->valorUnitario=$valorUnitario[$cont];
+    $itens->status='orcamento';
+    $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+    
+    $itens->save();
+    $cont=$cont+1;
+
+  }
+  DB::commit();
+
+}catch(Exception $e){
+  DB::rollback();
+}
+
+return Redirect::to('venda/orcamento');
+}
 
 
 
 
 
-    public function show($id){
+public function show($id){
 
-        $venda=DB::table('venda as v')
-        ->join('itensv as i', 'i.idvenda','=','v.idvenda')
-        ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
-        ->join('funcionario as fun', 'fun.idfuncionario','=','v.idfuncionario')
-        ->join('cliente as cli', 'cli.idcliente', '=', 
-            'v.idcliente')
+  $venda=DB::table('venda as v')
+  ->join('itensv as i', 'i.idvenda','=','v.idvenda')
+  ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
+  ->join('funcionario as fun', 'fun.idfuncionario','=','v.idfuncionario')
+  ->join('cliente as cli', 'cli.idcliente', '=', 
+    'v.idcliente')
 
-        ->select('fun.idfuncionario','cli.idcliente','cli.nomeCliente','v.dataVenda','fun.nomeFuncionario','fun.nomeFuncionario','v.status','pro.modelo','pro.unidadeMedida','v.idvenda','i.quantidade','i.valorUnitario','i.valorTotal',DB::raw('sum((i.quantidade*i.valorUnitario))as total'))
-        ->where('v.idvenda', '=', $id )
-
-
-        ->groupBy('i.iditensv','fun.idfuncionario','cli.idcliente','v.dataVenda','fun.nomeFuncionario','cli.nomeCliente','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.status','v.idvenda')
-        ->first();  
-
-        $itens=DB::table('itensv as i')
-
-        ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
-        ->join('venda as v', 'i.idvenda','=','v.idvenda')
-        ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','v.valorTotal')
-        ->where('v.idvenda', '=',$id)
-        ->get();
+  ->select('fun.idfuncionario','cli.idcliente','cli.nomeCliente','v.dataVenda','fun.nomeFuncionario','fun.nomeFuncionario','v.status','pro.modelo','pro.unidadeMedida','v.idvenda','i.quantidade','i.valorUnitario','i.valorTotal',DB::raw('sum((i.quantidade*i.valorUnitario))as total'))
+  ->where('v.idvenda', '=', $id )
 
 
-        return view("venda/orcamento.show", 
-          ["venda"=>$venda, "itens"=>$itens]);
+  ->groupBy('i.iditensv','fun.idfuncionario','cli.idcliente','v.dataVenda','fun.nomeFuncionario','cli.nomeCliente','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.status','v.idvenda')
+  ->first();  
 
-    }
+  $itens=DB::table('itensv as i')
 
-    public function destroy($id){
-    	$orcamento=venda::findOrFail($id);
-    	
-    	$orcamento->status = 'Cancelado';
+  ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
+  ->join('venda as v', 'i.idvenda','=','v.idvenda')
+  ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','v.valorTotal')
+  ->where('v.idvenda', '=',$id)
+  ->get();
+
+
+  return view("venda/orcamento.show", 
+    ["venda"=>$venda, "itens"=>$itens]);
+
+}
+
+public function destroy($id){
+ $orcamento=venda::findOrFail($id);
+
+ $orcamento->status = 'Cancelado';
 
     	//$itensv->delete();
-    	$orcamento->update();
+ $orcamento->update();
 
-    	return Redirect::to('venda/orcamento');
-    }
+ return Redirect::to('venda/orcamento');
+}
 }
 

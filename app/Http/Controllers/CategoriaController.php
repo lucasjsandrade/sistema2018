@@ -100,7 +100,7 @@ public function destroy($id){
     $categoria=Categoria::findOrFail($id);    
     $categoria->delete();
     $categoria->update();
-    return Redirect::to('regiao/pais');
+    return Redirect::to('estoque/categoria');
   }
 
   catch (\Exception $Exception ){

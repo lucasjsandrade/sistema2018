@@ -42,8 +42,7 @@
   <div class="form-group">
    <label for="cpf">CPF</label>
    <span class="ob">*</span>
-   <input type="text" name="cpf" required value="{{old('cpf')}}" 
-   class="cpf form-control" placeholder="Informe o CPF">
+   <input type="text" name="cpf" required class="cpf form-control" placeholder="Informe o CPF">
  </div>
 </div>
 

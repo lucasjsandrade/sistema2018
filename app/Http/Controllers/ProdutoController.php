@@ -26,7 +26,7 @@ class ProdutoController extends Controller
             ->join('marca as m', 'm.codigo', '=', 
                 'p.codigo')
             ->select('p.idproduto', 'p.modelo', 
-               'p.cor','p.material','p.unidadeMedida','p.quantidade','p.preco','p.custo','p.status','p.dataCadastro','c.nome as categoria','m.nome as marca')
+             'p.cor','p.material','p.unidadeMedida','p.quantidade','p.preco','p.custo','p.status','p.dataCadastro','c.nome as categoria','m.nome as marca')
             ->where('p.modelo', 'LIKE', '%'.$query.'%') 
             ->orwhere('C.nome', 'LIKE', '%'.$query.'%') 
             
@@ -114,7 +114,7 @@ public function update(ProdutoFormRequest $request, $id){
     $produto->cor=$request->get('cor');
     $produto->material=$request->get('material');
     $produto->unidadeMedida=$request->get('unidadeMedida');
-    $produto->status=$request->get('status');
+    $produto->status='Ativo';
     $produto->preco=$request->get('preco');
     $produto->modelo=$request->get('modelo');
     
@@ -148,15 +148,15 @@ catch(\Exception $Exception){
     $produto=Produto::findOrFail($id);
     DB::rollback();
     if ($produto->quantidade!== 0) {
-     echo "<script>alert('Não é possivel excluir um produto que possua estoque');</script>";
-     echo "<script>window.location = '/estoque/produto';</script>";
+       echo "<script>alert('Não é possivel excluir um produto que possua estoque');</script>";
+       echo "<script>window.location = '/estoque/produto';</script>";
 
- }else{
+   }else{
 
 
     echo "<script>alert('Produto tem uma movimentacao nao pode ser excluido!');</script>"; 
     
-   
+    
 
 
 }

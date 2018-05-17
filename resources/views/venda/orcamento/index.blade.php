@@ -22,12 +22,12 @@
 					<th>Opções</th>					
 				</thead>
 
-				 <?php
-			        function converteData($data)
-			        {
-			          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
-			        }
-			      ?>
+				<?php
+				function converteData($data)
+				{
+					return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+				}
+				?>
 
 				@foreach ($venda as $o)
 				<tr>
@@ -40,7 +40,7 @@
 					<td>
 						<a href="{{URL::action('orcamentoController@show',$o->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>						 
 						<a href="{{URL::action('orcamentoController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-info">Alterar</button></a>
-						 
+
 					</td>
 				</tr>
 

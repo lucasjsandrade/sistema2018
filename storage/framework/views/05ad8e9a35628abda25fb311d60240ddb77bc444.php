@@ -36,13 +36,13 @@
 </div>
 
 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-1">
-         <div class="form-group">
-             <a href=/estoque/categoria/create target="_blank"><button class="btn btn-primary" type="button" style="
-              position: absolute;
-              top:25px;
-              left: 0px;
-              "/>Nova categoria</button></a>
-         </div>
+ <div class="form-group">
+   <a href=/estoque/categoria/create target="_blank"><button class="btn btn-primary" type="button" style="
+    position: absolute;
+    top:25px;
+    left: 0px;
+    "/>Nova categoria</button></a>
+  </div>
 </div>
 
 <div class="col-lg-4 col-sm-4 col-xs-12">
@@ -60,14 +60,14 @@
   </div>
 </div>
 
-  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-1">
-         <div class="form-group">
-             <a href=/estoque/marca/create target="_blank"><button class="btn btn-primary" type="button" style="
-              position: absolute;
-              top:25px;
-              left: 0px;
-              "/>Nova marca</button></a>
-         </div>
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1">
+ <div class="form-group">
+   <a href=/estoque/marca/create target="_blank"><button class="btn btn-primary" type="button" style="
+    position: absolute;
+    top:25px;
+    left: 0px;
+    "/>Nova marca</button></a>
+  </div>
 </div>  
 
 <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -123,10 +123,11 @@
 
 </div>
 
-<div class="col-lg-6 col-sm-6 col-xs-12"> 
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
   <div class="form-group"><br>
     <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-    <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>     
+    <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button> 
+    <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>    
   </div>
 </div>
 <?php echo Form::close(); ?>           

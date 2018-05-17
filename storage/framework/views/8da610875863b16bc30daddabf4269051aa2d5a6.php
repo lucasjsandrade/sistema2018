@@ -21,12 +21,12 @@
 					<th>Opções</th>					
 				</thead>
 
-				 <?php
-			        function converteData($data)
-			        {
-			          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
-			        }
-			      ?>
+				<?php
+				function converteData($data)
+				{
+					return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+				}
+				?>
 
 				<?php $__currentLoopData = $venda; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $o): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 				<tr>
@@ -39,7 +39,7 @@
 					<td>
 						<a href="<?php echo e(URL::action('orcamentoController@show',$o->idvenda)); ?>"><button class="btn btn-info">Detalhe</button></a>						 
 						<a href="<?php echo e(URL::action('orcamentoController@edit',$o->idvenda)); ?>"><button type="submit" class="btn btn-info">Alterar</button></a>
-						 
+
 					</td>
 				</tr>
 

@@ -19,6 +19,7 @@
   <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">  
     <div class="form-group">
      <label for="nomeCidade">Nome Cidade</label>
+     <span class="ob">*</span>
      <input type="text" name="nomeCidade" class="form-control" placeholder="Nome...">
    </div>  
  </div>          
@@ -26,6 +27,7 @@
  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">      
   <div class="form-group">
    <label>Estado</label>
+   <span class="ob">*</span>
    <select name="idestado" class="form-control">
     @foreach($estado as $est)
     <option value="{{$est->idestado}}">
@@ -49,7 +51,8 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">      
   <div class="form-group">
    <button class="btn btn-primary" type="submit">Confirmar</button>
-   <button class="btn btn-danger" type="reset">Cancelar</button>            	
+   <button class="btn btn-danger" type="reset">Cancelar</button>         
+   <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>   	
  </div>
 </div>
 

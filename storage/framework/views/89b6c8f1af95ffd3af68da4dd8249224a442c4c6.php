@@ -123,7 +123,7 @@
     </div>
   </div>
 
-  <div class="col-lg-6 col-sm-6 col-xs-12">
+  <div class="col-lg-4 col-sm-4 col-xs-12">
     <div class="form-group">
       <label>Cidade</label>
       <span class="ob">*</span>
@@ -145,31 +145,37 @@
     </div>                
   </div>
 
-  
+  <div class="col-lg-1 col-sm-1 col-xs-1">
+   <div class="form-group">
+     <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
+      position: absolute;
+      top:25px;
+      left: 0px;
+      "/> Nova cidade </button></a>
+    </div>
+  </div>
+
+  <div class="col-lg-6 col-sm-6 col-xs-12">
+   <div class="form-group">
+    <label for="status">Status</label>
+    <span class="ob">*</span>
+    <select name="status"  class="form-control">
+      <option value="<?php echo e($fornecedor->status); ?>"><?php echo e($fornecedor->status); ?></option>
+      <option value="ativo">Ativo</option> 
+      <option value="Inativo">Inativo</option>
+    </select>
+  </div>
 </div>
 
-<div class="col-lg-6 col-sm-6 col-xs-12">
- <div class="form-group">
-  <label for="status">Status</label>
-  <span class="ob">*</span>
-  <select name="status"  class="form-control">
-    <option value="<?php echo e($fornecedor->status); ?>"><?php echo e($fornecedor->status); ?></option>
-    <option value="ativo">Ativo</option> 
-    <option value="Inativo">Inativo</option>
 
-  </select>
-
-</div>
-
-
-<div class="form-group">
-  <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-  <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/fornecedor';">Cancelar</button>
-  <button class="btn btn-primary" type="button" onclick="javascript: location.href='/regiao/cidade';" style="
-  "/>Nova cidade</button>
-</div>
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
+  <div class="form-group"><br>
+    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+    <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>  
+    <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
+  </div> 
 </div>
 <?php echo Form::close(); ?>   
-
+</div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

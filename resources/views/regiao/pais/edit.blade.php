@@ -12,27 +12,42 @@
 			</ul>
 		</div>
 		@endif
-
+</div>
+</div>
 		{!!Form::model($pais, ['method'=>'PATCH', 'route'=>['pais.update', $pais->idpais]])!!}
 		{{Form::token()}}
 
-		<div class="form-group">
-			<label for="nomePais">Nome</label>
-			<input type="text" name="nomePais" class="form-control" 
-			value="{{ $pais->nomePais }}"
-			placeholder="Nomes...">
-		</div>
+		<div class="row">
 
-		<div class="form-group">
-			<label for="nome">Sigla</label>
-			<input type="text" name="sigla" class="form-control" 
-			value="{{ $pais->sigla }}"
-			placeholder="Sigla...">
-		</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group">
+					<label for="nomePais">Nome</label>
+					<span class="ob">*</span>
+					<input type="text" name="nomePais" class="form-control" 
+					value="{{ $pais->nomePais }}"
+					placeholder="Nomes...">
+				</div>
+			</div>
 
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+				<div class="form-group">
+					<label for="nome">Sigla</label>
+					
+					<input type="text" name="sigla" class="form-control" 
+					value="{{ $pais->sigla }}"
+					placeholder="Sigla...">
+				</div>
+
+			</div>
+
+		
+
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="form-group">
 			<button class="btn btn-success" type="submity">Confirmar</button>
 			<button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/pais';">Cancelar</button>
+			<label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
 		</div>
 
 		{!!Form::close()!!}		

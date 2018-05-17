@@ -1,6 +1,6 @@
 <div class="modal fade modal-slide-in-right" aria-hidden="true"
-role="dialog" tabindex="-1" id="modal-delete-{{$orcamento->idvenda}}">
-	{{Form::Open(array('action'=>array('orcamentoController@destroy',$orcamento->idvenda),'method'=>'delete'))}}
+role="dialog" tabindex="-1" id="modal-delete-{{$o->idvenda}}">
+	{{Form::Open(array('action'=>array('orcamentoController@destroy',$o->idvenda),'method'=>'delete'))}}
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

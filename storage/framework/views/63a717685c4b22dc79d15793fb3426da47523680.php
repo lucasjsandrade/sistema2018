@@ -39,37 +39,40 @@
  </div>
 
  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12"> 
- <div class="form-group">
-  <label>Pais</label>
-  <span class="ob">*</span>
-  <select name="idpais" class="form-control">
-    <?php $__currentLoopData = $pais; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pai): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-    <option value="<?php echo e($pai->idpais); ?>">
-      <?php echo e($pai->nomePais); ?>
+   <div class="form-group">
+    <label>Pais</label>
+    <span class="ob">*</span>
+    <select name="idpais" class="form-control">
+      <?php $__currentLoopData = $pais; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pai): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+      <option value="<?php echo e($pai->idpais); ?>">
+        <?php echo e($pai->nomePais); ?>
 
-    </option>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-  </select>
-</div>
+      </option>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+    </select>
+  </div>
 </div>
 
 
 <div class="col-lg-1 col-sm-1 col-xs-1">
-         <div class="form-group">
-             <a href=/regiao/pais/create target="_blank"><button class="btn btn-primary" type="button" style="
-              position: absolute;
-              top:25px;
-              left: 0px;
-              "/>  Novo pais </button></a>
-         </div>
-       </div>
+ <div class="form-group">
+   <a href=/regiao/pais/create target="_blank"><button class="btn btn-primary" type="button" style="
+    position: absolute;
+    top:25px;
+    left: 0px;
+    "/>  Novo pais </button></a>
+  </div>
+</div>
 
- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <div class="form-group">
-     <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-     <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/estado';">Cancelar</button>    
-    </div>
+</div>
+
+<div class="col-lg12 col-md-12 col-sm-12 col-xs-12">
+  <div class="form-group">
+   <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/regiao/estado';">Cancelar</button>   
+   <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label> 
  </div>
+</div>
 
 
 <?php echo Form::close(); ?>		

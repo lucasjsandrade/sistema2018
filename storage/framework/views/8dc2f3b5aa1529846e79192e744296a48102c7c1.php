@@ -20,17 +20,18 @@
 
 <div class="row">
 
-<div class="col-lg-6 col-sm-6 col-xs-12">
-  <div class="form-group">
-   <label for="nomeCliente">Nome do cliente</label>
-   <span class="ob">*</span>
-   <input type="text" name="nomeCliente" required value="<?php echo e(old('nomeCliente')); ?>" class="form-control" placeholder="Nome do Cliente">
+  <div class="col-lg-6 col-sm-6 col-xs-12">
+    <div class="form-group">
+     <label for="nomeCliente">Nome do cliente</label>
+     <span class="ob">*</span>
+     <input type="text" name="nomeCliente" required value="<?php echo e(old('nomeCliente')); ?>" class="form-control" placeholder="Nome do Cliente">
+   </div>
  </div>
-</div>
 
-<div class="col-lg-6 col-sm-6 col-xs-12">
+ <div class="col-lg-6 col-sm-6 col-xs-12">
   <div class="form-group">
    <label for="rg">RG</label>
+   <span class="ob">*</span>
    <input type="text" name="rg"  value="<?php echo e(old('rg')); ?>"class="form-control" placeholder="RG">
  </div>
 </div>
@@ -41,8 +42,7 @@
   <div class="form-group">
    <label for="cpf">CPF</label>
    <span class="ob">*</span>
-   <input type="text" name="cpf" required value="<?php echo e(old('cpf')); ?>" 
-   class="cpf form-control" placeholder="Informe o CPF">
+   <input type="text" name="cpf" required class="cpf form-control" placeholder="Informe o CPF">
  </div>
 </div>
 
@@ -157,19 +157,24 @@
 </div>
 
 <div class="col-lg-1 col-sm-1 col-xs-1">
-         <div class="form-group">
-             <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
-              position: absolute;
-              top:25px;
-              left: 0px;
-              "/> Nova cidade </button></a>
-         </div>
-       </div>
+ <div class="form-group">
+   <a href=/regiao/cidade/create target="_blank"><button class="btn btn-primary" type="button" style="
+    position: absolute;
+    top:25px;
+    left: 0px;
+    "/> Nova cidade </button></a>
+  </div>
+</div>
 </div>
 
-<div class="form-group">
- <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
- <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pessoa/cliente';">Cancelar</button> 
+</div>
+
+<div class="col-lg-12 col-sm-12 col-xs-12"> 
+  <div class="form-group"><br>
+    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+    <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/estoque/produto';">Cancelar</button>  
+    <label class="pull-right">Campo com '<span class="ob">*</span>' obrigatório</label>
+  </div> 
 </div>
 
 
