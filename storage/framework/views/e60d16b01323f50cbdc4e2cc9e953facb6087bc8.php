@@ -68,17 +68,6 @@
       </select>
     </div>                
   </div>
-  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-    <div class="form-group">
-      <label for="status">Status</label>
-      <span class="ob">*</span>
-      <select name="status"  class="form-control">
-        <option value="<?php echo e($orcamento->status); ?>"><?php echo e($orcamento->status); ?></option>
-      </select>
-
-    </div>
-  </div>
-
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     <div class="form-group">
       <a href=/estoque/produto/create target="_blank"><button class="btn btn-primary" type="button">Novo Produto</button></a>
@@ -171,7 +160,19 @@
 
            <th>Total</th>
          </thead>
-         <tbody>
+         <tfoot>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+          <td>
+            <input type="text" name="valorTotal" readonly id="total" class="form-control" style="width: 100px;">
+          </td>     
+        </tfoot>   
+        <tbody>
           <script type="text/javascript">
            var cont = 0;
            var total = 0;
@@ -200,6 +201,9 @@
        </td> 
        <td>
         <input class="form-control" name="desconto[]" value="<?php echo e($itens->desconto); ?>">
+      </td> 
+      <td>
+        <input class="form-control" name="valorTotal[]" value="<?php echo e($itens->valorTotal); ?>">
       </td> 
 
     </tr>
@@ -265,6 +269,7 @@ function adicionar(){
   var maodeobra = '';
   var desconto = '';
   var estoque = '';
+  var valorTotal = '';
 
   produto=$("#idproduto").val();
   quantidade=$("#pquantidade").val();
@@ -272,21 +277,30 @@ function adicionar(){
   maodeobra=$("#pmaodeobra").val();
   desconto=$("#pdesconto").val();
   estoque=$("#pqestoque").val();
+  valorTotal=$("#total").val();
 
 
       //Verificar if de adicionar linha se a linha anterior estiver em branco
       if(quantidade !=="" && produto !== ""){
 
-        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-danger" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td><td><input class="form-control" name="produto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td></tr>';
+        $subi=maodeobra-desconto;
+        subtotal[cont]=((quantidade*valorUnitario)+$subi);
+        total = total + subtotal[cont];
+
+        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-danger" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td><td><input class="form-control" name="idproduto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td><td><input class="form-control" name="valorTotal[]" value="'+valorTotal+'"></td></tr>';
         cont++;
+        
         limpar();
-        $("#total").html("R$: " + total);
+        $("#total").val(total);
         $('#detalhes').append(linha);
 
       }else{
         alert("Erro ao inserir os produtos, preencha os campos corretamente!");
       }
     }
+
+    total=0;
+
     function mostrarValores(){
       dadosProdutos=document.getElementById('pidproduto').value.split('_');
       $("#ppreco").val(dadosProdutos[2]);
@@ -301,14 +315,14 @@ function adicionar(){
    }
 
    function apagar(index){
-  
-      $("#linha" + index).remove();
-      cont--;
-      
-  }
+     $("#total").val(total);
+     $("#linha" + index).remove();
+     cont--;
 
-</script>
+   }
 
-<?php $__env->stopPush(); ?>
-<?php $__env->stopSection(); ?>
+ </script>
+
+ <?php $__env->stopPush(); ?>
+ <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

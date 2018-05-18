@@ -108,6 +108,7 @@
 
              <td><?php echo e($det->valorUnitario); ?></td>
              <td><?php echo e($det->valorTotal); ?></td>
+             
                                                         
            </tr>
            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>

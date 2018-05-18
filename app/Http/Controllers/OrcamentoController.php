@@ -92,6 +92,8 @@ class OrcamentoController extends Controller
     $maodeobra= $request->get('pmaodeobra');
 
 
+
+
     for( $cont= 0; $cont < count($idproduto); $cont++ ){
      $itens = new Itensv();
      $itens->idvenda=$orcamento->idvenda;
@@ -103,10 +105,11 @@ class OrcamentoController extends Controller
      $itens->valorUnitario=$valorUnitario[$cont];
      $itens->status='orcamento';
 
-     $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
-
+     
+     $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
 
      $itens->save();
+
    }
 
 
@@ -116,13 +119,13 @@ class OrcamentoController extends Controller
 
 
  }catch(\Exception $e){
-  echo "<script>alert('Erro ao salvar no BD!');</script>";
+   echo "<script>alert('Erro ao salvar no BD!');</script>";
 
-  DB::rollback();
+   DB::rollback();
 
-  echo "<script>window.location = '/venda/orcamento';</script>"; 
+   echo "<script>window.location = '/venda/orcamento';</script>"; 
 
-}
+ }
 
 }
 
@@ -158,12 +161,22 @@ public function update(orcamentoFormRequest $request, $id){
  try{
   DB::beginTransaction();
 
+  $orcamento=venda::findOrFail($id);
+  $mytime = Carbon::now('America/Sao_Paulo'); 
+  $orcamento->dataVenda=$mytime->toDateTimeString();
+  $orcamento->idcliente=$request->get('idcliente');     
+  $orcamento->idfuncionario=$request->get('idfuncionario'); 
+  $orcamento->status='Aberta';
+  $orcamento->origemVenda='Orçamento'; 
+
+  $orcamento->update();
+
   $orcamento = Orcamento::findOrFail($id);
 
   $usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();
 
 
-  $idproduto   =$request->get('idproduto');
+  $produto   =$request->get('idproduto');
   $idvenda      =$request->get('idvenda');   
   $quantidade      =$request->get('quantidade');   //chegando array ok
   $desconto      =$request->get('desconto');   //chegando array ok
@@ -171,26 +184,23 @@ public function update(orcamentoFormRequest $request, $id){
   $valorUnitario      =$request->get('valorUnitario');   //chegando array ok
   
 
-/* dd($status);
- echo $status;
- die();
-  */
+
+  
 
 
   $cont = 0;
   while($cont < count($desconto)){
     $itens = new Itensv();
     $itens->idvenda=$orcamento->idvenda;
-   // $itens->idproduto=$idproduto[$cont];
-    $itens->idproduto=25;
+    $itens->idproduto=$produto[$cont];
     $itens->desconto=$orcamento->desconto[$cont];    
     $itens->quantidade=$quantidade[$cont];
     $itens->desconto=$desconto[$cont];
     $itens->maodeobra=$maodeobra[$cont];
     $itens->valorUnitario=$valorUnitario[$cont];
     $itens->status='orcamento';
-    $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
-    
+    $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
+
     $itens->save();
     $cont=$cont+1;
 
@@ -228,10 +238,13 @@ public function show($id){
 
   ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
   ->join('venda as v', 'i.idvenda','=','v.idvenda')
-  ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','v.valorTotal')
+  ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto',DB::raw('sum(((i.valorUnitario*i.quantidade)+i.maodeobra)-i.desconto)as valorFinal'))
+  
   ->where('v.idvenda', '=',$id)
-  ->get();
+//DB::raw('sum(((quantidade*valorUnitario)+maodeobra)-desconto) as somaFinal')
 
+  ->groupBy('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto') 
+  ->get();
 
   return view("venda/orcamento.show", 
     ["venda"=>$venda, "itens"=>$itens]);

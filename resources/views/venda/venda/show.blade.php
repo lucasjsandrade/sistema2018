@@ -109,6 +109,7 @@
 
              <td>{{$det->valorUnitario}}</td>
              <td>{{$det->valorTotal}}</td>
+             
                                                         
            </tr>
            @endforeach
