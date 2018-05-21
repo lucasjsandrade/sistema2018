@@ -201,6 +201,8 @@
         <input class="form-control" name="valorTotal[]" value="{{$itens->valorTotal}}">
       </td> 
 
+      
+
     </tr>
     <script type='text/javascript'>cont++;</script> 
     @php
