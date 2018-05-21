@@ -10,26 +10,36 @@
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-condensed table-hover">
-				<thead>					
-					<th>Data</th>					
+				<thead>
+					
+					<th>Data</th>
+					
 					<th>Numero da Venda</th>
 					<th>ID:Fucionario</th>
-					<th>ID:Cliente</th>  
-					<th>status</th>					
+					<th>ID:Cliente</th>
+                    <!--<th>Produto</th>
+                    
+					<th>Quantidade</th>
+					<th>Valor Unitario</th> -->
+					
+					
+					<th>status</th>
+					<!--<th>Forma Pagamento</th>
+					<th>Condicao Pagamento</th> -->
+
 					<th>Total</th>
-					<th>Opções</th>					
+
+					<th>Opções</th>
+					
+					
+					
 				</thead>
 
-				 <?php
-			        function converteData($data)
-			        {
-			          return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
-			        }
-			      ?>
+				
 
 				<?php $__currentLoopData = $venda; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $v): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 				<tr>
-					<td><?php echo e(converteData ($v->dataVenda)); ?></td>
+					<td><?php echo e($v->dataVenda); ?></td>
 					<td><?php echo e($v->idvenda); ?></td>					
 					<td><?php echo e($v->idfuncionario); ?></td>					
 					<td><?php echo e($v->idcliente); ?></td>					
@@ -47,7 +57,8 @@
 
 					<td>
 						<a href="<?php echo e(URL::action('VendaController@show',$v->idvenda)); ?>"><button class="btn btn-info">Detalhe</button></a>
-						</td>
+						
+						
 
 
 				</tr>

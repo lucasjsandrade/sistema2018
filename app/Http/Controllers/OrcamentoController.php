@@ -2,7 +2,7 @@
 namespace sistemaLaravel\Http\Controllers;
 use Carbon\Carbon;
 use DB;
-use sistemaLaravel\venda;
+use sistemaLaravel\Venda;
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\Redirect;
 use Response;
@@ -107,6 +107,7 @@ class OrcamentoController extends Controller
 
      
      $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
+
 
      $itens->save();
 
@@ -238,14 +239,17 @@ public function show($id){
 
   ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
   ->join('venda as v', 'i.idvenda','=','v.idvenda')
-  ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto',DB::raw('sum(((i.valorUnitario*i.quantidade)+i.maodeobra)-i.desconto)as valorFinal'))
-  
-  ->where('v.idvenda', '=',$id)
+  ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto',DB::raw('sum(i.valorTotal) as valorFinal'))
+ // ->select('department', DB::raw('SUM(price) as total_sales'))
+  ->where('i.idvenda', '=',$id)
 //DB::raw('sum(((quantidade*valorUnitario)+maodeobra)-desconto) as somaFinal')
+  //SELECT sum(valorTotal) as valorFinal FROM itensv WHERE idvenda = 124 group by idvenda 
 
   ->groupBy('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto') 
   ->get();
+ 
 
+ 
   return view("venda/orcamento.show", 
     ["venda"=>$venda, "itens"=>$itens]);
 

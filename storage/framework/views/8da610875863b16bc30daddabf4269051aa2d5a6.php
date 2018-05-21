@@ -39,6 +39,9 @@
 					<td>
 						<a href="<?php echo e(URL::action('orcamentoController@show',$o->idvenda)); ?>"><button class="btn btn-info">Detalhe</button></a>						 
 						<a href="<?php echo e(URL::action('orcamentoController@edit',$o->idvenda)); ?>"><button type="submit" class="btn btn-info">Alterar</button></a>
+						<a href="<?php echo e(URL::action('VendaController@edit',$o->idvenda)); ?>"><button type="submit" class="btn btn-info">Finalizar Venda</button></a>
+						
+						</td>
 
 					</td>
 				</tr>
