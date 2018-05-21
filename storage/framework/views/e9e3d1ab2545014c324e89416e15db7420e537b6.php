@@ -72,6 +72,9 @@
             </tfoot>
 
             <tbody>
+
+              <?php $final= 0; ?>
+
               <?php $__currentLoopData = $itens; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $det): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
               <tr>
                <td><?php echo e($det->modelo); ?></td>
@@ -82,18 +85,24 @@
                <td><?php echo e($det->desconto); ?></td>
                <td><?php echo e($det->valorTotal); ?></td>
 
+               <?php 
+               $final +=  $det->valorTotal; 
+               ?>
+
+
+
+
+             </tr>
+             <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+
+             <th>Total</th>
+             <th></th>
+             <th></th> 
+             <th></th>
+             <th></th>
              
-
-            </tr>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-
-            <th>Total</th>
-            <th></th>
-            <th></th> 
-            <th></th>
-            <th></th>
-            <td>
-              <input type="text" name="valorTotal" value="<?php echo e($det->valorFinal); ?>" readonly id="total" class="form-control" style="width: 100px;">
+             <td>
+              <input type="text" name="valorFinal" value="<?php echo $final; ?>" readonly id="total" class="form-control" style="width: 100px;">
             </td>  
 
 

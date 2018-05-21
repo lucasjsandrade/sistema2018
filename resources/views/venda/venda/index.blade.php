@@ -58,7 +58,8 @@
 
 					<td>
 						<a href="{{URL::action('VendaController@show',$v->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>
-						</td>
+						
+						
 
 
 				</tr>
