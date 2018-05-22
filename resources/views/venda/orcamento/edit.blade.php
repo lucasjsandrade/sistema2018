@@ -158,7 +158,23 @@
            <th>Total</th>
          </thead>
 
+
          <tbody>
+
+          <tfoot>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+
+          <td>
+            <input type="text" name="valorTotal" readonly id="total" class="form-control" style="width: 100px;">
+          </td>     
+        </tfoot>   
+      
+        <tbody
           <script type="text/javascript">
            var cont = 0;
            var total = 0;
@@ -198,6 +214,8 @@
       <?php 
       $final +=  $itens->valorTotal; 
       ?>
+
+
 
     </tr>
     <script type='text/javascript'>cont++;</script> 
@@ -325,7 +343,7 @@ function adicionar(){
      $("#pvalorUnitario").val("");
      $("#pdesconto").val("");
      $("#pmaodeobra").val("");
-     $("#ptotal").val("");
+     $("#total").val("");
    }
 
    function apagar(index){

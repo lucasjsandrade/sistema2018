@@ -150,8 +150,8 @@
                 </a> 
 
                 <ul class="treeview-menu">
-                  <li><a href="/compra"><i class="fa fa-shopping-cart"></i>Entradas</a></li>
-                  <li><a href="/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>                  
+                  <li><a href="/compra/compra"><i class="fa fa-shopping-cart"></i>Entradas</a></li>
+                  <li><a href="/compra/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>                  
                 </ul>
               </li> 
 
