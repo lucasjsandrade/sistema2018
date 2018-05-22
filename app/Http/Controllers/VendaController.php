@@ -37,10 +37,13 @@ class VendaController extends Controller
 
 			->join('funcionario as func', 'func.idfuncionario', '=', 'v.idfuncionario')
 			->join('cliente as cli', 'cli.idcliente', '=', 'v.idcliente')
+			->join('itensv as i', 'i.idvenda', '=', 'v.idvenda')
 
-			->select('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente')
-			->where('v.idvenda','LIKE', '%'.$query.'%') 	
+			->select('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','v.valorTotal')
+			->where('v.idvenda','LIKE', '%'.$query.'%') 
+			->groupBy('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','i.valorTotal')	
 			->orderBy('v.idvenda', 'desc')
+			
 			->paginate(7);
 
 
@@ -93,6 +96,7 @@ class VendaController extends Controller
 			$venda->idfuncionario=$request->get('idfuncionario');
 			$venda->condicaoPagamento=$request->get('condicaoPagamento');
 			$venda->formaPagamento=$request->get('formaPagamento');
+			$venda->valorTotal=$request->get('valorTotal');
 
 
 			$venda->status='Fechada';
@@ -306,14 +310,14 @@ public function show($id){
 	->where('v.idvenda', '=', $id )
 
 
-	->groupBy('i.iditensv','fun.idfuncionario','cli.idcliente','v.dataVenda','fun.nomeFuncionario','cli.nomeCliente','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.status','v.formaPagamento','v.condicaoPagamento','v.idvenda','v.numeroDeParcelas')
+	->groupBy('i.iditensv','fun.idfuncionario','cli.idcliente','v.dataVenda','fun.nomeFuncionario','cli.nomeCliente','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.status','v.formaPagamento','v.condicaoPagamento','v.idvenda','v.numeroDeParcelas','v.valorTotal')
 	->first();  
 
 	$itens=DB::table('itensv as i')
 
 	->join('produto as pro', 'pro.idproduto','=','i.idproduto')
 	->join('venda as v', 'i.idvenda','=','v.idvenda')
-	->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.formaPagamento','v.condicaoPagamento','v.idvenda','v.valorTotal')
+	->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.formaPagamento','v.condicaoPagamento','v.idvenda','i.valorTotal')
 	->where('v.idvenda', '=',$id)
 	->get();
 

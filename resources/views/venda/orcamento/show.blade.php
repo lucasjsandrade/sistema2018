@@ -96,7 +96,7 @@
              </tr>
              @endforeach
 
-             <th>Total</th>
+             <th>TOTAL</th>
              <th></th>
              <th></th> 
              <th></th>

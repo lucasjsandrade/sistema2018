@@ -2,7 +2,19 @@
 
 <h1>Detalhes Da Venda </h1><br>
 
+<?php
+function converteData($data)
+{
+  return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+}
+?>
 <div class="row">
+  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+    <div class="form-group">
+      <label for="idpedido">Nº da Venda</label>
+      <p><?php echo e(($venda->idvenda)); ?></p>
+    </div>
+  </div> 
 
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
@@ -11,22 +23,6 @@
     </div>
   </div>
 
-
-  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-    <div class="form-group">
-      <label for="idpedido">Numero da Venda</label>
-      <p><?php echo e($venda->idvenda); ?></p>
-    </div>
-  </div> 
-
-  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-    <div class="form-group">
-      <label for="dataPedido">Data</label>
-      <p><?php echo e($venda->dataVenda); ?></p>
-    </div>
-  </div> 
-
-
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
       <label for="cliente">Cliente</label>
@@ -34,6 +30,20 @@
     </div>
 
   </div>
+
+
+  
+
+  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+    <div class="form-group">
+      <label for="dataPedido">Data</label>
+      <p><?php echo e(converteData($venda->dataVenda)); ?></p>
+      
+    </div>
+  </div> 
+
+
+
 
 
 
@@ -92,7 +102,7 @@
             <th>Quantidade</th>
             <th>Valor unitario</th>
             <th>Valor Total</th>
-            <th>Total</th>
+
           </thead>
           <tfoot>
 
@@ -100,24 +110,27 @@
           </tfoot>
 
           <tbody>
-            <?php $__currentLoopData = $itens; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $det): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-            <tr>
+           <?php $final= 0; ?>
+           <?php $__currentLoopData = $itens; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $det): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+           <tr>
              <td><?php echo e($det->modelo); ?></td>
 
              <td><?php echo e($det->quantidade); ?></td>
 
              <td><?php echo e($det->valorUnitario); ?></td>
              <td><?php echo e($det->valorTotal); ?></td>
-             
-                                                        
+             <?php 
+             $final +=  $det->valorTotal; 
+             ?>  
+
            </tr>
            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
-           <th>Total</th>
+           <th>TOTAL</th>
            <th></th>
            <th></th> 
-           <th></th>
-           <th><?php echo e($det->valorTotal); ?><th>  
+           
+           <td><input type="text" name="valorFinal" value="<?php echo $final; ?>" readonly id="total" class="form-control" style="width: 100px;"><td>
 
 
 

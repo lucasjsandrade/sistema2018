@@ -3,7 +3,19 @@
 
 <h1>Detalhes Da Venda </h1><br>
 
+<?php
+function converteData($data)
+{
+  return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+}
+?>
 <div class="row">
+  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+    <div class="form-group">
+      <label for="idpedido">Nº da Venda</label>
+      <p>{{($venda->idvenda)}}</p>
+    </div>
+  </div> 
 
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
@@ -12,22 +24,6 @@
     </div>
   </div>
 
-
-  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-    <div class="form-group">
-      <label for="idpedido">Numero da Venda</label>
-      <p>{{$venda->idvenda}}</p>
-    </div>
-  </div> 
-
-  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-    <div class="form-group">
-      <label for="dataPedido">Data</label>
-      <p>{{$venda->dataVenda}}</p>
-    </div>
-  </div> 
-
-
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
       <label for="cliente">Cliente</label>
@@ -35,6 +31,20 @@
     </div>
 
   </div>
+
+
+  
+
+  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+    <div class="form-group">
+      <label for="dataPedido">Data</label>
+      <p>{{converteData($venda->dataVenda)}}</p>
+      
+    </div>
+  </div> 
+
+
+
 
 
 
@@ -93,7 +103,7 @@
             <th>Quantidade</th>
             <th>Valor unitario</th>
             <th>Valor Total</th>
-            <th>Total</th>
+
           </thead>
           <tfoot>
 
@@ -101,24 +111,27 @@
           </tfoot>
 
           <tbody>
-            @foreach($itens as $det)
-            <tr>
+           <?php $final= 0; ?>
+           @foreach($itens as $det)
+           <tr>
              <td>{{$det->modelo}}</td>
 
              <td>{{$det->quantidade}}</td>
 
              <td>{{$det->valorUnitario}}</td>
              <td>{{$det->valorTotal}}</td>
-             
-                                                        
+             <?php 
+             $final +=  $det->valorTotal; 
+             ?>  
+
            </tr>
            @endforeach
 
-           <th>Total</th>
+           <th>TOTAL</th>
            <th></th>
            <th></th> 
-           <th></th>
-           <th>{{$det->valorTotal}}<th>  
+           
+           <td><input type="text" name="valorFinal" value="<?php echo $final; ?>" readonly id="total" class="form-control" style="width: 100px;"><td>
 
 
 

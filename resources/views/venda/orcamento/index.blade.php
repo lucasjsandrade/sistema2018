@@ -15,10 +15,11 @@
 					
 					<th>Data</th>
 					
-					<th>Numero do Orçamento</th>
+					<th>N°: Orçamento</th>
 					<th>Fucionario  : cod</th>
 					<th>Cliente   : cod</th>					
-					<th>status</th>	
+					<th>Status</th>	
+					<th>Total</th>					
 					<th>Opções</th>					
 				</thead>
 
@@ -36,11 +37,13 @@
 					<td>{{ $o->nomeFuncionario." : ".$o->idfuncionario}}</td>					
 					<td>{{ $o->nomeCliente." :     ".$o->idcliente}}</td>					
 					<td>{{ $o->status}}</td>
+					<td>{{$o->valorTotal}}</td>
 
 					<td>
 						<a href="{{URL::action('orcamentoController@show',$o->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>						 
-						<a href="{{URL::action('orcamentoController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-info">Alterar</button></a>
-						<a href="{{URL::action('VendaController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-info">Finalizar Venda</button></a>
+						<a href="{{URL::action('orcamentoController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-primary">Alterar</button></a>
+						<a href="{{URL::action('VendaController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-warning">Vender</button></a>
+						<a href="" data-target="#modal-delete-{{$o->idvenda}}" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
 						
 						</td>
 

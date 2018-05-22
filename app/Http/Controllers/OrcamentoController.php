@@ -26,11 +26,13 @@ class OrcamentoController extends Controller
 			$venda=DB::table('venda as o')	
 
 			->join('funcionario as func', 'func.idfuncionario', '=', 'o.idfuncionario')
-			->join('cliente as cli', 'cli.idcliente', '=', 'o.idcliente')
+      ->join('cliente as cli', 'cli.idcliente', '=', 'o.idcliente')
+      ->join('itensv as i', 'i.idvenda', '=', 'o.idvenda')
 
-			->select('o.idvenda','o.dataVenda', 'o.status','func.idfuncionario','func.nomeFuncionario','cli.idcliente','cli.nomeCliente')
+      ->select('o.idvenda','o.dataVenda','o.valorTotal','o.status','func.idfuncionario','func.nomeFuncionario','cli.idcliente','cli.nomeCliente')
       ->where('o.status','=','Aberta')
-      ->where('o.idvenda','LIKE', '%'.$query.'%') 	
+      ->where('o.idvenda','LIKE', '%'.$query.'%') 
+      ->groupBy('o.idvenda','o.dataVenda','o.valorTotal','o.status','func.idfuncionario','func.nomeFuncionario','cli.idcliente','cli.nomeCliente') 	
       ->orderBy('o.idvenda', 'desc')
       ->paginate(7);
 
@@ -78,7 +80,8 @@ class OrcamentoController extends Controller
     $mytime = Carbon::now('America/Sao_Paulo'); 
     $orcamento->dataVenda=$mytime->toDateTimeString();
     $orcamento->idcliente=$request->get('idcliente');			
-    $orcamento->idfuncionario=$request->get('idfuncionario');	
+    $orcamento->idfuncionario=$request->get('idfuncionario'); 
+    $orcamento->valorTotal=$request->get('valorTotal');	
     $orcamento->status='Aberta';
     $orcamento->origemVenda='Orçamento'; 
 
@@ -167,6 +170,7 @@ public function update(orcamentoFormRequest $request, $id){
   $orcamento->dataVenda=$mytime->toDateTimeString();
   $orcamento->idcliente=$request->get('idcliente');     
   $orcamento->idfuncionario=$request->get('idfuncionario'); 
+  $orcamento->valorTotal=$request->get('valorFinal');  
   $orcamento->status='Aberta';
   $orcamento->origemVenda='Orçamento'; 
 
@@ -239,17 +243,16 @@ public function show($id){
 
   ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
   ->join('venda as v', 'i.idvenda','=','v.idvenda')
-  ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto',DB::raw('sum(i.valorTotal) as valorFinal'))
- // ->select('department', DB::raw('SUM(price) as total_sales'))
+  ->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto')
+
   ->where('i.idvenda', '=',$id)
-//DB::raw('sum(((quantidade*valorUnitario)+maodeobra)-desconto) as somaFinal')
-  //SELECT sum(valorTotal) as valorFinal FROM itensv WHERE idvenda = 124 group by idvenda 
+
 
   ->groupBy('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto') 
   ->get();
- 
+  
 
- 
+  
   return view("venda/orcamento.show", 
     ["venda"=>$venda, "itens"=>$itens]);
 

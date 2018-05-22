@@ -6,6 +6,12 @@
 		@include('venda.venda.search')
 	</div>
 </div>
+<?php
+function converteData($data)
+{
+	return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
+}
+?>
 
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -26,50 +32,50 @@
 					
 					<th>status</th>
 					<!--<th>Forma Pagamento</th>
-					<th>Condicao Pagamento</th> -->
+						<th>Condicao Pagamento</th> -->
 
-					<th>Total</th>
+						<th>Total</th>
 
-					<th>Opções</th>
-					
-					
-					
-				</thead>
-
-				
-
-				@foreach ($venda as $v)
-				<tr>
-					<td>{{ $v->dataVenda}}</td>
-					<td>{{ $v->idvenda}}</td>					
-					<td>{{ $v->idfuncionario}}</td>					
-					<td>{{ $v->idcliente}}</td>					
-					<td>{{ $v->status}}</td>
-					<td>{{ $v->valorTotal}}</td>
-
-					<!---->
-					
-					
-					
+						<th>Opções</th>
+						
+						
+						
+					</thead>
 
 					
-					
-					
 
-					<td>
-						<a href="{{URL::action('VendaController@show',$v->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>
+					@foreach ($venda as $v)
+					<tr>
+						<td>{{converteData ($v->dataVenda)}}</td>
+						<td>{{ $v->idvenda}}</td>					
+						<td>{{ $v->idfuncionario}}</td>					
+						<td>{{ $v->idcliente}}</td>					
+						<td>{{ $v->status}}</td>
+						<td>{{ $v->valorTotal}}</td>
+
+						<!---->
+						
 						
 						
 
+						
+						
+						
 
-				</tr>
+						<td>
+							<a href="{{URL::action('VendaController@show',$v->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>
+							
+							
 
-				@include('venda.venda.modal')
-				@endforeach
-			</table>
 
+						</tr>
+
+						@include('venda.venda.modal')
+						@endforeach
+					</table>
+
+				</div>
+				{{$venda->render()}}
+			</div>
 		</div>
-		{{$venda->render()}}
-	</div>
-</div>
-@stop
+		@stop
