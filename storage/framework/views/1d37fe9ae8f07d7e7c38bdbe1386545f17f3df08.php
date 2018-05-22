@@ -160,7 +160,7 @@
 
            <th>Total</th>
          </thead>
-         <tfoot>
+          <tfoot>
           <th></th>
           <th></th>
           <th></th>
@@ -172,6 +172,7 @@
             <input type="text" name="valorTotal" readonly id="total" class="form-control" style="width: 100px;">
           </td>     
         </tfoot>   
+      
         <tbody>
           <script type="text/javascript">
            var cont = 0;
@@ -206,7 +207,7 @@
         <input class="form-control" name="valorTotal[]" value="<?php echo e($itens->valorTotal); ?>">
       </td> 
 
-      
+
 
     </tr>
     <script type='text/javascript'>cont++;</script> 

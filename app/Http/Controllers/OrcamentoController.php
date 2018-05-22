@@ -247,9 +247,9 @@ public function show($id){
 
   ->groupBy('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.idvenda','i.maodeobra','i.desconto') 
   ->get();
- 
+  
 
- 
+  
   return view("venda/orcamento.show", 
     ["venda"=>$venda, "itens"=>$itens]);
 

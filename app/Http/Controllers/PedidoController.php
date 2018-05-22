@@ -3,8 +3,8 @@
 namespace sistemaLaravel\Http\Controllers;
 
 use Illuminate\Http\Request;
-use sistemaLaravel\pedido;
-use sistemaLaravel\itensp;
+use sistemaLaravel\compra;
+use sistemaLaravel\itensc;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\pedidoFormRequest;
 use Carbon\Carbon;
@@ -20,37 +20,32 @@ class pedidoController extends Controller
 
         if($request){
             $query=trim($request->get('searchText'));
-            $pedido=DB::table('pedido as ped')
+            $compra=DB::table('compra as comp')
 
-            ->join('itensp as itens','itens.idpedido', '=', 'ped.idpedido')
+            ->join('itensc as itens','itens.idcompra', '=', 'comp.idcompra')
 
             ->join('produto as pro', 'pro.idproduto', '=', 'itens.idproduto')
 
-            ->join('fornecedor as for', 'for.idfornecedor', '=', 'ped.idfornecedor')
+            ->join('fornecedor as for', 'for.idfornecedor', '=', 'comp.idfornecedor')
 
-            ->join('funcionario as func', 'func.idfuncionario', '=', 'ped.idfuncionario')
+            ->join('funcionario as func', 'func.idfuncionario', '=', 'comp.idfuncionario')
 
-            ->select('ped.idpedido', 'func.nomeFuncionario', 'for.nomeFantasia', 'ped.dataPedido', 'ped.status',DB::raw('sum(itens.quantidade  * itens.valorUnitario) as Total'))
+            ->select('comp.idcompra', 'func.nomeFuncionario', 'for.nomeFantasia', 'comp.dataCompra', 'comp.status',DB::raw('sum(itens.quantidade  * itens.valorUnitario) as Total'))
 
-            ->orderBy('ped.idpedido', 'desc')
+            ->orderBy('comp.idcompra', 'desc')
 
-            ->groupBy ('ped.idpedido', 'func.nomeFuncionario', 'for.nomeFantasia','ped.dataPedido', 'ped.status')
+            ->groupBy ('comp.idcompra', 'func.nomeFuncionario', 'for.nomeFantasia','comp.dataCompra', 'comp.status')
 
 
-            ->where('ped.idpedido','LIKE', '%'.$query.'%')  
-            ->orwhere('ped.dataPedido','LIKE', '%'.$query.'%')  
-            ->orwhere('for.razaoSocial','LIKE', '%'.$query.'%') 
-            
-            
+            ->where('comp.idcompra','LIKE', '%'.$query.'%')  
+            ->orwhere('comp.dataCompra','LIKE', '%'.$query.'%')  
+            ->orwhere('for.razaoSocial','LIKE', '%'.$query.'%')        
 
 
             ->paginate(7);
 
-
-
-
-            return view('pedido.index', [
-                "pedido"=>$pedido, "searchText"=>$query
+            return view('compra/pedido.index', [
+                "compra"=>$compra, "searchText"=>$query
             ]);
         }
     }
@@ -70,7 +65,7 @@ class pedidoController extends Controller
 
         ->get();
 
-        return view("pedido.create",
+        return view("compra.pedido.create",
             ["fornecedor"=>$fornecedor, "funcionario"=>$funcionario, "produto"=>$produto]);
     }
 
@@ -82,17 +77,17 @@ class pedidoController extends Controller
 
             DB::beginTransaction();
 
-            $pedido = new pedido;
-            $pedido->idfornecedor=$request->get('idfornecedor');
-            $pedido->idfuncionario=$request->get('idfuncionario');
-            $pedido->condicaoPagamento=$request->get('condicaoPagamento');
+            $compra = new compra;
+            $compra->idfornecedor=$request->get('idfornecedor');
+            $compra->idfuncionario=$request->get('idfuncionario');
+            $compra->condicaoPagamento=$request->get('condicaoPagamento');
             $mytime = Carbon::now('America/Sao_Paulo'); 
-            $pedido->dataPedido=$mytime->toDateTimeString();
+            $compra->dataCompra=$mytime->toDateTimeString();
 
-            $pedido->formaPagamento=$request->get('formaPagamento');
-            $pedido->status='Aberto';
+            $compra->formaPagamento=$request->get('formaPagamento');
+            $compra->status='Aberto';
 
-            $pedido->save();
+            $compra->save();
 
             $idproduto=$request->get('idproduto');
             $quantidade=$request->get('quantidade');
@@ -103,8 +98,8 @@ class pedidoController extends Controller
             $cont= 0;
             while($cont < count($idproduto)){
                 $sub;
-                $itens = new itensp();
-                $itens->idpedido=$pedido->idpedido;
+                $itens = new itensc();
+                $itens->idcompra=$compra->idcompra;
                 $itens->idproduto=$idproduto[$cont];
                 $itens->quantidade=$quantidade[$cont];
                 $itens->valorUnitario=$valorUnitario[$cont];
@@ -125,48 +120,124 @@ class pedidoController extends Controller
 
         }
 
-        return Redirect::to('pedido');
+        return Redirect::to('/compra/pedido');
     }
 
-    public function show($id){
+    public function edit($id){
 
-        $pedido=DB::table('pedido as ped')
-        ->join('itensp as i', 'i.idpedido','=','ped.idpedido')
-        ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
-        ->join('funcionario as fun', 'fun.idfuncionario','=','ped.idfuncionario')
-        ->join('fornecedor as f', 'f.idfornecedor', '=', 
-            'ped.idfornecedor')
+        $pedido = pedido::findOrFail($id);
+      $produto = DB::table('produto')
+      ->get();
+      $funcionario = DB::table('funcionario')
+      ->get();
+      $fornecedor = DB::table('fornecedor')
+      ->get();    
+      $compra = DB::table('compra')
+      ->get();    
+      $itensc = DB::table('itensc')
+      ->get(); 
+      $produto=DB::table('produto as pro')
+      ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
 
-        ->select('fun.idfuncionario','f.idfornecedor','ped.dataPedido','fun.nomeFuncionario','f.razaoSocial','ped.status','pro.modelo','pro.unidadeMedida','ped.formaPagamento','ped.condicaoPagamento','ped.idpedido','i.quantidade','i.valorUnitario','i.valorTotal',DB::raw('sum((i.quantidade*i.valorUnitario))as total'))
-        ->where('ped.idpedido', '=', $id )
+      ->where('status','=','Ativo')
 
-
-        ->groupBy('i.iditens','fun.idfuncionario','f.idfornecedor','ped.dataPedido','fun.nomeFuncionario','f.razaoSocial','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','ped.status','ped.formaPagamento','ped.condicaoPagamento','ped.idpedido')
-        ->first();  
-
-        $itensp=DB::table('itensp as i')
-
-        ->join('produto as pro', 'pro.idproduto','=','i.idproduto')
-        ->join('pedido as ped', 'i.idpedido','=','ped.idpedido')
-        ->select('i.iditens','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','ped.formaPagamento','ped.condicaoPagamento','ped.idpedido')
-        ->where('ped.idpedido', '=',$id)
-        ->get();
-
-        
+      ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
+      ->get();
 
 
+      return view("compra.pedido.edit",
+        ["produto"=>$produto, "pedido"=>$pedido, "funcionario"=>$funcionario,"fornecedor"=>$fornecedor,"compra"=>$compra,"itensc"=>$itensc]);
+
+  }
+
+  public function update(pedidoFormRequest $request, $id){
+   try{
+      DB::beginTransaction();
+
+      $pedido=compra::findOrFail($id);
+      $mytime = Carbon::now('America/Sao_Paulo'); 
+      $pedido->dataVenda=$mytime->toDateTimeString();
+      $pedido->idfornecedor=$request->get('idfornecedor');     
+      $pedido->idfuncionario=$request->get('idfuncionario'); 
+      $pedido->status='Aberta'; 
+
+      $pedido->update();
+
+      $pedido = pedido::findOrFail($id);
+
+      $usuario = DB::table('itensc')->where('idcompra', '=', $id)->delete();
+
+
+      $produto   =$request->get('idproduto');
+      $idcomra      =$request->get('idcompra');   
+  $quantidade      =$request->get('quantidade');   //chegando array ok
+  $desconto      =$request->get('desconto');   //chegando array ok  
+  $valorUnitario      =$request->get('valorUnitario');   //chegando array ok
+  
+
+  $cont = 0;
+  while($cont < count($desconto)){
+    $itens = new Itensc();
+    $itens->idcompra=$pedido->idcompra;
+    $itens->idproduto=$produto[$cont];
+    $itens->desconto=$pedido->desconto[$cont];    
+    $itens->quantidade=$quantidade[$cont];
+    $itens->desconto=$desconto[$cont];
+    
+    $itens->valorUnitario=$valorUnitario[$cont];
+    $itens->status='pedido';
+    $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])-$desconto[$cont];;
+
+    $itens->save();
+    $cont=$cont+1;
+
+}
+DB::commit();
+
+}catch(Exception $e){
+  DB::rollback();
+}
+
+return Redirect::to('compra/pedido');
+}
 
 
 
-        return view("pedido.show", 
-            ["pedido"=>$pedido, "itensp"=>$itensp]);
 
-    }
+public function show($id){
 
-    public function destroy($id){
-        $pedido=pedido::findOrFail($id);
-        $pedido->status='Cancelado'; 
-        $pedido->update();
-        return Redirect::to('pedido');      
-    }
+    $compra=DB::table('compra as comp')
+    ->join('itensc as itens', 'itens.idcompra','=','comp.idcompra')
+    ->join('produto as pro', 'pro.idproduto','=','itens.idproduto')
+    ->join('funcionario as fun', 'fun.idfuncionario','=','comp.idfuncionario')
+    ->join('fornecedor as f', 'f.idfornecedor', '=', 
+       'comp.idfornecedor')
+
+    ->select('fun.idfuncionario','f.idfornecedor','comp.dataCompra','fun.nomeFuncionario','f.razaoSocial','comp.status','pro.modelo','pro.unidadeMedida','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra','itens.quantidade','itens.valorUnitario','itens.valorTotal',DB::raw('sum((itens.quantidade*itens.valorUnitario))as total'))
+    ->where('comp.idcompra', '=', $id )
+
+
+    ->groupBy('itens.iditensc','fun.idfuncionario','f.idfornecedor','comp.dataCompra','fun.nomeFuncionario','f.razaoSocial','pro.modelo','pro.unidadeMedida','itens.quantidade','itens.valorUnitario','itens.valorTotal','comp.status','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra')
+    ->first();  
+
+    $itensc=DB::table('itensc as itens')
+
+    ->join('produto as pro', 'pro.idproduto','=','itens.idproduto')
+    ->join('compra as comp', 'itens.idcompra','=','comp.idcompra')
+    ->select('itens.iditensc','pro.idproduto','pro.modelo','pro.unidadeMedida','itens.quantidade','itens.valorUnitario','itens.valorTotal','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra')
+    ->where('comp.idcompra', '=',$id)
+    ->get();
+
+
+    return view("compra/pedido.show", 
+        ["compra"=>$compra, "itensc"=>$itensc]);
+
+}
+
+public function destroy($id){
+    $pedido=pedido::findOrFail($id);
+    $pedido->status='Cancelado'; 
+    $pedido->update();
+    return Redirect::to('pedido');      
+}
 }
