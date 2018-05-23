@@ -212,7 +212,7 @@ class VendaController extends Controller
 	}
 	public function edit($id){
 
-		$venda = Venda::findOrFail($id);
+		$orcamento = Venda::findOrFail($id);
 		$produto = DB::table('produto')
 		->get();
 		$funcionario = DB::table('funcionario')
@@ -233,7 +233,7 @@ class VendaController extends Controller
 
 
 		return view("venda.venda.edit",
-			["produto"=>$produto,"funcionario"=>$funcionario,"cliente"=>$cliente,"venda"=>$venda, "itensv"=>$itensv]);
+			["produto"=>$produto,"funcionario"=>$funcionario,"cliente"=>$cliente,"venda"=>$orcamento, "itensv"=>$itensv]);
 
 	}
 

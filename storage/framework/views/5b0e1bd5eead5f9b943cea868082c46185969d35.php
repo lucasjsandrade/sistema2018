@@ -64,7 +64,7 @@ function converteData($data)
 						<td>
 							<a href="<?php echo e(URL::action('VendaController@show',$v->idvenda)); ?>"><button class="btn btn-info">Detalhe</button></a>
 							
-							
+							<a href="<?php echo e(URL::action('VendaController@edit',$v->idvenda)); ?>"><button type="submit" class="btn btn-warning">Vender</button></a>
 
 
 						</tr>

@@ -170,7 +170,7 @@ public function update(orcamentoFormRequest $request, $id){
   $orcamento->dataVenda=$mytime->toDateTimeString();
   $orcamento->idcliente=$request->get('idcliente');     
   $orcamento->idfuncionario=$request->get('idfuncionario'); 
-  $orcamento->valorTotal=$request->get('valorFinal');  
+  $orcamento->valorTotal=$request->get('total');  
   $orcamento->status='Aberta';
   $orcamento->origemVenda='Orçamento'; 
 

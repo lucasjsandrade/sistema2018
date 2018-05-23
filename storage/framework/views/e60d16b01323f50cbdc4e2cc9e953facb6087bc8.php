@@ -174,12 +174,10 @@
           <th></th>
           <th></th>
 
-          <td>
-            <input type="text" name="valorTotal" readonly id="total" class="form-control" style="width: 100px;">
-          </td>     
+         
         </tfoot>   
       
-        <tbody
+        <tbody>
           <script type="text/javascript">
            var cont = 0;
            var total = 0;
@@ -213,9 +211,10 @@
       <td>
         <input class="form-control" name="valorTotal[]" value="<?php echo e($itens->valorTotal); ?>">
         
-          <script type="text/javascript"> $totalTotal = $totalTotal + <?php echo e($itens->valorTotal); ?>; </script>
+          <script type="text/javascript"> $totalTotal = $totalTotal + <?php echo e($itens->valorTotal); ?> ; </script>
         
       </td> 
+
       <?php 
       $final +=  $itens->valorTotal; 
       ?>
@@ -240,7 +239,7 @@
     <th></th>
 
     <td>
-      <input type="text" name="valorFinal" value="<?php echo $final; ?>" readonly id="total" class="form-control" style="width: 100px;">
+      <input type="text" name="total" value="<?php echo $final; ?>" readonly id="total" class="form-control" style="width: 100px;">
     </td>      
   </tfoot>
 </table>
@@ -249,7 +248,7 @@
 <script language="javascript">
   var title = "<?php print $final; ?>";
 </script>
-<!--<?php echo '<script>var title = "'. $final .'";</script>'; ?>-->
+
 <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
   <div class="form-group">
     <input name="_token" value="<?php echo e(csrf_token()); ?>" type="hidden">
@@ -322,11 +321,11 @@ function adicionar(){
         cont++;
 
         console.log($totalTotal);
-        //$('input.total').val($totalTotal);
+        $('input.total').val($totalTotal);
 
         
         limpar();
-        $("#total").val($totalTotal);
+        $("#total").val(total);
         $('#detalhes').append(linha);
 
 

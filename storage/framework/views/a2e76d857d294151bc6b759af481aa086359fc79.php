@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <h3>Alterar Orçamento: <?php echo e($venda->idvenda); ?></h3>
+    <h3>Alterar Orçamento: <?php echo e($orcamento->idvenda); ?></h3>
     <?php if(count($errors)>0): ?>
     <div class="alert alert-danger">
       <ul>
@@ -14,7 +14,7 @@
     <?php endif; ?>
   </div>
 </div>
-<?php echo Form::model($venda, ['method'=>'PUT', 'route'=>['venda.update', $venda->idvenda]]); ?>
+<?php echo Form::model($orcamento, ['method'=>'PUT', 'route'=>['venda.update', $orcamento->idvenda]]); ?>
 
 <?php echo e(Form::token()); ?>
 
