@@ -210,33 +210,7 @@ class VendaController extends Controller
 		}
 
 	}
-	public function edit($id){
-
-		$orcamento = Venda::findOrFail($id);
-		$produto = DB::table('produto')
-		->get();
-		$funcionario = DB::table('funcionario')
-		->get();
-		$cliente = DB::table('cliente')
-		->get();    
-		$venda = DB::table('venda')
-		->get();    
-		$itensv = DB::table('itensv')
-		->get(); 
-		$produto=DB::table('produto as pro')
-		->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
-
-		->where('status','=','Ativo')
-
-		->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
-		->get();
-
-
-		return view("venda.venda.edit",
-			["produto"=>$produto,"funcionario"=>$funcionario,"cliente"=>$cliente,"venda"=>$orcamento, "itensv"=>$itensv]);
-
-	}
-
+	
 
 	public function update(VendaFormRequest $request, $id){
 		try{

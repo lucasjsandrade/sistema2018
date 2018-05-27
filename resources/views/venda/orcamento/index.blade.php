@@ -42,7 +42,9 @@
 					<td>
 						<a href="{{URL::action('orcamentoController@show',$o->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>						 
 						<a href="{{URL::action('orcamentoController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-primary">Alterar</button></a>
-						<a href="{{URL::action('VendaController@edit',$o->idvenda)}}"><button type="submit" class="btn btn-warning">Vender</button></a>
+												
+
+						
 						<a href="" data-target="#modal-delete-{{$o->idvenda}}" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
 						
 						</td>

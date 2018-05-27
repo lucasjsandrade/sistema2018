@@ -128,7 +128,9 @@
       </div>
     </div>
     
-    
+    <div class="form-group">        
+      <input type="hidden" name="status" value="Aberta" >
+    </div>
 
 
 

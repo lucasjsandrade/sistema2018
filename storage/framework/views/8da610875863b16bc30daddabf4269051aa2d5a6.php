@@ -41,7 +41,9 @@
 					<td>
 						<a href="<?php echo e(URL::action('orcamentoController@show',$o->idvenda)); ?>"><button class="btn btn-info">Detalhe</button></a>						 
 						<a href="<?php echo e(URL::action('orcamentoController@edit',$o->idvenda)); ?>"><button type="submit" class="btn btn-primary">Alterar</button></a>
-						<a href="<?php echo e(URL::action('VendaController@edit',$o->idvenda)); ?>"><button type="submit" class="btn btn-warning">Vender</button></a>
+												
+
+						
 						<a href="" data-target="#modal-delete-<?php echo e($o->idvenda); ?>" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
 						
 						</td>
