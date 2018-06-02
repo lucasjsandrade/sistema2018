@@ -104,12 +104,9 @@
             @foreach($itens as $det)
             <tr>
              <td>{{$det->modelo}}</td>
-
              <td>{{$det->quantidade}}</td>
-
              <td>{{$det->valorUnitario}}</td>
-             <td>{{$det->valorTotal}}</td>
-                                                        
+             <td>{{$det->valorTotal}}</td>                                                        
            </tr>
            @endforeach
 
@@ -118,8 +115,6 @@
            <th></th> 
            <th></th>
            <th>{{$det->totalCompra}}<th>  
-
-
 
            </tbody>
 

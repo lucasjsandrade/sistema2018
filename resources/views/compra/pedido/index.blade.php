@@ -55,8 +55,8 @@
 
 						<td>
 							<a href="{{URL::action('PedidoController@show',$comp->idcompra)}}"><button class="btn btn-info">Detalhe</button></a>						 
-							<a href="{{URL::action('PedidoController@edit',$comp->idcompra)}}"><button type="submit" class="btn btn-info">Alterar</button></a>
-							<a href="{{URL::action('PedidoController@edit',$comp->idcompra)}}"><button type="submit" class="btn btn-info">Finalizar Compra</button></a>
+							<a href="{{URL::action('PedidoController@edit',$comp->idcompra)}}"><button type="submit" class="btn btn-primary">Alterar</button></a>
+							<a href="{{URL::action('PedidoController@edit',$comp->idcompra)}}"><button type="submit" class="btn btn-danger">Finalizar Compra</button></a>
 						</td> 
 
 

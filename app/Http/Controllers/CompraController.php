@@ -51,7 +51,7 @@ class CompraController extends Controller
 
 			->paginate(7);
 
-			return view('compra.index', [
+			return view('compra.compra.index', [
 				"compra"=>$compra, "searchText"=>$query
 			]);
 		}
@@ -235,7 +235,7 @@ class CompraController extends Controller
 
 
 
-		return view("compra.show", 
+		return view("compra.compra.show", 
 			["compra"=>$compra, "itens"=>$itens]);
 
 	}
