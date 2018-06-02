@@ -41,6 +41,7 @@ class VendaController extends Controller
 
 			->select('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','v.valorTotal')
 			->where('v.idvenda','LIKE', '%'.$query.'%') 
+			     ->where('v.status','=','Fechada')
 			->groupBy('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','i.valorTotal')	
 			->orderBy('v.idvenda', 'desc')
 			

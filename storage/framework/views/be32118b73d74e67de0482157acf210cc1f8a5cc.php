@@ -84,6 +84,7 @@
     <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
       <div class="form-group">
         <label for="num_doc">Quantidade</label>
+        <span class="ob">*</span>
         <input type="number" name="quantidade"
 
         id="pquantidade"
@@ -94,6 +95,7 @@
     <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
       <div class="form-group">
         <label for="preco">Valor Unitario</label>
+        <span class="ob">*</span>
         <input type="number" name="preco" 
         id="ppreco"
         disabled
@@ -104,6 +106,7 @@
     <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
       <div class="form-group">
         <label for="estoque">Estoque</label>
+        <span class="ob">*</span>
         <input type="number" name="estoque" 
         id="pqestoque"
         disabled
@@ -115,8 +118,8 @@
       <div class="form-group">
         <label for="desconto">Desconto</label>
         <span class="ob">*</span>
-        <input type="text" name="desconto" value="<?php echo e(old('desconto')); ?>" 
-        id="pdesconto"  class="form-control" placeholder="Desconto">
+        <input type="text" name="desconto" value="0" 
+        id="pdesconto"  class="form-control" placeholder="Valor do desconto">
 
       </div>
     </div>
@@ -124,7 +127,8 @@
     <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
       <div class="form-group">
         <label name="maodeobra" id="maodeobra" for="maodeobra">Mao De Obra</label>
-        <input type="number" name="pmaodeobra" id="pmaodeobra" disable class="form-control" placeholder="Mao de obra">
+        <span class="ob">*</span>
+        <input type="number" name="pmaodeobra" value="0" id="pmaodeobra"  class="form-control" placeholder="Valor da Mão de Obra">
       </div>
     </div>
     
@@ -232,7 +236,7 @@
     estoque=$("#pqestoque").val();
     
 
-    if(idproduto!="" && quantidade!="" && quantidade>0 && valorUnitario!=""){
+    if(idproduto!="" && quantidade!="" && quantidade>0 && valorUnitario!=""  && desconto!=""  && maodeobra!=""){
 
       $subi=maodeobra-desconto;
       subtotal[cont]=((quantidade*valorUnitario)+$subi);
@@ -254,7 +258,7 @@
 
 
     }else{
-      alert("Erro ao inserir os detalhes da venda, preencha os campos corretamente!!");
+      alert("Erro ao inserir os detalhes do Produto!!  'Verifique se foi preenchido a quantidade,desconto ou mão de obra'. ");
 
     }
   }

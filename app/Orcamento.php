@@ -14,6 +14,7 @@ class Orcamento extends Model
 		
 		'idcliente',
 		'idfuncionario',
+		'idproduto',
 		'iditensv',
 		'status',		
 		'maodeobra',

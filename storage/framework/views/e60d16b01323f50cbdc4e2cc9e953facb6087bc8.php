@@ -82,7 +82,7 @@
       </select>
     </div>                
   </div>
-   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
       <label for="origemVenda">Origem Venda</label>
       <span class="ob">*</span>
@@ -156,12 +156,12 @@
 
 
 
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <div class="form-group">
-      <a href=/estoque/produto/create target="_blank"><button class="btn btn-primary" type="button">Novo Produto</button></a>
-    </div>
-
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+  <div class="form-group">
+    <a href=/estoque/produto/create target="_blank"><button class="btn btn-primary" type="button">Novo Produto</button></a>
   </div>
+
+</div>
 </div>
 
 <div class="row">
@@ -392,7 +392,8 @@ function adicionar(){
 
 
       //Verificar if de adicionar linha se a linha anterior estiver em branco
-      if(quantidade !=="" && produto !== ""){
+      if(idproduto!="" && quantidade!="" && quantidade>0 && valorUnitario!=""  && desconto!=""  && maodeobra!=""){
+
 
 
         soma+=maodeobra-desconto;
@@ -403,7 +404,7 @@ function adicionar(){
         
         $totalTotal = $totalTotal + subtotal[cont];
 
-        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td><td><input class="form-control" name="idproduto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td><td><input class="form-control" name="valorTotal[]" id="valorTotal" value="'+subtotal[cont]+'"></td></tr>';
+        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td><td><input class="form-control" name="idproduto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td><td><input class="form-control" name="valorTotal[]" id="valorTotal" value="'+subtotal[cont]+'"></td><td><input type="hidden" name="estoque[]" value="'+estoque+'"></td></tr>';
         cont++;
 
         console.log($totalTotal);
@@ -417,7 +418,7 @@ function adicionar(){
 
 
       }else{
-        alert("Erro ao inserir os produtos, preencha os campos corretamente!");
+        alert("Erro ao inserir os detalhes do Produto!!  'Verifique se foi preenchido a quantidade,desconto ou mão de obra'. ");
       }
     }
 
