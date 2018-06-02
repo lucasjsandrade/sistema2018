@@ -7,6 +7,7 @@ use sistemaLaravel\compra;
 use sistemaLaravel\itensc;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\pedidoFormRequest;
+use sistemaLaravel\pedido;
 use Carbon\Carbon;
 use Response;
 use DB;

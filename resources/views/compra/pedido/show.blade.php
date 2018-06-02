@@ -77,23 +77,37 @@
             <th></th>
             <th></th>
             <th></th> 
-            <th></th>
-            <th id="total">{{$compra->total}}</th>     
+            <th></th>             
           </tfoot>
 
           <tbody>
+
+            <?php $final= 0; ?>
+
             @foreach($itensc as $det)
             <tr>
              <td>{{$det->modelo}}</td>
-
              <td>{{$det->quantidade}}</td>
-
              <td>{{$det->valorUnitario}}</td>
-             <td>{{$det->valorTotal}}</td>                                           
+             <td>{{$det->valorTotal}}</td>        
+
+             <?php 
+               $final +=  $det->valorTotal; 
+               ?>
+
            </tr>
            @endforeach
 
 
+             <th>TOTAL</th>
+             <th></th>
+             <th></th> 
+            
+             <th></th>
+             
+             <td>
+              <input type="text" name="valorFinal" value="<?php echo $final; ?>" readonly id="total" class="form-control" style="width: 100px;">
+            </td>  
 
          </tbody>
 

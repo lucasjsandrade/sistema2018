@@ -3,7 +3,7 @@
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 		<h3> Compra <a href="compra/create"><button class="btn btn-success">Incluir</button></a></h3>
-		@include('compra.search')
+		@include('compra.compra.search')
 	</div>
 </div>
 
@@ -43,7 +43,7 @@
 					</td>
 				</tr>
 
-				@include('compra.modal')
+				@include('compra.compra.modal')
 				@endforeach
 			</table>
 
