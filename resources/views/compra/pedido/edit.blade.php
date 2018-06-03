@@ -16,8 +16,8 @@
  </div>
 </div>
 
+{!!Form::model($pedido, ['method'=>'PATCH', 'route'=>['orcamento.update', $pedido->idcompra], 'files'=>'true'])!!}
 
-{!!Form::open(array('url'=>'compra/pedido','method'=>'POST','autocomplete'=>'off'))!!}
 {{Form::token()}}
 
 <div class="row">
