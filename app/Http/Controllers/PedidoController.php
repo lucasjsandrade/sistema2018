@@ -126,7 +126,7 @@ class pedidoController extends Controller
 
     public function edit($id){
 
-        $pedido = pedido::findOrFail($id);
+      $pedido = pedido::findOrFail($id);
       $produto = DB::table('produto')
       ->get();
       $funcionario = DB::table('funcionario')
