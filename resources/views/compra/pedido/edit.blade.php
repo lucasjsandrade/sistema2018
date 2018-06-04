@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <h3>Editar Pedido</h3>
+    <h3>Alterar Pedido</h3>
     @if (count($errors)>0)
     <div class="alert alert-danger">
       <ul>
@@ -16,8 +16,8 @@
  </div>
 </div>
 
+{!!Form::model($pedido, ['method'=>'PATCH', 'route'=>['pedido.update', $pedido->idcompra], 'files'=>'true'])!!}
 
-{!!Form::open(array('url'=>'compra/pedido','method'=>'POST','autocomplete'=>'off'))!!}
 {{Form::token()}}
 
 <div class="row">
@@ -28,12 +28,18 @@
       <span class="ob">*</span>
       <select name="idfuncionario" class="form-control">
         @foreach($funcionario as $fun)
+        @if($fun->idfuncionario==$pedido->idfuncionario)
+        <option value="{{$fun->idfuncionario}}" selected>
+          {{$fun->nomeFuncionario}}
+        </option>
+        @else
         <option value="{{$fun->idfuncionario}}">
           {{$fun->nomeFuncionario}}
         </option>
+        @endif
         @endforeach
       </select>
-    </div>
+    </div>                
   </div>
 
 
@@ -43,12 +49,18 @@
       <span class="ob">*</span>
       <select name="idfornecedor" class="form-control">
         @foreach($fornecedor as $for)
-        <option value="{{$for->idfornecedor}}">
-          {{$for->razaoSocial}}
+        @if($for->idfornecedor==$pedido->idfornecedor)
+        <option value="{{$for->idfornecedor}}" selected>
+          {{$for->nomeFantasia}}
         </option>
+        @else
+        <option value="{{$for->idfornecedor}}">
+          {{$for->nomeFantasia}}
+        </option>
+        @endif
         @endforeach
       </select>
-    </div>
+    </div>                
   </div>
 
 
@@ -61,16 +73,19 @@
   </div>
 
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-    <div class="form-group">
-      <span class="ob">*</span>
-      <label>Forma Pagamento</label>
-      <select name="formaPagamento" id="formaPagamento" class="form-control">
-        <option value="Dinheiro">Dinheiro </option>
-        <option value="Boleto"> Boleto </option>
-        <option value="Cartão">Cartão </option>
-      </select>
-    </div>
-  </div>  
+  <div class="form-group">
+    <span class="ob">*</span>
+    <label>Forma Pagamento</label>
+    <select name="formaPagamento" id="formaPagamento" class="form-control">
+
+      <option value="Dinheiro">Dinheiro </option>
+      <option value="Boleto"> Boleto </option>
+      <option value="Cartão">Cartão </option>
+      <option value="Cartão">Cheque </option>
+
+    </select>
+  </div>
+</div>
 
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
    <div class="form-group">
@@ -94,7 +109,7 @@
       <div class="form-group">
         <label>Produto</label>
         <span class="ob">*</span>
-        <select name="idproduto" id="pidproduto"
+        <select name="pidproduto" id="pidproduto"
         class="form-control selectpicker" data-live-search="true">
         @foreach($produto as $pro)
         <option value="{{$pro->idproduto}}">
@@ -119,7 +134,7 @@
     <div class="form-group">
       <label for="valorUnitario">Valor Unitario</label>
       <span class="ob">*</span>
-      <input type="number" name="valorUnitario" value="{{old('valorUnitario')}}" id="pvalorUnitario" class="form-control" 
+      <input type="number" name="preco" value="{{old('valorUnitario')}}" id="ppreco" class="form-control" 
       placeholder="valorUnitario">
     </div>
   </div>
@@ -143,27 +158,79 @@
       <th>Opções</th>
       <th>Produtos</th>
       <th>Quantidade</th>
-      <th>Valor Unitario</th>
-      
+      <th>Valor Unitario</th>      
       <th>Total</th>
     </thead>
+
+    <tbody>
+
     <tfoot>
       <th></th>
       <th></th>
       <th></th>
-      <th></th>
-      
-      <th id="total">R$ 0,00</th>     
+      <th></th>    
+      <th></th> 
     </tfoot>   
-  </tfoot>
+  
+
+    <tbody>
+            <script type="text/javascript">
+             var cont = 0;
+             var total = 0;
+           </script>
+           @php
+           $cont_php = 0;
+           @endphp
+           <?php $final= 0; ?>
+           @foreach($itensc as $itens)  
+           @if($itens->idcompra == $pedido->idcompra)                                                      
+           <tr class="selected" id= @php echo "linha".$cont_php; @endphp>
+            <td>
+             <button type="button" class="btn btn-warning" onclick="apagar(@php echo $cont_php; @endphp);"><i class="fa fa-close" ></i></button>
+
+           </td>
+           <td>
+            <input class="form-control" name="idproduto[]" value="{{$itens->idproduto}}">
+          </td>
+          <td>
+            <input class="form-control" name="quantidade[]" value="{{$itens->quantidade}}">
+          </td>  
+        
+        <td>
+          <input class="form-control" name="valorTotal[]" value="{{$itens->valorTotal}}">
+
+          <script type="text/javascript"> $totalTotal = $totalTotal + {{$itens->valorTotal}} ; </script>
+
+        </td> 
+
+        <?php 
+        $final +=  $itens->valorTotal; 
+        ?>
+
+
+
+      </tr>
+      <script type='text/javascript'>cont++;</script> 
+      @php
+      $cont_php++;                 
+      @endphp  
+      @endif 
+      @endforeach
+
+    </tbody>
+
+    <tfoot>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>      
+      <td>
+        <input type="text" name="total" value="<?php echo $final; ?>" readonly id="total" class="form-control" style="width: 100px;">
+      </td>      
+    </tfoot>
+
 </table>
-</div>
 
-</div>
-</div>
-
-</div>
-</div>
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="salvar">
   <div class="form-group">
@@ -205,7 +272,7 @@
 
       subtotal[cont]=(quantidade*valorUnitario);
       total = total + subtotal[cont];
-      var linha = '<tr class="selected" id="linha'+cont+'">    <td> <button type="button" class="btn btn-warning" onclick="apagar('+cont+');"> X </button></td>      <td> <input type="hidden" name="idproduto[]" value="'+idproduto+'">'+produto+'</td><td> <input type="number" name="quantidade[]" value="'+quantidade+'"></td>                       <td> <input type="number" name="valorUnitario[]" value="'+valorUnitario+'"></td> <td> '+subtotal[cont]+' </td> </tr>'
+      var linha = '<tr class="selected" id="linha'+cont+'">    <td> <button type="button" class="btn btn-warning" onclick="apagar('+cont+');"> X </button></td>      <td> <input type="hidden" name="pidproduto[]" value="'+idproduto+'">'+produto+'</td><td> <input type="number" name="pquantidade[]" value="'+quantidade+'"></td>                       <td> <input type="number" name="pvalorUnitario[]" value="'+valorUnitario+'"></td> <td> '+subtotal[cont]+' </td> </tr>'
       cont++;
       limpar();
       $("#total").html("R$: " + total);

@@ -187,7 +187,7 @@ public function update(orcamentoFormRequest $request, $id){
     $orcamento->origemVenda='Orçamento'; 
 
     $orcamento->update();
-   /*Altera Itens da venda */
+    /*Altera Itens da venda */
     $orcamento = Orcamento::findOrFail($id);
 
     $usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();
@@ -234,10 +234,9 @@ public function update(orcamentoFormRequest $request, $id){
 
 else if ($orcamento->status =='Fechada') {
 
-
  try{
   DB::beginTransaction();
-/*Altera dados do orçamento e salva como venda fechada */
+  /*Altera dados do orçamento e salva como venda fechada */
 
   $mytime = Carbon::now('America/Sao_Paulo'); 
   $orcamento->dataVenda=$mytime->toDateTimeString();
@@ -247,10 +246,9 @@ else if ($orcamento->status =='Fechada') {
   $orcamento->numeroDeParcelas=$request->get('numeroDeParcelas');  
   $orcamento->status='Fechada';
   $orcamento->origemVenda='Orçamento'; 
-
   $orcamento->update();
 
-/*Gera contas a receber */
+  /*Gera contas a receber */
 
   $contas = new Contasreceber;
 
@@ -265,7 +263,7 @@ else if ($orcamento->status =='Fechada') {
 
   $contas->save(); 
 
-/*Gera Parcela a Receber*/
+  /*Gera Parcela a Receber*/
   $cont =0;
 
   $dataParcela = $orcamento->dataVenda;
@@ -299,27 +297,36 @@ else if ($orcamento->status =='Fechada') {
   $desconto      =$request->get('desconto');   
   $maodeobra      =$request->get('maodeobra');   
   $valorUnitario      =$request->get('valorUnitario');   
-
+  $estoque      =$request->get('estoque');   
+  
+ 
 
 
 
 
   $cont = 0;
-  while($cont < count($desconto)){
-    $itens = new Itensv();
-    $itens->idvenda=$orcamento->idvenda;
-    $itens->idproduto=$produto[$cont];
-    $itens->desconto=$orcamento->desconto[$cont];    
-    $itens->quantidade=$quantidade[$cont];
-    $itens->desconto=$desconto[$cont];
-    $itens->maodeobra=$maodeobra[$cont];
-    $itens->valorUnitario=$valorUnitario[$cont];
-    $itens->status='orcamento';
-    $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
+  if ($quantidade >= $estoque ) {
 
-    $itens->save();
-    $cont=$cont+1;
+    while($cont < count($desconto)){
+      $itens = new Itensv();
+      $itens->idvenda=$orcamento->idvenda;
+      $itens->idproduto=$produto[$cont];
+      $itens->desconto=$orcamento->desconto[$cont];
+      $itens->quantidade=$quantidade[$cont];
+      $itens->desconto=$desconto[$cont];
+      $itens->maodeobra=$maodeobra[$cont];
+      $itens->valorUnitario=$valorUnitario[$cont];
+      $itens->status='orcamento';
+      $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
 
+      $itens->save();
+      $cont=$cont+1;
+
+    }
+  }
+  else{
+    echo "string";
+    die();
   }
   DB::commit();
 

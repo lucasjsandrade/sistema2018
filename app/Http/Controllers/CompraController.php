@@ -74,7 +74,7 @@ class CompraController extends Controller
 		->where('status','=','Ativo')
 		->get();
 
-		return view("compra.create",
+		return view("compra.compra.create",
 			["fornecedor"=>$fornecedor, "funcionario"=>$funcionario, "produto"=>$produto]);
 	}
 

@@ -2,15 +2,18 @@
 
 namespace sistemaLaravel\Http\Controllers;
 
-use Illuminate\Http\Request;
-use sistemaLaravel\compra;
-use sistemaLaravel\itensc;
-use Illuminate\support\Facades\Redirect;
-use sistemaLaravel\Http\requests\pedidoFormRequest;
-use sistemaLaravel\pedido;
 use Carbon\Carbon;
-use Response;
 use DB;
+use sistemaLaravel\Compra;
+use sistemaLaravel\Contaspagar;
+use sistemaLaravel\Parcelapagar;
+use sistemaLaravel\Itensc;
+use Illuminate\Http\Request;
+use Illuminate\support\Facades\Redirect;
+use Response;
+use sistemaLaravel\Http\requests\PedidoFormRequest;
+use sistemaLaravel\Http\requests\ContasPagarFormRequest;
+use sistemaLaravel\Pedido;
 class pedidoController extends Controller
 {
     public function __construct(){
@@ -72,13 +75,13 @@ class pedidoController extends Controller
 
 
 
-    public function store(pedidoFormRequest $request){
+    public function store(PedidoFormRequest $request){
 
         try{
 
             DB::beginTransaction();
 
-            $compra = new compra;
+            $compra = new Compra;
             $compra->idfornecedor=$request->get('idfornecedor');
             $compra->idfuncionario=$request->get('idfuncionario');
             $compra->condicaoPagamento=$request->get('condicaoPagamento');
@@ -99,7 +102,7 @@ class pedidoController extends Controller
             $cont= 0;
             while($cont < count($idproduto)){
                 $sub;
-                $itens = new itensc();
+                $itens = new Itensc();
                 $itens->idcompra=$compra->idcompra;
                 $itens->idproduto=$idproduto[$cont];
                 $itens->quantidade=$quantidade[$cont];
@@ -126,7 +129,11 @@ class pedidoController extends Controller
 
     public function edit($id){
 
+
       $pedido = pedido::findOrFail($id);
+
+      $pedido=Pedido::findOrFail($id);
+
       $produto = DB::table('produto')
       ->get();
       $funcionario = DB::table('funcionario')
@@ -151,7 +158,7 @@ class pedidoController extends Controller
 
   }
 
-  public function update(pedidoFormRequest $request, $id){
+  public function update(PedidoFormRequest $request, $id){
    try{
       DB::beginTransaction();
 
@@ -171,10 +178,10 @@ class pedidoController extends Controller
 
       $produto   =$request->get('idproduto');
       $idcomra      =$request->get('idcompra');   
-  $quantidade      =$request->get('quantidade');   //chegando array ok
-  $desconto      =$request->get('desconto');   //chegando array ok  
-  $valorUnitario      =$request->get('valorUnitario');   //chegando array ok
-  
+      $quantidade      =$request->get('quantidade');   //chegando array ok
+      $desconto      =$request->get('desconto');   //chegando array ok  
+      $valorUnitario      =$request->get('valorUnitario');   //chegando array ok
+      
 
   $cont = 0;
   while($cont < count($desconto)){
@@ -236,7 +243,7 @@ public function show($id){
 }
 
 public function destroy($id){
-    $pedido=pedido::findOrFail($id);
+    $pedido=Pedido::findOrFail($id);
     $pedido->status='Cancelado'; 
     $pedido->update();
     return Redirect::to('pedido');      

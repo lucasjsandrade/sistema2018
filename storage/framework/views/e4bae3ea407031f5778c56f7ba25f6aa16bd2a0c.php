@@ -1,4 +1,4 @@
-<?php echo Form::open(array('url'=>'pedido', 'method'=>'GET', 'autocomplete'=>'off', 'role' => 'search')); ?>
+<?php echo Form::open(array('url'=>'compra/pedido', 'method'=>'GET', 'autocomplete'=>'off', 'role' => 'search')); ?>
 
 
 <div class="form-group">
@@ -11,3 +11,7 @@
 </div>
 
 <?php echo e(Form::close()); ?>
+
+
+
+

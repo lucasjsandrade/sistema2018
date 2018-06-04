@@ -17,11 +17,6 @@ use DB;
 use Illuminate\Support\Collection;
 
 
-
-
-
-
-
 class VendaController extends Controller
 {
 	public function __construct(){
@@ -41,6 +36,7 @@ class VendaController extends Controller
 
 			->select('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','v.valorTotal')
 			->where('v.idvenda','LIKE', '%'.$query.'%') 
+			->where('v.status','=','Fechada')
 			->groupBy('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','i.valorTotal')	
 			->orderBy('v.idvenda', 'desc')
 			
@@ -210,100 +206,40 @@ class VendaController extends Controller
 		}
 
 	}
-	
 
-	public function update(VendaFormRequest $request, $id){
-		try{
-			DB::beginTransaction();
+	public function show($id){
 
-			$venda=Venda::findOrFail($id);
-			$mytime = Carbon::now('America/Sao_Paulo'); 
-			$venda->dataVenda=$mytime->toDateTimeString();
-			$venda->idcliente=$request->get('idcliente');     
-			$venda->idfuncionario=$request->get('idfuncionario'); 
-			$venda->status='Aberta';
-			$venda->origemVenda='Orçamento'; 
+		$venda=DB::table('venda as v')
+		->join('itensv as i', 'i.idvenda','=','v.idvenda')
+		->join('produto as pro', 'pro.idproduto','=','i.idproduto')
+		->join('funcionario as fun', 'fun.idfuncionario','=','v.idfuncionario')
+		->join('cliente as cli', 'cli.idcliente', '=', 
+			'v.idcliente')
 
-			$venda->update();
-
-			$venda = Venda::findOrFail($id);
-
-			$usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();
+		->select('fun.idfuncionario','cli.idcliente','cli.nomeCliente','v.dataVenda','fun.nomeFuncionario','fun.nomeFuncionario','v.status','pro.modelo','pro.unidadeMedida','v.formaPagamento','v.condicaoPagamento','v.idvenda','i.quantidade','i.valorUnitario','i.valorTotal','v.numeroDeParcelas',DB::raw('sum((i.quantidade*i.valorUnitario))as total'))
+		->where('v.idvenda', '=', $id )
 
 
-			$produto   =$request->get('idproduto');
-			$idvenda      =$request->get('idvenda');   
-  $quantidade      =$request->get('quantidade');   //chegando array ok
-  $desconto      =$request->get('desconto');   //chegando array ok
-  $maodeobra      =$request->get('maodeobra');   //chegando array ok
-  $valorUnitario      =$request->get('valorUnitario');   //chegando array ok
-  
+		->groupBy('i.iditensv','fun.idfuncionario','cli.idcliente','v.dataVenda','fun.nomeFuncionario','cli.nomeCliente','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.status','v.formaPagamento','v.condicaoPagamento','v.idvenda','v.numeroDeParcelas','v.valorTotal')
+		->first();  
 
+		$itens=DB::table('itensv as i')
 
-  
-
-
-  $cont = 0;
-  while($cont < count($desconto)){
-  	$itens = new Itensv();
-  	$itens->idvenda=$orcamento->idvenda;
-  	$itens->idproduto=$produto[$cont];
-  	$itens->desconto=$orcamento->desconto[$cont];    
-  	$itens->quantidade=$quantidade[$cont];
-  	$itens->desconto=$desconto[$cont];
-  	$itens->maodeobra=$maodeobra[$cont];
-  	$itens->valorUnitario=$valorUnitario[$cont];
-  	$itens->status='orcamento';
-  	$itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
-
-  	$itens->save();
-  	$cont=$cont+1;
-
-  }
-  DB::commit();
-
-}catch(Exception $e){
-	DB::rollback();
-}
-
-return Redirect::to('venda/venda');
-}
-
-
-
-public function show($id){
-
-	$venda=DB::table('venda as v')
-	->join('itensv as i', 'i.idvenda','=','v.idvenda')
-	->join('produto as pro', 'pro.idproduto','=','i.idproduto')
-	->join('funcionario as fun', 'fun.idfuncionario','=','v.idfuncionario')
-	->join('cliente as cli', 'cli.idcliente', '=', 
-		'v.idcliente')
-
-	->select('fun.idfuncionario','cli.idcliente','cli.nomeCliente','v.dataVenda','fun.nomeFuncionario','fun.nomeFuncionario','v.status','pro.modelo','pro.unidadeMedida','v.formaPagamento','v.condicaoPagamento','v.idvenda','i.quantidade','i.valorUnitario','i.valorTotal','v.numeroDeParcelas',DB::raw('sum((i.quantidade*i.valorUnitario))as total'))
-	->where('v.idvenda', '=', $id )
-
-
-	->groupBy('i.iditensv','fun.idfuncionario','cli.idcliente','v.dataVenda','fun.nomeFuncionario','cli.nomeCliente','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.status','v.formaPagamento','v.condicaoPagamento','v.idvenda','v.numeroDeParcelas','v.valorTotal')
-	->first();  
-
-	$itens=DB::table('itensv as i')
-
-	->join('produto as pro', 'pro.idproduto','=','i.idproduto')
-	->join('venda as v', 'i.idvenda','=','v.idvenda')
-	->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.formaPagamento','v.condicaoPagamento','v.idvenda','i.valorTotal')
-	->where('v.idvenda', '=',$id)
-	->get();
+		->join('produto as pro', 'pro.idproduto','=','i.idproduto')
+		->join('venda as v', 'i.idvenda','=','v.idvenda')
+		->select('i.iditensv','pro.idproduto','pro.modelo','pro.unidadeMedida','i.quantidade','i.valorUnitario','i.valorTotal','v.formaPagamento','v.condicaoPagamento','v.idvenda','i.valorTotal')
+		->where('v.idvenda', '=',$id)
+		->get();
 
 
 
 
 
 
-	return view("venda/venda.show", 
-		["venda"=>$venda, "itens"=>$itens]);
+		return view("venda/venda.show", 
+			["venda"=>$venda, "itens"=>$itens]);
 
-}
+	}
 
 
 

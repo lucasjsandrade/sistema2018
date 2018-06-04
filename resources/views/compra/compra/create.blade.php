@@ -16,7 +16,7 @@
 </div>
 
 
-{!!Form::open(array('url'=>'compra','method'=>'POST','autocomplete'=>'off'))!!}
+{!!Form::open(array('url'=>'compra/compra','method'=>'POST','autocomplete'=>'off'))!!}
 {{Form::token()}}
 
 <div class="row">

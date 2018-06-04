@@ -28,9 +28,9 @@ class orcamentoFormRequest extends FormRequest
             'idcliente'=>'required',
             'idfuncionario'=>'required',   
             'status'=>'required',  
-            'observacao',
             'maodeobra',
             'origemVenda',
+            'desconto',
             'dataVenda',
 
         ];

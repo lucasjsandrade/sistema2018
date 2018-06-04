@@ -54,8 +54,8 @@
 
 						<td>
 							<a href="<?php echo e(URL::action('PedidoController@show',$comp->idcompra)); ?>"><button class="btn btn-info">Detalhe</button></a>						 
-							<a href="<?php echo e(URL::action('PedidoController@edit',$comp->idcompra)); ?>"><button type="submit" class="btn btn-info">Alterar</button></a>
-							<a href="<?php echo e(URL::action('PedidoController@edit',$comp->idcompra)); ?>"><button type="submit" class="btn btn-info">Finalizar Compra</button></a>
+							<a href="<?php echo e(URL::action('PedidoController@edit',$comp->idcompra)); ?>"><button type="submit" class="btn btn-primary">Alterar</button></a>
+							
 						</td> 
 
 
@@ -71,4 +71,5 @@
 		</div>
 	</div>
 	<?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.admin', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,4 +1,4 @@
-{!!Form::open(array('url'=>'pedido', 'method'=>'GET', 'autocomplete'=>'off', 'role' => 'search'))!!}
+{!!Form::open(array('url'=>'compra/pedido', 'method'=>'GET', 'autocomplete'=>'off', 'role' => 'search'))!!}
 
 <div class="form-group">
 	<div class="input-group">
@@ -10,3 +10,6 @@
 </div>
 
 {{Form::close()}}
+
+
+
