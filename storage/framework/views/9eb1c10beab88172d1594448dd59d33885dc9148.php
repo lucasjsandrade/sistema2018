@@ -140,7 +140,7 @@
     <div class="form-group">
       <label for="valorUnitario">Valor Unitario</label>
       <span class="ob">*</span>
-      <input type="number" name="preco" value="<?php echo e(old('valorUnitario')); ?>" id="ppreco" class="form-control" 
+      <input type="number" name="valorUnitario" value="<?php echo e(old('valorUnitario')); ?>" id="pvalorUnitario" class="form-control" 
       placeholder="valorUnitario">
     </div>
   </div>
@@ -196,14 +196,18 @@
 
            </td>
            <td>
-            <input class="form-control" name="idproduto[]" value="<?php echo e($itens->idproduto); ?>">
+            <input class="form-control" disabled name="idproduto[]" value="<?php echo e($itens->idproduto); ?>">
           </td>
           <td>
-            <input class="form-control" name="quantidade[]" value="<?php echo e($itens->quantidade); ?>">
+            <input class="form-control" disabled name="quantidade[]" value="<?php echo e($itens->quantidade); ?>">
           </td>  
+
+          <td>
+            <input class="form-control" disabled name="valorUnitario[]" value="<?php echo e($itens->valorUnitario); ?>">
+          </td>
         
         <td>
-          <input class="form-control" name="valorTotal[]" value="<?php echo e($itens->valorTotal); ?>">
+          <input class="form-control" disabled name="valorTotal[]" value="<?php echo e($itens->valorTotal); ?>">
 
           <script type="text/javascript"> $totalTotal = $totalTotal + <?php echo e($itens->valorTotal); ?> ; </script>
 
@@ -278,7 +282,8 @@
 
       subtotal[cont]=(quantidade*valorUnitario);
       total = total + subtotal[cont];
-      var linha = '<tr class="selected" id="linha'+cont+'">    <td> <button type="button" class="btn btn-warning" onclick="apagar('+cont+');"> X </button></td>      <td> <input type="hidden" name="pidproduto[]" value="'+idproduto+'">'+produto+'</td><td> <input type="number" name="pquantidade[]" value="'+quantidade+'"></td>                       <td> <input type="number" name="pvalorUnitario[]" value="'+valorUnitario+'"></td> <td> '+subtotal[cont]+' </td> </tr>'
+      var linha = 
+      '<tr class="selected" id="linha'+cont+'"> <td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td> <td> <input class="form-control" name="pidproduto[]" disabled value="'+idproduto+'">''</td> <td> <input class="form-control" name="pquantidade[]" disabled value="'+quantidade+'"></td><td> <input class="form-control" name="pvalorUnitario[]" disabled value="'+valorUnitario+'"></td> <td>'+subtotal[cont]+' </td> </tr>'
       cont++;
       limpar();
       $("#total").html("R$: " + total);

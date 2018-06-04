@@ -313,6 +313,7 @@
       <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
     </tbody>
+    
     <tfoot>
       <th></th>
       <th></th>

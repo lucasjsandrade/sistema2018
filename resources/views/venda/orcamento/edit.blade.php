@@ -308,6 +308,7 @@
       @endforeach
 
     </tbody>
+    
     <tfoot>
       <th></th>
       <th></th>
@@ -395,7 +396,7 @@ function adicionar(){
         
         $totalTotal = $totalTotal + subtotal[cont];
 
-        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td><td><input class="form-control" name="idproduto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td><td><input class="form-control" name="valorTotal[]" id="valorTotal" value="'+subtotal[cont]+'"></td><td><input type="hidden" name="estoque[]" value="'+estoque+'"></td></tr>';
+        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td> <td><input class="form-control" name="idproduto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td><td><input class="form-control" name="valorTotal[]" id="valorTotal" value="'+subtotal[cont]+'"></td><td><input type="hidden" name="estoque[]" value="'+estoque+'"></td></tr>';
         cont++;
 
         console.log($totalTotal);

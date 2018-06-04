@@ -40,8 +40,9 @@ class pedidoController extends Controller
 
             ->groupBy ('comp.idcompra', 'func.nomeFuncionario', 'for.nomeFantasia','comp.dataCompra', 'comp.status')
 
-
+            ->where('comp.status', '=', 'Aberto')  
             ->where('comp.idcompra','LIKE', '%'.$query.'%')  
+            
             ->orwhere('comp.dataCompra','LIKE', '%'.$query.'%')  
             ->orwhere('for.razaoSocial','LIKE', '%'.$query.'%')        
 
@@ -164,10 +165,10 @@ class pedidoController extends Controller
 
       $pedido=compra::findOrFail($id);
       $mytime = Carbon::now('America/Sao_Paulo'); 
-      $pedido->dataVenda=$mytime->toDateTimeString();
+      $pedido->dataCompra=$mytime->toDateTimeString();
       $pedido->idfornecedor=$request->get('idfornecedor');     
       $pedido->idfuncionario=$request->get('idfuncionario'); 
-      $pedido->status='Aberta'; 
+      $pedido->status='Aberto'; 
 
       $pedido->update();
 
