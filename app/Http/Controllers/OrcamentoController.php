@@ -199,14 +199,11 @@ public function update(orcamentoFormRequest $request, $id){
     $desconto      =$request->get('desconto');   
     $maodeobra      =$request->get('maodeobra');   
     $valorUnitario      =$request->get('valorUnitario');   
-<<<<<<< HEAD
-    
-=======
 
 
     
 
->>>>>>> 71f5d0464115cb6f02b301c99dff8caffc362191
+
 
     $cont = 0;
     while($cont < count($desconto)){
@@ -299,24 +296,24 @@ else if ($orcamento->status =='Fechada') {
   $quantidade      =$request->get('quantidade');
   $desconto      =$request->get('desconto');   
   $maodeobra      =$request->get('maodeobra');   
-<<<<<<< HEAD
+
   $valorUnitario      =$request->get('valorUnitario');   
   $estoque      =$request->get('estoque');   
   
-=======
+
   $valorUnitario      =$request->get('valorUnitario');  
 
-  $x = 0;
+  
 
-  while ($x < $produto) {
+
+  foreach ($produto as $key => $value) {
 
     $estoque = DB::table('produto as p')
-    ->select('quantidade')
-    ->where('p.idproduto','=', $produto[$x])
+    ->select('p.quantidade')
+    ->where('p.idproduto','=', $value)
     ->get();
-    $estoque = $estoque->toArray(); 
+    $estoque = $estoque->toArray();     
     $estoque = $estoque[0]->quantidade; 
->>>>>>> 71f5d0464115cb6f02b301c99dff8caffc362191
 
     /*
     echo('ESTOQUE: ');var_dump($estoque);
@@ -324,15 +321,15 @@ else if ($orcamento->status =='Fechada') {
     echo('QTD: ');var_dump($quantidade[$x]);
     echo('<br>');*/
 
-
-    if($estoque < $quantidade[$x]){
+    if($quantidade[$key] > $estoque){
       echo "<script>alert('Estoque Insuficiente');</script>";
+die();
 
       /*NAO SALVAR VENDA*/ 
 
     }
 
-    else{
+     else{
       echo('ESTOQUE MAIOR');
       echo('<br>');
       /*SALVAR VENDA*/
@@ -352,10 +349,8 @@ else if ($orcamento->status =='Fechada') {
         $itens->save();
         $cont=$cont+1;
       }      
-    }  
-    $x=$cont+1;
-    dd($x);
-    echo $x;
+    } 
+
   }
 
   DB::commit();
