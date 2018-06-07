@@ -82,22 +82,19 @@
       </select>
     </div>                
   </div>
+
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
       <label for="origemVenda">Origem Venda</label>
       <span class="ob">*</span>
       <select name="origemVenda" id="origemVenda" value="<?php echo e(old('origemVenda')); ?>"
       id="origemVenda" class="form-control">
-
       <option value="Balcao">Balcao </option>
       <option value="Instalacao">Instalacao </option>
-
-
-
     </select>
-
   </div>
 </div>
+
 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
   <div class="form-group">
     <label for="condicaoPagamento">Condição Pagamento</label>
@@ -316,6 +313,7 @@
       <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
     </tbody>
+    
     <tfoot>
       <th></th>
       <th></th>
@@ -404,7 +402,7 @@ function adicionar(){
         
         $totalTotal = $totalTotal + subtotal[cont];
 
-        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td><td><input class="form-control" name="idproduto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td><td><input class="form-control" name="valorTotal[]" id="valorTotal" value="'+subtotal[cont]+'"></td><td><input type="hidden" name="estoque[]" value="'+estoque+'"></td></tr>';
+        var linha = '<tr class="selected" id="linha'+cont+'"><td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td> <td><input class="form-control" name="idproduto[]" value="'+idproduto+'"></td><td><input class="form-control" name="quantidade[]" value="'+quantidade+'"></td><td><input class="form-control" name="valorUnitario[]" value="'+valorUnitario+'"></td><td><input class="form-control" name="desconto[]" value="'+desconto+'"></td><td><input class="form-control" name="maodeobra[]" value="'+maodeobra+'"></td><td><input class="form-control" name="valorTotal[]" id="valorTotal" value="'+subtotal[cont]+'"></td><td><input type="hidden" name="estoque[]" value="'+estoque+'"></td></tr>';
         cont++;
 
         console.log($totalTotal);

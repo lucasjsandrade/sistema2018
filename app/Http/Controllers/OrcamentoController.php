@@ -201,7 +201,7 @@ public function update(orcamentoFormRequest $request, $id){
     $valorUnitario      =$request->get('valorUnitario');   
 
 
-
+    
 
 
     $cont = 0;
@@ -260,7 +260,6 @@ else if ($orcamento->status =='Fechada') {
   $contas->parcela=$orcamento->numeroDeParcelas;
 
 
-
   $contas->save(); 
 
   /*Gera Parcela a Receber*/
@@ -285,10 +284,10 @@ else if ($orcamento->status =='Fechada') {
   }
 
 
-
   $orcamento = Orcamento::findOrFail($id);
 
   $usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();
+
 
 
   $produto   =$request->get('idproduto');
@@ -296,38 +295,59 @@ else if ($orcamento->status =='Fechada') {
   $quantidade      =$request->get('quantidade');
   $desconto      =$request->get('desconto');   
   $maodeobra      =$request->get('maodeobra');   
-  $valorUnitario      =$request->get('valorUnitario');   
-  $estoque      =$request->get('estoque');   
-  
- 
+  $valorUnitario      =$request->get('valorUnitario');  
+
+  $x = 0;
+
+  while ($x < $produto) {
+
+    $estoque = DB::table('produto as p')
+    ->select('quantidade')
+    ->where('p.idproduto','=', $produto[$x])
+    ->get();
+    $estoque = $estoque->toArray(); 
+    $estoque = $estoque[0]->quantidade; 
+
+    /*
+    echo('ESTOQUE: ');var_dump($estoque);
+    echo('<br>');
+    echo('QTD: ');var_dump($quantidade[$x]);
+    echo('<br>');*/
 
 
+    if($estoque < $quantidade[$x]){
+      echo "<script>alert('Estoque Insuficiente');</script>";
 
-
-  $cont = 0;
-  if ($quantidade >= $estoque ) {
-
-    while($cont < count($desconto)){
-      $itens = new Itensv();
-      $itens->idvenda=$orcamento->idvenda;
-      $itens->idproduto=$produto[$cont];
-      $itens->desconto=$orcamento->desconto[$cont];
-      $itens->quantidade=$quantidade[$cont];
-      $itens->desconto=$desconto[$cont];
-      $itens->maodeobra=$maodeobra[$cont];
-      $itens->valorUnitario=$valorUnitario[$cont];
-      $itens->status='orcamento';
-      $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
-
-      $itens->save();
-      $cont=$cont+1;
+      /*NAO SALVAR VENDA*/ 
 
     }
+
+    else{
+      echo('ESTOQUE MAIOR');
+      echo('<br>');
+      /*SALVAR VENDA*/
+      $cont = 0;
+      while($cont < count($desconto)){
+        $itens = new Itensv();
+        $itens->idvenda=$orcamento->idvenda;
+        $itens->idproduto=$produto[$cont];
+        $itens->desconto=$orcamento->desconto[$cont];
+        $itens->quantidade=$quantidade[$cont];
+        $itens->desconto=$desconto[$cont];
+        $itens->maodeobra=$maodeobra[$cont];
+        $itens->valorUnitario=$valorUnitario[$cont];
+        $itens->status='orcamento';
+        $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont])+$maodeobra[$cont]-$desconto[$cont];;
+
+        $itens->save();
+        $cont=$cont+1;
+      }      
+    }  
+    $x=$cont+1;
+    dd($x);
+    echo $x;
   }
-  else{
-    echo "string";
-    die();
-  }
+
   DB::commit();
 
 }
