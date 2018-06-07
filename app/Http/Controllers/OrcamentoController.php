@@ -199,10 +199,7 @@ public function update(orcamentoFormRequest $request, $id){
     $desconto      =$request->get('desconto');   
     $maodeobra      =$request->get('maodeobra');   
     $valorUnitario      =$request->get('valorUnitario');   
-
-
-
-
+    
 
     $cont = 0;
     while($cont < count($desconto)){
@@ -299,10 +296,6 @@ else if ($orcamento->status =='Fechada') {
   $valorUnitario      =$request->get('valorUnitario');   
   $estoque      =$request->get('estoque');   
   
- 
-
-
-
 
   $cont = 0;
   if ($quantidade >= $estoque ) {

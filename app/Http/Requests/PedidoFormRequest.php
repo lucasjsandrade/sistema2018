@@ -27,7 +27,7 @@ class PedidoFormRequest extends FormRequest
         
 
 
-        'idproduto' => 'required',
+        'idproduto' ,
         'idfornecedor' => 'required',
         'quantidade', 
         'valorUnitario',

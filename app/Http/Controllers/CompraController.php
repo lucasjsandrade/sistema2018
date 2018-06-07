@@ -46,7 +46,7 @@ class CompraController extends Controller
 			->groupBy('c.idcompra', 'func.nomeFuncionario', 'for.nomeFantasia', 'c.dataCompra', 'c.status','c.totalCompra')
 
 			
-
+			->where('c.status', '=', 'Fechado')  
 			->where('c.idcompra','LIKE', '%'.$query.'%') 	
 
 			->paginate(7);

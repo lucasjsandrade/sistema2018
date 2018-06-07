@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <h3>Alterar Pedido</h3>
+    <h3>Alterar Pedido : {{ $pedido->idcompra }}</h3>
     @if (count($errors)>0)
     <div class="alert alert-danger">
       <ul>
@@ -20,7 +20,22 @@
 
 {{Form::token()}}
 
-<div class="row">
+
+
+  <div class="row">  
+
+  <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+    <div class="form-group">
+      <label for="status">Status</label>
+      <span class="ob">*</span>
+      <select name="status" id="status" class="form-control" required>
+        <option value="">Selecione Pedido</option> 
+        <option value="Aberto">Aberto (Pedido)</option>
+        <option value="Fechado">Fechado (Compra)</option>
+      </select>
+    </div>
+  </div>
+
 
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
@@ -87,6 +102,27 @@
   </div>
 </div>
 
+<div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+  <div class="form-group">
+    <span class="ob">*</span>
+    <label>Numero De parcelas</label>
+    <select name="numeroDeParcelas" id="numeroDeParcelas" class="form-control">
+
+      <option value=1>1x </option>
+      <option value=2>2x </option>
+      <option value=3>3x </option>
+      <option value=4>4x </option>
+      <option value=5>5x </option>
+      <option value=6>6x </option>
+      <option value=7>7x </option>
+      <option value=8>8x </option>
+      <option value=9>9x </option>
+      <option value=10>10x </option>
+
+    </select>
+  </div>
+</div>
+
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
    <div class="form-group">
     <a href=/pessoa/fornecedor/create target="_blank"><button class="btn btn-primary" type="button">Novo Fornecedor</button></a>
@@ -97,9 +133,7 @@
 
 </div>
 
-
 <div class="row">
-
 
  <div class="panel panel-primary">
 
@@ -109,7 +143,7 @@
       <div class="form-group">
         <label>Produto</label>
         <span class="ob">*</span>
-        <select name="pidproduto" id="pidproduto"
+        <select name="idproduto" id="pidproduto"
         class="form-control selectpicker" data-live-search="true">
         @foreach($produto as $pro)
         <option value="{{$pro->idproduto}}">
@@ -171,7 +205,8 @@
       <th></th>    
       <th></th> 
     </tfoot>   
-  
+    
+    </tbody>  
 
     <tbody>
             <script type="text/javascript">
@@ -190,18 +225,18 @@
 
            </td>
            <td>
-            <input class="form-control" disabled name="idproduto[]" value="{{$itens->idproduto}}">
+            <input class="form-control"  name="idproduto[]" value="{{$itens->idproduto}}">
           </td>
           <td>
-            <input class="form-control" disabled name="quantidade[]" value="{{$itens->quantidade}}">
+            <input class="form-control"  name="quantidade[]" value="{{$itens->quantidade}}">
           </td>  
 
           <td>
-            <input class="form-control" disabled name="valorUnitario[]" value="{{$itens->valorUnitario}}">
+            <input class="form-control"  name="valorUnitario[]" value="{{$itens->valorUnitario}}">
           </td>
         
         <td>
-          <input class="form-control" disabled name="valorTotal[]" value="{{$itens->valorTotal}}">
+          <input class="form-control"  name="valorTotal[]" value="{{$itens->valorTotal}}">
 
           <script type="text/javascript"> $totalTotal = $totalTotal + {{$itens->valorTotal}} ; </script>
 
@@ -240,13 +275,12 @@
   <div class="form-group">
    <input name="_token" value= "{{ csrf_token()}}" type="hidden"> 
    <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/pedido';">Cancelar</button>
+   <button class="btn btn-danger" type="reset"  onclick="javascript: location.href='/compra/pedido';">Cancelar</button>
  </div>
 </div>
 
 
 </div>
-
 
 {!!Form::close()!!}   
 
@@ -263,7 +297,7 @@
   var cont=0;
   total = 0;
   subtotal=[];
-  $("#salvar").hide();
+  $("#salvar");
 
   function adicionar(){
     idproduto=$("#pidproduto").val();
@@ -277,7 +311,7 @@
       subtotal[cont]=(quantidade*valorUnitario);
       total = total + subtotal[cont];
       var linha = 
-      '<tr class="selected" id="linha'+cont+'"> <td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td> <td> <input class="form-control" name="pidproduto[]" disabled value="'+idproduto+'">'+ produto+'</td> <td> <input class="form-control" name="pquantidade[]" disabled value="'+quantidade+'"></td><td> <input class="form-control" name="pvalorUnitario[]" disabled value="'+valorUnitario+'"></td> <td>'+subtotal[cont]+' </td> </tr>'
+      '<tr class="selected" id="linha'+cont+'"> <td><button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close"></i></button></td> <td> <input class="form-control" name="idproduto[]"  value="'+idproduto+'"></td> <td> <input class="form-control" name="quantidade[]"  value="'+quantidade+'"></td><td> <input class="form-control" name="valorUnitario[]"  value="'+valorUnitario+'"></td> <td>'+subtotal[cont]+' </td> </tr>'
       cont++;
       limpar();
       $("#total").html("R$: " + total);
@@ -302,7 +336,7 @@
     if(total>0){
       $("#salvar").show();
     } else{
-      $("#salvar").hide();
+      $("#salvar");
     }
   }
 
