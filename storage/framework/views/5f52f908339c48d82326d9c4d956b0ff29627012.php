@@ -1,7 +1,7 @@
 <?php $__env->startSection('conteudo'); ?>
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3> Compra <a href="compra/create"><button class="btn btn-success">Incluir</button></a></h3>
+		<h3> Compra <a href="/compra/compra/create"><button class="btn btn-success">Incluir</button></a></h3>
 		<?php echo $__env->make('compra.compra.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 	</div>
 </div>
