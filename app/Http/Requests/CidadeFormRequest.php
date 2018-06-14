@@ -27,7 +27,7 @@ class CidadeFormRequest extends FormRequest
     public function rules(){
     
     return [
-        'nomeCidade' =>'required|alpha',
+        'nomeCidade' =>'required',
         'idestado'=>'required',
         'status'
 

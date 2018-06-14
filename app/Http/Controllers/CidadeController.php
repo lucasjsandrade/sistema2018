@@ -109,7 +109,7 @@ public function update(CidadeFormRequest $request, $id){
    $cidade=Cidade::findOrFail($id);
    $cidade->idestado=$request->get('idestado');
    $cidade->nomeCidade=$request->get('nomeCidade');
-   $cidade->status=$request->get('status');
+   $cidade->status= 'Ativo';
    $cidade->update();
    return Redirect::to('regiao/cidade');
    BD::commit();

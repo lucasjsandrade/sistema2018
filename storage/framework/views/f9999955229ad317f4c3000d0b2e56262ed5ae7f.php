@@ -22,6 +22,7 @@
 
 
 <div class="row">
+
   <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
     <div class="form-group">
       <label>Funcionario</label>
@@ -67,18 +68,12 @@
       <span class="ob">*</span>
       <label>Forma Pagamento</label>
       <select name="formaPagamento" id="formaPagamento" class="form-control">
-
         <option value="Dinheiro">Dinheiro </option>
         <option value="Boleto"> Boleto </option>
         <option value="Cartão">Cartão </option>
-
-
       </select>
     </div>
-
-  </div>
-
-  
+  </div>  
 
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
    <div class="form-group">
@@ -86,8 +81,8 @@
     <a href=/pessoa/funcionario/create target="_blank"><button class="btn btn-primary" type="button">Novo Funcionario</button></a>
     <a href=/estoque/produto/create target="_blank"><button class="btn btn-primary" type="button">Novo Produto</button></a>
   </div>
-
 </div>
+
 </div>
 
 
@@ -95,7 +90,9 @@
 
 
  <div class="panel panel-primary">
+
   <div class="panel-body" >
+    
     <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
       <div class="form-group">
         <label>Produto</label>
@@ -162,8 +159,8 @@
       
       <th id="total">R$ 0,00</th>     
     </tfoot>   
-    </tfoot>
-  </table>
+  </tfoot>
+</table>
 </div>
 
 </div>
@@ -214,6 +211,7 @@
       total = total + subtotal[cont];
       var linha = '<tr class="selected" id="linha'+cont+'">    <td> <button type="button" class="btn btn-warning" onclick="apagar('+cont+');"> X </button></td>      <td> <input type="hidden" name="idproduto[]" value="'+idproduto+'">'+produto+'</td><td> <input type="number" name="quantidade[]" value="'+quantidade+'"></td>                       <td> <input type="number" name="valorUnitario[]" value="'+valorUnitario+'"></td> <td> '+subtotal[cont]+' </td> </tr>'
       cont++;
+
       limpar();
       $("#total").html("R$: " + total);
       ocultar();

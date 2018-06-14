@@ -95,7 +95,7 @@
              </tr>
              <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
-             <th>Total</th>
+             <th>TOTAL</th>
              <th></th>
              <th></th> 
              <th></th>
