@@ -384,7 +384,7 @@
                         maodeobra = $("#pmaodeobra").val();
                         desconto = $("#pdesconto").val();
                         estoque = $("#pqestoque").val();
-                       // valorTotal = $("#total").val();
+                        // valorTotal = $("#total").val();
 
 
                         //Verificar if de adicionar linha se a linha anterior estiver em branco
@@ -430,6 +430,7 @@
                         $("#pdesconto").val("");
                         $("#pmaodeobra").val("");
                         $("#total").val("");
+
                     }
 
                     function apagar(index) {
