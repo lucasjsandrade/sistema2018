@@ -305,7 +305,7 @@
         subtotal[cont]=((quantidade*valorUnitario)-desconto);
         total = total + subtotal[cont];
 
-        var linha = '<tr class="selected" id="linha'+cont+'">    <td> <button type="button" class="btn btn-warning" onclick="apagar('+cont+');"> X </button></td>      <td> <input type="hidden" name="idproduto[]" value="'+idproduto+'">'+produto+'</td><td> <input type="number" name="quantidade[]" value="'+quantidade+'"></td> <td> <input type="number" name="valorUnitario[]" value="'+valorUnitario+'"></td> <td> <input type="number" name="desconto[]" value="'+desconto+'"></td> <td> '+subtotal[cont]+' </td> </tr>'
+        var linha = '<tr class="selected" id="linha'+cont+'">    <td> <button type="button" class="btn btn-warning" onclick="apagar('+cont+');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idproduto[]" value="'+idproduto+'">'+produto+'</td><td> <input type="number" name="quantidade[]" value="'+quantidade+'"></td> <td> <input type="number" name="valorUnitario[]" value="'+valorUnitario+'"></td> <td> <input type="number" name="desconto[]" value="'+desconto+'"></td> <td> '+subtotal[cont]+' </td> </tr>'
         cont++;
 
 

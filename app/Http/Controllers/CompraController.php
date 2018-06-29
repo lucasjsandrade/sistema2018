@@ -97,7 +97,7 @@ class CompraController extends Controller
 			$compra->dataCompra=$mytime->toDateTimeString();
 
 			$compra->formaPagamento=$request->get('formaPagamento');
-			$compra->status='Aberto';
+			$compra->status='Fechado';
 			$compra->numeroDeParcelas=$request->get('numeroDeParcelas');
 
 			$compra->save();
@@ -184,7 +184,7 @@ class CompraController extends Controller
 
 			DB::commit();
 
-			return Redirect::to('compra');
+			return Redirect::to('compra/compra');
 
 
 

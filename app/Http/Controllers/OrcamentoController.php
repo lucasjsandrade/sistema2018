@@ -293,7 +293,7 @@ class OrcamentoController extends Controller
                 $valorUnitario = $request->get('valorUnitario');
 
 
-                foreach ($produto as $key => $value) {
+                foreach ($produto as $key => $value) { //Pesqusia linha a linha da tabela
 
                     $estoque = DB::table('produto as p')
                         ->select('p.quantidade')

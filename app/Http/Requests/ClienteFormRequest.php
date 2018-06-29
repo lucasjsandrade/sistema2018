@@ -34,7 +34,7 @@ class ClienteFormRequest extends FormRequest
             'whatsapp'=>'min:10|max:15',
             'celular'=>'min:10|max:15',
             'dataNascimento'=>'date|before:tomorrow',
-            'email' => 'min:10|max:50|email',
+            'email' => 'min:10|email',
             'logradouro'=>'required|max:50',
             'numero'=>'min:2|numeric',
             'bairro'=>'required|max:50',

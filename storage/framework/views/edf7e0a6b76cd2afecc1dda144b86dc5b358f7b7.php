@@ -1,4 +1,4 @@
-<?php echo Form::open(array('url'=>'compra', 'method'=>'GET', 'autocomplete'=>'off', 'role' => 'search')); ?>
+<?php echo Form::open(array('url'=>'compra/compra', 'method'=>'GET', 'autocomplete'=>'off', 'role' => 'search')); ?>
 
 
 <div class="form-group">
