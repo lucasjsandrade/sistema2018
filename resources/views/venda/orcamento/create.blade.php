@@ -16,6 +16,7 @@
 </div>
 
 
+
 {!!Form::open(array('url'=>'venda/orcamento','method'=>'POST','autocomplete'=>'off'))!!}
 {{Form::token()}}
 

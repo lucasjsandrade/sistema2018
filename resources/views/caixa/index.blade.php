@@ -1,57 +1,72 @@
 @extends('layouts.admin')
 @section('conteudo')
-<div class="row">
+    <?php
 
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<div class="table-responsive">
-				<table class="table table-striped table-bordered table-condensed table-hover">
-					<thead>
+    try {
+        //session_start();
+        if ($_COOKIE['caixa'] == 'aberto') {
 
-						<th>Data</th>
+            //Sessão Liberada.
+        }
+    } catch (\Exception $Exception) {
+        echo '<script>alert("O Caixa Não está aberto,faça a abertura do Caixa!")</script>';
+        unset($_COOKIE['cixa']);
+        echo '<script>window.location="caixa/create"</script>';
+    }
 
-						<th>descricao</th>
-						<th>Tpo Movimentacao</th>
-						<th>Valor</th>
+    ?>
+    <div class="row">
+        <head>
+            <meta charset="utf-8">
+            <title>Caixa</title>
+        </head>
+    </div>
+    <body>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <section>
+                <header>
+                    <nav id="menu">
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-primary"><a href="caixa/create">Abrir
+                                    Caixa</a></a></li>
+                            <li class="list-group-item list-group-item-primary"><a href="/contaspagar">Contas A
+                                    Pagar</a></li>
+                            <li class="list-group-item"><a href="/contasreceber">Contas A Receber</a></li>
+                            <li class="list-group-item"><a href="/pagamento">Pagamento</a></li>
+                            <a href="/venda/venda"><button class="btn btn-danger" onClick="alert(<?php setcookie("caixa"); ?>.'Caixa encerrado com Sucesso!'); return true">Fechar Caixa</button><a>
 
-						<th>Total</th>
-
-						<th>Opções</th>
-
-
-
-					</thead>
-
-
-
-					@foreach ($caixa as $c)
-					<tr>
-						<td>{{ $c->data}}</td>					
-						<td>{{ $c->tipoMovimentacao}}</td>					
-						<td>{{ $c->valor}}</td>	
-
-						<!---->
-
-
-
-
-
-
-
-
-						<td>
-							<a href="{{URL::action('VendaController@show',$v->idvenda)}}"><button class="btn btn-info">Detalhe</button></a>
-						</td>
+                        </ul>
+                    </nav>
 
 
-					</tr>
+                </header>
+                <br>
 
-					@include('caixa.modal')
-					@endforeach
-				</table>
+            </section>
+        </div>
+    </div>
+    </body>
 
-			</div>
-			{{$caixa->render()}}
-		</div>
-	</div>
-	@stop
+    </div>
+
+    <section>
+        <article>
+            <br><br>
+            <h1></h1>
+        </article>
+
+    </section>
+
+
+@stop
+
+
+<style>
+
+    #menu ul li {
+        display: inline;
+    }
+
+
+</style>

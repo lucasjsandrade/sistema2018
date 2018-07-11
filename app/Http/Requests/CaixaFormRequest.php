@@ -25,7 +25,7 @@ class CaixaFormRequest extends FormRequest
     {
         return [
             'idmovimentacaocaixa',
-            'data' => 'required',
+            'data',
             'saldoInicial'=>'required',
             'saldoFinal',
             'diferenca',
@@ -34,5 +34,5 @@ class CaixaFormRequest extends FormRequest
 
         ];
     }
-    }
+
 }

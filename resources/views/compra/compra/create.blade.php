@@ -14,7 +14,21 @@
             @endif
         </div>
     </div>
+    <?php
 
+    try {
+
+        if ($_COOKIE['caixa'] == 'aberto') {
+
+            //Sessão Liberada.
+        }
+    } catch (\Exception $Exception) {
+        echo '<script>alert("Para Realizar uma Compra o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
+        unset($_COOKIE['caixa']);
+        echo '<script>window.location="/caixa/create"</script>';
+    }
+
+    ?>
 
     {!!Form::open(array('url'=>'compra/compra','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
