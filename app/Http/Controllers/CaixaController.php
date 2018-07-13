@@ -29,12 +29,17 @@ class CaixaController extends Controller
                 ->select('c.idcaixa', 'c.data',
                     'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor')
                 ->where('c.idcaixa', 'LIKE', '%' . $query . '%')
+                ->where('c.idcaixa', '>', 0)
                 ->orderBy('idcaixa', 'desc')
                 ->paginate(10);
             return view('caixa.index', [
                 "caixa" => $caixa, "searchText" => $query
             ]);
+
         }
+
+
+
     }
 
     public function create()

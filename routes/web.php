@@ -32,6 +32,7 @@ Route::resource('venda/venda', 'VendaController');
 Route::resource('contaspagar', 'ContaspagarController');
 Route::resource('contasreceber', 'ContasreceberController');
 Route::resource('caixa', 'CaixaController');
+Route::resource('pagamento', 'PagamentoController');
 Route::resource('sobre', 'SobreController');
 Route::resource('layouts', 'desenvolvimentoController');
 Route::resource('seguranca/usuario', 'usuarioController');

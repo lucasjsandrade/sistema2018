@@ -34,28 +34,9 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <section>
-                <header>
-                    <nav id="menu">
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-primary"><a href="/caixa">Caixa</a></a></li>
-                            <li class="list-group-item list-group-item-primary"><a href="contaspagar">Contas A Pagar</a>
-                            </li>
-                            <li class="list-group-item"><a href="contasreceber">Contas A Receber</a></li>
-                            <li class="list-group-item"><a href="pagamento">Pagamento</a></li>
-
-                        </ul>
-                    </nav>
-
-
-                </header>
-                <br>
-
-            </section>
-
-            <section>
                 <article>
-                    <h3>Insira um valor para iniciar o caixa </h3>
-                    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <h4><p class="alinha">Insira um valor para iniciar o caixa</p> </h4>
+                    <div class="col-lg-4 col-sm-4 col-md-4  col-xs-12">
                         <div class="form-group">
                             <label for="quantidade">Saldo Inicial</label>
                             <span class="ob">*</span>
@@ -82,6 +63,6 @@
     #menu ul li {
         display: inline;
     }
-
+    p.alinha{padding-left: 1.0em }<
 
 </style>
