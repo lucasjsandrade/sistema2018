@@ -1,7 +1,4 @@
-<div class="modal fade modal-slide-in-right" aria-hidden="true"
-role="dialog" tabindex="-1" id="modal-delete-{{$v->idvenda}}">
-	{{Form::Open(array('action'=>array('VendaController@destroy',$v->idvenda),'method'=>'delete'))}}
-	<div class="modal-dialog">
+<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" 
@@ -19,6 +16,8 @@ role="dialog" tabindex="-1" id="modal-delete-{{$v->idvenda}}">
 			</div>
 		</div>
 	</div>
-	{{Form::Close()}}
 
 </div>
+
+
+

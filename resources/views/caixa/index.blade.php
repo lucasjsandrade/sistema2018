@@ -1,20 +1,6 @@
 @extends('layouts.admin')
 @section('conteudo')
-    <?php
 
-    try {
-        //session_start();
-        if ($_COOKIE['caixa'] == 'aberto') {
-
-            //Sessão Liberada.
-        }
-    } catch (\Exception $Exception) {
-        echo '<script>alert("O Caixa Não está aberto,faça a abertura do Caixa!")</script>';
-        unset($_COOKIE['cixa']);
-        echo '<script>window.location="caixa/create"</script>';
-    }
-
-    ?>
     <div class="row">
         <head>
             <meta charset="utf-8">
@@ -34,8 +20,27 @@
                                     Pagar</a></li>
                             <li class="list-group-item"><a href="/contasreceber">Contas A Receber</a></li>
                             <li class="list-group-item"><a href="/pagamento">Pagamento</a></li>
+                            <li class="list-group-item list-group-item-primary">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <label>Fechar Caixa</label>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <p>
+                                            <n>Deseja Realmente fechar o Caixa?</n>
+                                        </p>
+                                    </li>
 
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
 
+                                        <div class="pull-right">
+                                            <a href="{{url('/close')}}" class="btn btn-danger btn-flat">Fechar</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
 

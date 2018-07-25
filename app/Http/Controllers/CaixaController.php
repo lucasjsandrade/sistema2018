@@ -53,6 +53,26 @@ class CaixaController extends Controller
 
     }
 
+    public function close()
+    {
+
+        try {
+
+            if ($_COOKIE['caixa'] == 'aberto') {
+
+                setcookie("caixa");
+                echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
+                echo '<script>window.location="caixa"</script>';
+                //fecha o caixa
+            }
+        } catch (\Exception $Exception) {
+            echo '<script>alert("Não Existe Caixa para ser Fechado!")</script>';
+            unset($_COOKIE['caixa']);
+            echo '<script>window.location="/caixa"</script>';
+        }
+
+
+    }
 
     public function store(CaixaFormRequest $request)
     {
@@ -95,7 +115,7 @@ class CaixaController extends Controller
             ->where('cai.idcaixa', '=', $id)
             ->get();
 
-        return view("caixa.show", ["caixa" => $caixa, "movimentacaocaixa"=> $movimentacaocaixa]);
+        return view("caixa.show", ["caixa" => $caixa, "movimentacaocaixa" => $movimentacaocaixa]);
 
 
     }
@@ -111,3 +131,5 @@ class CaixaController extends Controller
 
 
 }
+
+
