@@ -3,119 +3,133 @@
 namespace sistemaLaravel\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades;
 use sistemaLaravel\Caixa;
 use Illuminate\Support\Facades\Redirect;
 use sistemaLaravel\Http\Requests\CaixaFormRequest;
-use DB;
 use Carbon\Carbon;
 use Response;
+use DB;
 use Illuminate\Support\Collection;
 
 class CaixaController extends Controller
 {
-	public function __construct(){
-		$this->middleware('auth');
-	}
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-	public function index(Request $request){
+    public function index(Request $request)
+    {
 
-		if($request){
-			$query=trim($request->get('searchText'));
-			$caixa=DB::table('caixa as c')
-			->join('movimentacaoCaixa as mov', 'mov.idmovimentacaoCaixa', '=', 
-				'c.idmovimentacaoCaixa')
-			->select('c.idcaixa', 'c.data', 
-				'c.saldoInicial','c.saldoFinal','c.diferenca','c.situacao','mov.descricao','mov.data','mov.tipoMovimentacao','mov.valor')
-			->where('c.idcaixa', 'LIKE', '%'.$query.'%') 
-			
+        if ($request) {
+            $query = trim($request->get('searchText'));
+            $caixa = DB::table('caixa as c')
+                ->join('movimentacaoCaixa as mov', 'mov.idmovimentacao', '=',
+                    'c.idmovimentacao')
+                ->select('c.idcaixa', 'c.data',
+                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor')
+                ->where('c.idcaixa', 'LIKE', '%' . $query . '%')
+                ->where('c.idcaixa', '>', 0)
+                ->orderBy('idcaixa', 'desc')
+                ->paginate(10);
+            return view('caixa.index', [
+                "caixa" => $caixa, "searchText" => $query
+            ]);
 
-			->orderBy('idcaixa','desc')
-			->paginate(10);
-			return view('caixa.index', [
-				"caixa"=>$caixa, "searchText"=>$query
-			]);
-		}
-	}
-
-	public function create(){
-
-		$caixa=DB::table('caixa')
-		->get();
-		$marca=DB::table('marca')
-		->where('status', '=', 'ativo')
-		->get();
-		return view("estoque.produto.create", ["categorias"=>
-			$categorias],["marca"=>
-			$marca]);
+        }
 
 
-	}
+    }
 
-	public function store(ProdutoFormRequest $request){
+    public function create()
+    {
 
-		$produto = new Produto;
-		$produto->idcategoria=$request->get('idcategoria');
-		$produto->codigo=$request->get('codigo');
-		$produto->modelo=$request->get('modelo');
-		$produto->cor=$request->get('cor');
-		$produto->material=$request->get('material');
-		$produto->unidadeMedida=$request->get('unidadeMedida');
-		$produto->quantidade=0;
-		$produto->preco=0;
-		$produto->custo=0;
-		$produto->status='Ativo';
-		$mytime = Carbon::now('America/Sao_Paulo'); 
-		$produto->dataCadastro=$mytime->toDateTimeString();
+        $caixa = DB::table('caixa')
+            ->get();
+
+        return view("caixa.create");
 
 
+    }
 
-		$produto->save();
-		return Redirect::to('estoque/produto');
+    public function close()
+    {
 
+        try {
 
-	}
+            if ($_COOKIE['caixa'] == 'aberto') {
 
-
-	public function show($id){
-		return view("estoque.produto.show", 
-			["produto"=>Produto::findOrFail($id)]);
-	}
-
-	public function edit($id){
-
-		$produto = Produto::findOrFail($id);
-		$categorias = DB::table('categoria')
-		->where('status', '=','ativo')->get();
-		$marca = DB::table('marca')
-		->where('status', '=','Ativo')->get();
-
-		return view("estoque.produto.edit", 
-			["produto"=>$produto, "categorias"=>$categorias,"marca"=>$marca]);
-	}
-
-	public function update(ProdutoFormRequest $request, $id){
-		$produto=Produto::findOrFail($id);
-		$produto->idcategoria=$request->get('idcategoria');
-		$produto->codigo=$request->get('codigo');
-		$produto->cor=$request->get('cor');
-		$produto->material=$request->get('material');
-		$produto->unidadeMedida=$request->get('unidadeMedida');
-		$produto->status=$request->get('status');
-		$produto->preco=$request->get('preco');
-		$produto->modelo=$request->get('modelo');
-    //$produto->custo=$request->get('custo');
+                setcookie("caixa");
+                echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
+                echo '<script>window.location="caixa"</script>';
+                //fecha o caixa
+            }
+        } catch (\Exception $Exception) {
+            echo '<script>alert("Não Existe Caixa para ser Fechado!")</script>';
+            unset($_COOKIE['caixa']);
+            echo '<script>window.location="/caixa"</script>';
+        }
 
 
-		$produto->update();
+    }
+
+    public function store(CaixaFormRequest $request)
+    {
+
+        $caixa = new Caixa;
+        $caixa->saldoInicial = $request->get('saldoInicial');
+
+        $mytime = Carbon::now('America/Sao_Paulo');
+        $caixa->data = $mytime->toDateTimeString();
 
 
-		return Redirect::to('estoque/produto');
-	}
+        $caixa->save();
+        if ($caixa):
 
-	public function destroy($id){
-		$produto=Produto::findOrFail($id);
-		$produto->status='Inativo';
-		$produto->update();
-		return Redirect::to('estoque/produto');
-	}
+            setcookie("caixa", "aberto", time() + (730 * 24 * 3600));
+            $cook_abrir = $_COOKIE['caixa'] = 'ABERTO';
+
+            echo '<script>alert("Abertura Realizada com Sucesso!")</script>';
+            echo '<script>window.location="caixa"</script>';
+        else:
+            echo '<script>alert("Ocorreu um erro na abertura do Caixa!")</script>';
+            echo '<script>window.location="caixa/create"</script>';
+        endif;
+
+        return Redirect::to('/caixa');
+    }
+
+
+    public function show($id)
+    {
+        $caixa = DB::table('caixa as cai')
+            ->select('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoFinal', 'cai.diferenca', 'cai.situacao')
+            ->groupBy('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoFinal', 'cai.diferenca', 'cai.situacao')
+            ->where('cai.idcaixa', '=', $id)
+            ->first();
+
+        $movimentacaocaixa = DB::table('movimentacaocaixa as mov')
+            ->join('caixa as cai', 'mov.idmovimentacao', '=', 'cai.idmovimentacao')
+            ->select('mov.idmovimentacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor', 'mov.idpagamento', 'mov.idrecebimento')
+            ->where('cai.idcaixa', '=', $id)
+            ->get();
+
+        return view("caixa.show", ["caixa" => $caixa, "movimentacaocaixa" => $movimentacaocaixa]);
+
+
+    }
+
+    public function destroy()
+    {
+
+        echo('aqui');
+        die();
+
+
+    }
+
+
 }
+
+

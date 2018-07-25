@@ -20,6 +20,7 @@ class Caixa extends Model
 		'saldoFinal',
 		'diferenca',
 		'situacao',
+        ];
 
 		protected $guarded = [];
 	}
