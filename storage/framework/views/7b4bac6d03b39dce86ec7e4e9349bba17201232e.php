@@ -35,7 +35,7 @@
                                     <li class="user-footer">
 
                                         <div class="pull-right">
-                                            <a href="<?php echo e(url('/close')); ?>" class="btn btn-danger btn-flat">Fechar</a>
+                                            <a href="<?php echo e(url('/close')); ?>" class="btn btn-danger btn-flat">Fechar Caixa</a>
                                         </div>
                                     </li>
                                 </ul>

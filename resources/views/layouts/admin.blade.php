@@ -131,12 +131,12 @@
             </li>  
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-user"></i>
+                <i class="fa fa-money "></i>
                 <span>Movimentação</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/caixa"><i class="fa fa-group"></i>Caixa</a></li>
+                <li><a href="/caixa"><i class="fa fa-calculator" aria-hidden="true"></i>Caixa</a></li>
                 <li><a href="/contaspagar"><i class="fa fa-money "></i>Contas a Pagar</a></li>
                 <li><a href="/contasreceber"><i class="fa fa-money "></i>Contas a Receber</a></li>
               </ul>

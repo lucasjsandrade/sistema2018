@@ -15,6 +15,7 @@
 </div>
 
 
+
 <?php echo Form::open(array('url'=>'venda/orcamento','method'=>'POST','autocomplete'=>'off')); ?>
 
 <?php echo e(Form::token()); ?>

@@ -25,12 +25,15 @@ class CaixaController extends Controller
         if ($request) {
             $query = trim($request->get('searchText'));
             $caixa = DB::table('caixa as c')
-                ->join('movimentacaoCaixa as mov', 'mov.idmovimentacao', '=',
-                    'c.idmovimentacao')
+                ->join('movimentacaocaixa as mov', 'mov.idcaixa', '=',
+                    'c.idcaixa')
                 ->select('c.idcaixa', 'c.data',
                     'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor')
                 ->where('c.idcaixa', 'LIKE', '%' . $query . '%')
                 ->where('c.idcaixa', '>', 0)
+                ->select('c.idcaixa', 'c.data',
+                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor')
+
                 ->orderBy('idcaixa', 'desc')
                 ->paginate(10);
             return view('caixa.index', [
@@ -53,33 +56,14 @@ class CaixaController extends Controller
 
     }
 
-    public function close()
-    {
 
-        try {
-
-            if ($_COOKIE['caixa'] == 'aberto') {
-
-                setcookie("caixa");
-                echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
-                echo '<script>window.location="caixa"</script>';
-                //fecha o caixa
-            }
-        } catch (\Exception $Exception) {
-            echo '<script>alert("Não Existe Caixa para ser Fechado!")</script>';
-            unset($_COOKIE['caixa']);
-            echo '<script>window.location="/caixa"</script>';
-        }
-
-
-    }
 
     public function store(CaixaFormRequest $request)
     {
 
         $caixa = new Caixa;
         $caixa->saldoInicial = $request->get('saldoInicial');
-
+        $caixa->situacao = 'Aberto';
         $mytime = Carbon::now('America/Sao_Paulo');
         $caixa->data = $mytime->toDateTimeString();
 
@@ -119,6 +103,30 @@ class CaixaController extends Controller
 
 
     }
+
+
+
+    public function close()
+    {
+
+        try {
+
+            if ($_COOKIE['caixa'] == 'aberto') {
+
+                setcookie("caixa");
+                echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
+                echo '<script>window.location="caixa"</script>';
+                //fecha o caixa
+            }
+        } catch (\Exception $Exception) {
+            echo '<script>alert("Não Existe Caixa para ser Fechado!")</script>';
+            unset($_COOKIE['caixa']);
+            echo '<script>window.location="/caixa"</script>';
+        }
+
+
+    }
+
 
     public function destroy()
     {
