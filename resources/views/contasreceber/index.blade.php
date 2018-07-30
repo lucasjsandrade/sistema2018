@@ -37,7 +37,7 @@ function converteData($data){
 					
 					
 					<td>
-						<a href="{{URL::action('ContasreceberController@show',$c->idcontasr)}}"><button class="btn btn-info">Mostrar</button></a>
+						<a href="{{URL::action('ContasreceberController@show',{{$c->idcontasr}}}}"><button class="btn btn-info">Mostrar</button></a>
 						<a href="{{URL::action('desenvolvimentoController@index')}}"><button class="btn btn-info">Alterar</button></a>
 						<a href="" data-target="#modal-delete-{{$c->idcontasr}}" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
 					</td>

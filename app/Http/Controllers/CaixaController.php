@@ -73,12 +73,12 @@ class CaixaController extends Controller
             setcookie("caixa", "aberto", time() + (730 * 24 * 3600));
             $cook_abrir = $_COOKIE['caixa'] = 'ABERTO';
             $movimento = new movimentacaocaixa();
-            $movimento->idcaixa = $caixa;
-            //$data = Carbon::now('America/Sao_Paulo');
-            //$movimento->data = $data->toDateTimeString();
+            $movimento->idcaixa = $caixa->idcaixa;
+            $data = Carbon::now('America/Sao_Paulo');
+            $movimento->data = $data->toDateTimeString();
             $movimento->descricao = 'Abertura';
             $movimento->valor = $valor;
-            $movimento->tipoMovimentacao = 'Movimento';
+            $movimento->tipoMovimentacao = 'M';
             $caixa->save();
             $movimento->save();
             echo '<script>alert("Abertura Realizada com Sucesso!")</script>';

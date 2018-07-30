@@ -24,6 +24,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <label>Fechar Caixa</label>
                                 </a>
+
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
@@ -36,7 +37,7 @@
                                     <li class="user-footer">
 
                                         <div class="pull-right">
-                                            <a href="{{url('/close')}}" class="btn btn-danger btn-flat">Fechar</a>
+                                            <a href="{{url('/close')}}" class="btn btn-danger btn-flat">Fechar Caixa</a>
                                         </div>
                                     </li>
                                 </ul>
