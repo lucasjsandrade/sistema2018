@@ -7,6 +7,7 @@ use Illuminate\Support\Facades;
 use sistemaLaravel\Caixa;
 use Illuminate\Support\Facades\Redirect;
 use sistemaLaravel\Http\Requests\CaixaFormRequest;
+use sistemaLaravel\MovimentacaoCaixa;
 use Carbon\Carbon;
 use Response;
 use DB;
@@ -17,23 +18,22 @@ class CaixaController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
     public function index(Request $request)
     {
 
+
         if ($request) {
             $query = trim($request->get('searchText'));
             $caixa = DB::table('caixa as c')
-                ->join('movimentacaocaixa as mov', 'mov.idcaixa', '=',
-                    'c.idcaixa')
                 ->select('c.idcaixa', 'c.data',
-                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor')
+                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao')
                 ->where('c.idcaixa', 'LIKE', '%' . $query . '%')
                 ->where('c.idcaixa', '>', 0)
                 ->select('c.idcaixa', 'c.data',
-                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor')
-
+                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao')
                 ->orderBy('idcaixa', 'desc')
                 ->paginate(10);
             return view('caixa.index', [
@@ -57,7 +57,6 @@ class CaixaController extends Controller
     }
 
 
-
     public function store(CaixaFormRequest $request)
     {
 
@@ -68,12 +67,20 @@ class CaixaController extends Controller
         $caixa->data = $mytime->toDateTimeString();
 
 
-        $caixa->save();
-        if ($caixa):
 
+        $valor = $request->get('saldoInicial');
+        if ($caixa):
             setcookie("caixa", "aberto", time() + (730 * 24 * 3600));
             $cook_abrir = $_COOKIE['caixa'] = 'ABERTO';
-
+            $movimento = new movimentacaocaixa();
+            $movimento->idcaixa = $caixa;
+            //$data = Carbon::now('America/Sao_Paulo');
+            //$movimento->data = $data->toDateTimeString();
+            $movimento->descricao = 'Abertura';
+            $movimento->valor = $valor;
+            $movimento->tipoMovimentacao = 'Movimento';
+            $caixa->save();
+            $movimento->save();
             echo '<script>alert("Abertura Realizada com Sucesso!")</script>';
             echo '<script>window.location="caixa"</script>';
         else:
@@ -81,7 +88,7 @@ class CaixaController extends Controller
             echo '<script>window.location="caixa/create"</script>';
         endif;
 
-        return Redirect::to('/caixa');
+
     }
 
 
@@ -94,7 +101,7 @@ class CaixaController extends Controller
             ->first();
 
         $movimentacaocaixa = DB::table('movimentacaocaixa as mov')
-            ->join('caixa as cai', 'mov.idmovimentacao', '=', 'cai.idmovimentacao')
+            ->join('caixa as cai', 'mov.idcaixa', '=', 'cai.idcaixa')
             ->select('mov.idmovimentacao', 'mov.descricao', 'mov.data', 'mov.tipoMovimentacao', 'mov.valor', 'mov.idpagamento', 'mov.idrecebimento')
             ->where('cai.idcaixa', '=', $id)
             ->get();
@@ -104,16 +111,14 @@ class CaixaController extends Controller
 
     }
 
-
-
     public function close()
     {
-
         try {
 
             if ($_COOKIE['caixa'] == 'aberto') {
-
+                DB::table('caixa')->update(['situacao' => 'Fechado']);
                 setcookie("caixa");
+
                 echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
                 echo '<script>window.location="caixa"</script>';
                 //fecha o caixa

@@ -5,6 +5,8 @@ function converteData($data){
   return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
 }
 ?>
+
+
 <div class="row">
 
 <h1>Detalhes Contas a Receber </h1><br>

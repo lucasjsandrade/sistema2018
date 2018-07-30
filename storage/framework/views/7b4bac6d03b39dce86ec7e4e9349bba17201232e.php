@@ -23,6 +23,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <label>Fechar Caixa</label>
                                 </a>
+
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
