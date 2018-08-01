@@ -18,7 +18,8 @@ class MovimentacaoCaixa extends Model
         'valor',
         'tipoMovimentacao',
         'data',
-        'descricao',
+        'descricao'
+
 
     ];
 

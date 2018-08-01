@@ -1,4 +1,5 @@
 <?php $__env->startSection('conteudo'); ?>
+
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 		<h3>CONTAS A PAGAR   <a href="contaspagar/create"><button class="btn btn-success">Incluir</button></a></h3>
