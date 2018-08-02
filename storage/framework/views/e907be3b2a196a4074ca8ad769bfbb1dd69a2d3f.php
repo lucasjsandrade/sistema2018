@@ -1,7 +1,7 @@
 <?php $__env->startSection('conteudo'); ?>
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-            <h3>Pagamento<a href="/compra/pedido/create">
+            <h3>Pagamento<a href="/pagamento/create">
                     <button class="btn btn-success">Incluir</button>
                 </a></h3>
             <?php echo $__env->make('compra.pedido.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -20,8 +20,6 @@
                     <th>Jurus</th>
                     <th>Multa</th>
 					<th>ValorTotal</th>
-					<th>Numero da Parcela</th>
-
                     <th>Opções</th>
 
 
@@ -38,6 +36,14 @@
 
 
                             <td><?php echo e($pag->idpagamento); ?></td>
+                            <td><?php echo e($pag->data); ?></td>
+                            <td><?php echo e($pag->valor); ?></td>
+                            <td><?php echo e($pag->juros); ?></td>
+                            <td><?php echo e($pag->multa); ?></td>
+                            <td><?php echo e($pag->valorTotal); ?></td>
+                            <td>
+                                <a href="<?php echo e(URL::action('PagamentoController@show',$pag->idpagamento)); ?>"><button class="btn btn-info">Detalhe</button></a>
+                            </td>
 
 
 

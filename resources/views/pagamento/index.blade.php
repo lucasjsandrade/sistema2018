@@ -2,7 +2,7 @@
 @section('conteudo')
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-            <h3>Pagamento<a href="/compra/pedido/create">
+            <h3>Pagamento<a href="/pagamento/create">
                     <button class="btn btn-success">Incluir</button>
                 </a></h3>
             @include('compra.pedido.search')
@@ -21,8 +21,6 @@
                     <th>Jurus</th>
                     <th>Multa</th>
 					<th>ValorTotal</th>
-					<th>Numero da Parcela</th>
-
                     <th>Opções</th>
 
 
@@ -39,6 +37,14 @@
 
 
                             <td>{{ $pag->idpagamento}}</td>
+                            <td>{{ $pag->data}}</td>
+                            <td>{{ $pag->valor}}</td>
+                            <td>{{ $pag->juros}}</td>
+                            <td>{{ $pag->multa}}</td>
+                            <td>{{ $pag->valorTotal}}</td>
+                            <td>
+                                <a href="{{URL::action('PagamentoController@show',$pag->idpagamento)}}"><button class="btn btn-info">Detalhe</button></a>
+                            </td>
 
 
 
