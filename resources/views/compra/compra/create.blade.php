@@ -65,6 +65,7 @@
         </div>
 
 
+
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="condicaoPagamento">Condição Pagamento</label>
@@ -75,11 +76,13 @@
                     <option value="Avista">Avista</option>
                     <option value="Aprazo">A prazo</option>
 
-
                 </select>
 
             </div>
         </div>
+
+    <?php $icondicaoPagamento ="Avista"
+            <label "numeroDeParcelas" 'disabled'?>
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
@@ -97,6 +100,7 @@
             </div>
 
         </div>
+
 
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
