@@ -54,7 +54,7 @@
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="data">Data  Lançamento</label>
+                <label for="data">Data Lançamento</label>
                 <input type="text" name="data" id="pdata" disabled
                        class="form-control">
             </div>
@@ -63,7 +63,7 @@
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="valor">Valor</label>
+                <label for="valor">Valor da Conta</label>
                 <input type="number" name="valor" id="pvalor" disabled
                        class="form-control">
             </div>
@@ -95,7 +95,6 @@
         </div>
 
 
-
     </div>
 
 
@@ -120,6 +119,30 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <label for="idcompra">Vencimento</label>
+                        <input type="text" name="idvencimento" id="pvencimento" disabled
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <label for="idcompra">Valor da Parcela</label>
+                        <input type="text" name="valor" id="pvalor" disabled
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <label for="idvalorPago">Valor Pago</label>
+                        <input type="text" name="idvalorPago" id="pvalorPago" disabled
+                               class="form-control">
+                    </div>
+                </div>
+
+
 
             </div>
         </div>

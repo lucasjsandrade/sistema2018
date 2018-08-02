@@ -55,19 +55,20 @@ class PagamentoController extends Controller
 
         $contas = DB::table('contaspagar as con')
             ->join('compra as com', 'com.idcompra', '=', 'con.idcompra')
-            ->select(DB::raw('CONCAT(con.idcontasp, ":", con.data) as contas'), 'con.idcontasp','con.data','con.valor'
-                ,'con.descricao','con.idcompra','con.idfornecedor')
+            ->select(DB::raw('CONCAT(con.idcontasp, ":", con.data) as contas'), 'con.idcontasp', 'con.data', 'con.valor'
+                , 'con.descricao', 'con.idcompra', 'con.idfornecedor')
             ->get();
-
 
 
         $parcelapagar = DB::table('parcelapagar as par')
             ->select(DB::raw('CONCAT(par.idparcela, " : ", par.dataVencimento) as parcela'), 'par.idparcela', 'par.dataVencimento',
-        'par.valorParcela','par.valorPago','par.idcontasp')
+                'par.valorParcela', 'par.valorPago', 'par.idcontasp')
             ->get();
 
         return view("pagamento.create",
             ["pagamento" => $pagamento, "contas" => $contas, "parcelapagar" => $parcelapagar]);
+
+
     }
 
 
