@@ -13,41 +13,48 @@
                             <a href="caixa/create">
                                 <button class="btn btn-primary">Abrir Caixa</button>
 
-                                <a href="/contaspagar">
-                                    <button class="btn btn-primary">Contas a pagar</button>
+                                <a href="/sangria">
+                                    <button class="btn btn-primary">Sangria</button>
 
-                                    <a href="/contasreceber">
-                                        <button class="btn btn-primary">Contas a receber</button>
+                                    <a href="/suprimento">
+                                        <button class="btn btn-primary">Suprimento</button>
 
-                                        <a href="/pagamento">
-                                            <button class="btn btn-primary">Pagamento</button>
+                                        <a href="/contaspagar">
+                                            <button class="btn btn-primary">Contas a pagar</button>
 
-                                            <a href="/contaspagar">
-                                                <button class="btn btn-primary">Contas a pagar</button>
+                                            <a href="/contasreceber">
+                                                <button class="btn btn-primary">Contas a receber</button>
+
+                                                <a href="/pagamento">
+                                                    <button class="btn btn-primary">Pagamento</button>
+
+                                                    <a href="/recebimento">
+                                                        <button class="btn btn-primary">Recebimento</button>
 
 
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                    <button class="btn btn-danger">Fechar caixa</button>
-                                                </a>
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                            <button class="btn btn-danger">Fechar caixa</button>
+                                                        </a>
 
-                                                <ul class="dropdown-menu">
-                                                    <!-- User image -->
-                                                    <li class="user-header">
-                                                        <p>
-                                                            <n>Deseja Realmente fechar o Caixa?</n>
-                                                        </p>
-                                                    </li>
+                                                        <ul class="dropdown-menu">
+                                                            <!-- User image -->
+                                                            <li class="user-header">
+                                                                <p>
+                                                                    <n>Deseja Realmente fechar o Caixa?</n>
+                                                                </p>
+                                                            </li>
 
-                                                    <!-- Menu Footer-->
-                                                    <li class="user-footer">
+                                                            <!-- Menu Footer-->
+                                                            <li class="user-footer">
 
-                                                        <div class="pull-right">
-                                                            <a href="{{url('/close')}}" class="btn btn-danger btn-flat">Fechar
-                                                                Caixa</a>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                                </li>
+                                                                <div class="pull-right">
+                                                                    <a href="{{url('/close')}}"
+                                                                       class="btn btn-danger btn-flat">Fechar
+                                                                        Caixa</a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                        </li>
                         </ul>
                     </nav>
 
@@ -85,8 +92,8 @@
                     <th>Numero do Caixa</th>
                     <th>Data</th>
                     <th>Saldo Inicial</th>
-                    <th>Saldo Final</th>
-                    <th>Diferença</th>
+                    <th>Saldo atual</th>
+                    <th>Saldo final</th>
                     <th>Situação</th>
                     <th>Opções</th>
 
@@ -105,8 +112,8 @@
                             <td>{{ $c->idcaixa}}</td>
                             <td>{{ converteData($c->data)}}</td>
                             <td>{{ $c->saldoInicial}}</td>
+                            <td>{{ $c->saldoAtual}}</td>
                             <td>{{ $c->saldoFinal}}</td>
-                            <td>{{ $c->diferenca}}</td>
                             <td>{{ $c->situacao}}</td>
                             <td>
                                 <a href="{{URL::action('CaixaController@show',$c->idcaixa)}}">

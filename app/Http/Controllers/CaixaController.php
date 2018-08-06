@@ -29,11 +29,11 @@ class CaixaController extends Controller
             $query = trim($request->get('searchText'));
             $caixa = DB::table('caixa as c')
                 ->select('c.idcaixa', 'c.data',
-                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao')
+                    'c.saldoInicial', 'c.saldoAtual', 'c.saldoFinal', 'c.situacao')
                 ->where('c.idcaixa', 'LIKE', '%' . $query . '%')
                 ->where('c.idcaixa', '>', 0)
                 ->select('c.idcaixa', 'c.data',
-                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao')
+                    'c.saldoInicial', 'c.saldoAtual', 'c.saldoFinal', 'c.situacao')
                 ->orderBy('idcaixa', 'desc')
                 ->paginate(10);
             return view('caixa.index', [
@@ -104,8 +104,8 @@ class CaixaController extends Controller
     public function show($id)
     {
         $caixa = DB::table('caixa as cai')
-            ->select('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoFinal', 'cai.diferenca', 'cai.situacao')
-            ->groupBy('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoFinal', 'cai.diferenca', 'cai.situacao')
+            ->select('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao')
+            ->groupBy('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao')
             ->where('cai.idcaixa', '=', $id)
             ->first();
 
