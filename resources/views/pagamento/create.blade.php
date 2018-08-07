@@ -43,7 +43,7 @@
                         onchange="mostrarValores()">
                     <option value="">Selecione uma Conta a Pagar</option>
                     @foreach($contas as $con)
-                        <option value="{{$con->idcontasp}}_{{$con->data}}_{{$con->valor}}_{{$con->descricao}}_{{$con->idcompra}}_{{$con->idfornecedor}}">
+                        <option value="{{$con->idcontasp}}_{{$con->data}}_{{$con->valor}}_{{$con->descricao}}_{{$con->idcompra}}_{{$con->idfornecedor}}_{{$con->parcela}}">
                             {{$con->contas}}
                         </option>
                     @endforeach
@@ -91,6 +91,14 @@
             <div class="form-group">
                 <label for="idcompra">N° Fornecedor</label>
                 <input type="text" name="idfornecedor" id="pidfornecedor" disabled
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="idparcelas">N° de Parcelas</label>
+                <input type="text" name="idfornecedor" id="pidparcelas" disabled
                        class="form-control">
             </div>
         </div>
@@ -261,6 +269,7 @@
                 $("#pdescricao").val(dadosContas[3]);
                 $("#pidcompra").val(dadosContas[4]);
                 $("#pidfornecedor").val(dadosContas[5]);
+                $("#pidparcelas").val(dadosContas[6]);
 
             }
 

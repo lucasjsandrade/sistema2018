@@ -55,8 +55,11 @@ class PagamentoController extends Controller
 
         $contas = DB::table('contaspagar as con')
             ->join('compra as com', 'com.idcompra', '=', 'con.idcompra')
+            ->join('parcelapagar as parc', 'parc.idcontasp', '=', 'con.idcontasp')
             ->select(DB::raw('CONCAT("Numero da Conta"," ", " : ",con.idcontasp) as contas'), 'con.idcontasp', 'con.data', 'con.valor'
-                , 'con.descricao', 'con.idcompra', 'con.idfornecedor')
+                , 'con.descricao', 'con.idcompra', 'con.idfornecedor','con.parcela')
+            ->groupBy('con.idcontasp', 'con.data', 'con.valor'
+                , 'con.descricao', 'con.idcompra', 'con.idfornecedor','con.parcela')
             ->get();
 
 

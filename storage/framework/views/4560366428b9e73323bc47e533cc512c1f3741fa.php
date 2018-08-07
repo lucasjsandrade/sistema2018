@@ -44,7 +44,7 @@
                         onchange="mostrarValores()">
                     <option value="">Selecione uma Conta a Pagar</option>
                     <?php $__currentLoopData = $contas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $con): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                        <option value="<?php echo e($con->idcontasp); ?>_<?php echo e($con->data); ?>_<?php echo e($con->valor); ?>_<?php echo e($con->descricao); ?>_<?php echo e($con->idcompra); ?>_<?php echo e($con->idfornecedor); ?>">
+                        <option value="<?php echo e($con->idcontasp); ?>_<?php echo e($con->data); ?>_<?php echo e($con->valor); ?>_<?php echo e($con->descricao); ?>_<?php echo e($con->idcompra); ?>_<?php echo e($con->idfornecedor); ?>_<?php echo e($con->parcela); ?>">
                             <?php echo e($con->contas); ?>
 
                         </option>
@@ -93,6 +93,14 @@
             <div class="form-group">
                 <label for="idcompra">N° Fornecedor</label>
                 <input type="text" name="idfornecedor" id="pidfornecedor" disabled
+                       class="form-control">
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="idparcelas">N° de Parcelas</label>
+                <input type="text" name="idfornecedor" id="pidparcelas" disabled
                        class="form-control">
             </div>
         </div>
@@ -265,6 +273,7 @@
                 $("#pdescricao").val(dadosContas[3]);
                 $("#pidcompra").val(dadosContas[4]);
                 $("#pidfornecedor").val(dadosContas[5]);
+                $("#pidparcelas").val(dadosContas[6]);
 
             }
 
