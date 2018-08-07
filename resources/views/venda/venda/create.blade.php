@@ -300,7 +300,10 @@
                 dadosProdutos = document.getElementById('pidproduto').value.split('_');
                 $("#ppreco").val(dadosProdutos[2]);
                 $("#pqestoque").val(dadosProdutos[1]);
+                console.log(dadosProdutos);
             }
+
+
 
             function adicionar() {
                 dadosProdutos = document.getElementById('pidproduto').value.split('_');

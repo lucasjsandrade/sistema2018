@@ -27,14 +27,12 @@ function converteData($data){
 				<?php $__currentLoopData = $contasreceber; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 				<tr>
 					<td><?php echo e($c->idcontasr); ?></td>
-					<td><?php echo e(converteData( $c->data)); ?></td>
+					<td><?php echo e(converteData($c->data)); ?></td>
 					<td><?php echo e($c->valor); ?></td>
 					<td><?php echo e($c->descricao); ?></td>
 					<td><?php echo e($c->numeroDeParcelas); ?></td>
 					<td><?php echo e($c->idvenda); ?></td>
 					<td><?php echo e($c->idcliente); ?></td>
-					
-					
 					<td>
 						<a href="<?php echo e(URL::action('ContasreceberController@show',$c->idcontasr)); ?>"><button class="btn btn-info">Mostrar</button></a>
 						<a href="<?php echo e(URL::action('desenvolvimentoController@index')); ?>"><button class="btn btn-info">Alterar</button></a>

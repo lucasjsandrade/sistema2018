@@ -75,11 +75,17 @@ class CaixaController extends Controller
             $movimento = new movimentacaocaixa();
             $movimento->idcaixa = $caixa->idcaixa;
 
+
+
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->data = $data->toDateTimeString();
             $movimento->descricao = 'Abertura';
             $movimento->valor = $valor;
             $movimento->tipoMovimentacao = 'M';
+
+            $caixa->save();
+
+
 
             $movimento->save();
             DB::commit();
@@ -147,5 +153,3 @@ class CaixaController extends Controller
 
 
 }
-
-

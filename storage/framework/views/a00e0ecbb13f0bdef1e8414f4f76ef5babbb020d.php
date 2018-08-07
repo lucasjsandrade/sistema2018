@@ -23,6 +23,28 @@
 					<th>N de parcela</th>
 					<th>Id-Venda</th>
 					<th>Id-Cliente</th>
+<<<<<<< HEAD
+				</thead>
+				<?php $__currentLoopData = $contasreceber; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+				<tr>
+					<td><?php echo e($c->idcontasr); ?></td>
+					<td><?php echo e(converteData($c->data)); ?></td>
+					<td><?php echo e($c->valor); ?></td>
+					<td><?php echo e($c->descricao); ?></td>
+					<td><?php echo e($c->numeroDeParcelas); ?></td>
+					<td><?php echo e($c->idvenda); ?></td>
+					<td><?php echo e($c->idcliente); ?></td>
+					<td>
+						<a href="<?php echo e(URL::action('ContasreceberController@show',$c->idcontasr)); ?>"><button class="btn btn-info">Mostrar</button></a>
+						<a href="<?php echo e(URL::action('desenvolvimentoController@index')); ?>"><button class="btn btn-info">Alterar</button></a>
+						<a href="" data-target="#modal-delete-<?php echo e($c->idcontasr); ?>" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
+					</td>
+				</tr>
+				<?php echo $__env->make('contasreceber.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+			</table>
+		</div>
+=======
 					</thead>
 					<?php $__currentLoopData = $contasreceber; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 						<tr>
@@ -34,6 +56,7 @@
 							<td><?php echo e($c->idvenda); ?></td>
 							<td><?php echo e($c->idcliente); ?></td>
 
+>>>>>>> d82e173793cf1605e7aa9cda45dea3877999f1c5
 
 							<td>
 								<a href="<?php echo e(URL::action('ContasreceberController@show',$c->idcontasr)); ?>"><button class="btn btn-info">Mostrar</button></a>
