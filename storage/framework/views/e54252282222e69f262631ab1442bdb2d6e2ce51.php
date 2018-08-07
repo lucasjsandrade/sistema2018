@@ -56,7 +56,7 @@
                         <thead style="background-color:#A9D0F5">
 
 
-                        <th>N° da Tranzação</th>
+                        <th>N° da Transação</th>
                         <th>Descrição</th>
                         <th>Data</th>
                         <th>Tipo da Movimentação</th>

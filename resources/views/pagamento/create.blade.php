@@ -98,7 +98,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idparcelas">N° de Parcelas</label>
-                <input type="text" name="idfornecedor" id="pidparcelas" disabled
+                <input type="text" name="idparcelas" id="pidparcelas" disabled
                        class="form-control">
             </div>
         </div>
@@ -297,7 +297,7 @@
                 console.log(dadosParcela);
 
 
-                var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idparcela[]" value="' + idparcela + '">' + parcela + '</td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamento[]" value="' + valorPagamento + '"></tr>'
+                var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idparcela[]" value="' + idparcela + '">' + parcela + '</td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'
                 cont++;
 
 
