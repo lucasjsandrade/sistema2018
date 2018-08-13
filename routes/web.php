@@ -37,6 +37,7 @@ Route::resource('pagamento', 'PagamentoController');
 Route::resource('sobre', 'SobreController');
 Route::resource('layouts', 'desenvolvimentoController');
 Route::resource('seguranca/usuario', 'usuarioController');
+Route::resource('sangria', 'sangriaController');
 Route::auth  ();
 Auth::routes();
 Route::get('/home', 'HomeController@index');
