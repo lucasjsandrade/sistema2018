@@ -39,20 +39,23 @@
             <div class="form-group">
                 <label>Contas a Pagar</label>
                 <span class="ob">*</span>
-                <select name="pidcontas" id="pidcontas" class="form-control selectpicker" data-live-search="true">
+                <select name="contas" id="pidcontas" class="form-control selectpicker" data-live-search="true"
+                        onchange="mostrarValores()">
                     <option value="">Selecione uma Conta a Pagar</option>
                     @foreach($contas as $con)
-                        <option value="{{$con->idcontasp}}_{{$con->data}}_{{$con->valor}}_{{$con->descricao}}_{{$con->idcompra}}_{{$con->idfornecedor}}">
+                        <option value="{{$con->idcontasp}}_{{$con->data}}_{{$con->valor}}_{{$con->descricao}}_{{$con->idcompra}}_{{$con->idfornecedor}}_{{$con->parcela}}">
                             {{$con->contas}}
                         </option>
                     @endforeach
+
                 </select>
+
             </div>
         </div>
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="data">Data  Lançamento</label>
+                <label for="data">Data Lançamento</label>
                 <input type="text" name="data" id="pdata" disabled
                        class="form-control">
             </div>
@@ -61,7 +64,7 @@
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="valor">Valor</label>
+                <label for="valor">Valor da Conta</label>
                 <input type="number" name="valor" id="pvalor" disabled
                        class="form-control">
             </div>
@@ -79,7 +82,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idcompra">N° Compra</label>
-                <input type="text" name="idcompra" id="pidcompra" disabled
+                <input type="text" name="compra" id="pidcompra" disabled
                        class="form-control">
             </div>
         </div>
@@ -92,8 +95,23 @@
             </div>
         </div>
 
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="idparcelas">N° de Parcelas</label>
+                <input type="text" name="idparcelas" id="pidparcelas" disabled
+                       class="form-control">
+            </div>
+        </div>
 
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="observacao">Observação</label>
+                <span class="ob">*</span>
+                <input type="text" name="observacao" value="{{old('observacao')}}"
+                       id="observacao" class="form-control" >
 
+            </div>
+        </div>
     </div>
 
 
@@ -107,7 +125,7 @@
                         <label>Selecione a Parcela</label>
                         <span class="ob">*</span>
                         <select name="pidparcela" id="pidparcela" class="form-control selectpicker"
-                                data-live-search="true">
+                                data-live-search="true" onchange="mostrarParcela()">
                             <option value="">Selecione um produto</option>
                             @foreach($parcelapagar as $par)
                                 <option value="{{$par->idparcela}}_{{$par->dataVencimento}}_{{$par->valorParcela}}_{{$par->valorPago}}_{{$par->idcontasp}}">
@@ -118,43 +136,206 @@
                     </div>
                 </div>
 
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <label for="idvencimento">Vencimento</label>
+                        <input type="text" name="dataVencimento" id="pdataVencimento"" disabled
+                        class="form-control">
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <label for="idvalorParcela">Valor da Parcela</label>
+                        <input type="number" name="valorParcela" id="pvalorParcela" disabled
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <label for="idvalorPago">Valor Pago</label>
+                        <input type="text" name="idvalorPago" id="pvalorPago" disabled
+                               class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <label for="quantidade">Valor</label>
+                        <span class="ob">*</span>
+                        <input type="number" name="valorPagamento" value="{{old('valorPagamento')}}"
+                               id="pvalorPagamento" class="form-control" placeholder="Insira o Valor a ser Pago">
+
+                    </div>
+                </div>
+
+
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+                    <div class="form-group">
+                        <button type="button" id="bt_add"
+                                class="btn btn-info">
+                            Adicionar
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 col-md-12  col-xs-12">
+                    <table id="detalhes" class="table table-striped table-bordered table-condensed table-hover">
+                        <thead style="background-color:#A9D0F5">
+                        <th>Opções</th>
+                        <th>N° Parcela</th>
+                        <th>Data Vencimento</th>
+                        <th>Valor da Parcela</th>
+                        <th>Valor Pago</th>
+                        <th>Valor Pagamento</th>
+
+                        <th>Total</th>
+                        </thead>
+                        <tfoot>
+                        <th></th>
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+                        <td>
+                            <input type="text" name="valorTotal" readonly id="total" class="form-control"
+                                   style="width: 100px;">
+                        </td>
+                        </tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+
             </div>
         </div>
 
     </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="salvar">
+        <div class="form-group">
+            <input name="_token" value="{{ csrf_token()}}" type="hidden">
+            <button class="btn btn-success" id="salvar" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+            <button class="btn btn-danger" type="reset" onclick="javascript: location.href='/venda/venda';">Cancelar
+            </button>
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="salvar">
+        <div class="form-group">
+            <input name="_token" value="{{ csrf_token()}}" type="hidden">
+            <button class="btn btn-success" id="salvar" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+            <button class="btn btn-danger" type="reset" onclick="javascript: location.href='/caixa';">Cancelar
+            </button>
+        </div>
+    </div>
+    </div>
 
     {!!Form::close()!!}
-    @push('script')
+    @push('scripts')
         <script>
 
+            // $("#pidcontas").on("change", funcion(){console.log("Cid");});
             $(document).ready(function () {
+
                 $('#bt_add').click(function () {
                     adicionar();
 
                 });
+
+
             });
+            var cont = 0;
+            total = 0;
+            subtotal = [];
 
 
-            $("#pidcontas").change(mostrarValores);
+            $("#salvar").hide();
+
 
             function mostrarValores() {
                 dadosContas = document.getElementById('pidcontas').value.split('_');
-                $("#pdata").val(dadosContas[5]);
-                $("#pvalor").val(dadosContas[4]);
+
+                $("#pdata").val(dadosContas[1]);
+                $("#pvalor").val(dadosContas[2]);
+                $("#pdescricao").val(dadosContas[3]);
+                $("#pidcompra").val(dadosContas[4]);
+                $("#pidfornecedor").val(dadosContas[5]);
+                $("#pidparcelas").val(dadosContas[6]);
+
+            }
+
+            function mostrarParcela() {
+                dadosParcelas = document.getElementById('pidparcela').value.split('_');
+
+                $("#pdataVencimento").val(dadosParcelas[1]);
+                $("#pvalorParcela").val(dadosParcelas[2]);
+                $("#pvalorPago").val(dadosParcelas[3]);
+                $("#pidcontasp").val(dadosParcelas[4]);
+                console.log(dadosParcelas);
+
             }
 
 
             function adicionar() {
-                dadosContas = document.getElementById('pidcontas').value.split('_');
-                idcontasp = dadosContas[0];
-                contas = $("#pidcontas option:selected").text();
-                data = $("#pdata").val();
-                valor = $("#pdata").val();
-                descricao = $("#pdata").val();
-                idcompra = $("#pdata").val();
-                idfornecedor = $("#pdata").val();
+                dadosParcela = document.getElementById('pidparcela').value.split('_');
+                idparcela = dadosParcela[0];
+                parcela = $("#pidparcela option:selected").text();
+                dataVencimento = $("#pdataVencimento").val();
+                valorParcela = $("#pvalorParcela").val();
+                valorPago = $("#pvalorPago").val();
+                valorPagamento = $("#pvalorPagamento").val();
+
+                console.log(dadosParcela);
+
+
+                var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idparcela[]" value="' + idparcela + '">' + parcela + '</td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'
+                cont++;
+
+
+                limpar();
+                $("#total").val(total);
+
+                ocultar();
+                $('#detalhes').append(linha);
+
 
             }
+
+
+            total = 0;
+
+            function limpar() {
+                $("#pquantidade").val("");
+                $("#pvalorUnitario").val("");
+                $("#pdesconto").val("");
+            }
+
+
+            function ocultar() {
+                if (total > 0) {
+                    $("#salvar").show();
+                } else {
+                    $("#salvar").hide();
+                }
+            }
+
+
+            function apagar(index) {
+                total = total - subtotal[index];
+                $("#total").val(total);
+                $("#linha" + index).remove();
+
+            }
+
 
         </script>
 

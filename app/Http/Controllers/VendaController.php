@@ -99,9 +99,6 @@ class VendaController extends Controller
 			$venda->numeroDeParcelas=$request->get('numeroDeParcelas');
 			$venda->origemVenda=$request->get('origemVenda');
 
-
-
-
 			$venda->save();
 
 
