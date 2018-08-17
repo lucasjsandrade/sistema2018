@@ -15,6 +15,7 @@
     }
 
     ?>
+
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <h3>Pagamento <i class="fa fa-money"></i></h3>
@@ -32,28 +33,26 @@
 
     <?php echo Form::open(array('url'=>'pagamento','method'=>'POST','autocomplete'=>'off')); ?>
 
+
     <?php echo e(Form::token()); ?>
 
 
     <div class="row">
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label>Contas a Pagar</label>
+                <label for="">Contas a Pagar</label>
                 <span class="ob">*</span>
                 <select name="contas" id="pidcontas" class="form-control selectpicker" data-live-search="true"
                         onchange="mostrarValores()">
-                    <option value="">Selecione uma Conta a Pagar</option>
                     <?php $__currentLoopData = $contas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $con): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                        <option value="<?php echo e($con->idcontasp); ?>_<?php echo e($con->data); ?>_<?php echo e($con->valor); ?>_<?php echo e($con->descricao); ?>_<?php echo e($con->idcompra); ?>_<?php echo e($con->idfornecedor); ?>_<?php echo e($con->parcela); ?>">
-                            <?php echo e($con->contas); ?>
-
-                        </option>
+                        <option value="<?php echo e($con->idcontasp); ?>">Selecione uma Conta a Pagar</option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
                 </select>
 
             </div>
         </div>
+
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
@@ -110,7 +109,7 @@
                 <label for="observacao">Observação</label>
                 <span class="ob">*</span>
                 <input type="text" name="observacao" value="<?php echo e(old('observacao')); ?>"
-                       id="observacao" class="form-control" >
+                       id="observacao" class="form-control">
 
             </div>
         </div>
@@ -123,19 +122,16 @@
             <div class="panel-body">
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-
-                        <label>Selecione a Parcela</label>
+                        <label>Parcela a Pagar</label>
                         <span class="ob">*</span>
-                        <select name="pidparcela" id="pidparcela" class="form-control selectpicker"
-                                data-live-search="true" onchange="mostrarParcela()">
-                            <option value="">Selecione um produto</option>
-                            <?php $__currentLoopData = $parcelapagar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $par): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                <option value="<?php echo e($par->idparcela); ?>_<?php echo e($par->dataVencimento); ?>_<?php echo e($par->valorParcela); ?>_<?php echo e($par->valorPago); ?>_<?php echo e($par->idcontasp); ?>">
-                                    <?php echo e($par->parcela); ?>
+                        <select name="contas" id="pidcontas" class="form-control selectpicker" data-live-search="true"
+                                onchange="mostrarValores()">
 
-                                </option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                            <option value="">Selecione uma Conta a Pagar</option>
+
+
                         </select>
+
                     </div>
                 </div>
 
@@ -255,8 +251,9 @@
 
                 });
 
-
             });
+
+
             var cont = 0;
             total = 0;
             subtotal = [];
@@ -278,6 +275,8 @@
             }
 
             function mostrarParcela() {
+
+
                 dadosParcelas = document.getElementById('pidparcela').value.split('_');
 
                 $("#pdataVencimento").val(dadosParcelas[1]);
@@ -290,6 +289,7 @@
 
 
             function adicionar() {
+
                 dadosParcela = document.getElementById('pidparcela').value.split('_');
                 idparcela = dadosParcela[0];
                 parcela = $("#pidparcela option:selected").text();
@@ -297,8 +297,6 @@
                 valorParcela = $("#pvalorParcela").val();
                 valorPago = $("#pvalorPago").val();
                 valorPagamento = $("#pvalorPagamento").val();
-
-                console.log(dadosParcela);
 
 
                 var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idparcela[]" value="' + idparcela + '">' + parcela + '</td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'

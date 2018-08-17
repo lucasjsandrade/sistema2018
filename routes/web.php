@@ -1,5 +1,8 @@
 <?php
 
+use sistemaLaravel\Contaspagar;
+use sistemaLaravel\ParcelaPagar;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,8 +34,11 @@ Route::resource('compra/compra', 'CompraController');
 Route::resource('venda/venda', 'VendaController');
 Route::resource('contaspagar', 'ContaspagarController');
 Route::resource('contasreceber', 'ContasreceberController');
+Route::resource('parcelapagar', 'ParcelapagarController');
+Route::resource('parcelapagarget', 'ParcelapagarController@get');
 Route::resource('caixa', 'CaixaController');
 Route::get('/close', 'CaixaController@close');
+Route::POST('/consulta', 'PagamentoController@consulta');
 Route::resource('pagamento', 'PagamentoController');
 Route::resource('sobre', 'SobreController');
 Route::resource('layouts', 'desenvolvimentoController');
@@ -43,3 +49,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/{slug?}', 'HomeController@index' );
+
+Route::get('/pagamento/create',function(){
+    $contaspagar = Contaspagar::all();
+    return View::make('/pagamento/create')->with('contaspagar', $contaspagar);
+});
+
+

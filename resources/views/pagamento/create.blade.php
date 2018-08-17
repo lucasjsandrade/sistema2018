@@ -16,6 +16,7 @@
     }
 
     ?>
+
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <h3>Pagamento <i class="fa fa-money"></i></h3>
@@ -37,21 +38,20 @@
     <div class="row">
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label>Contas a Pagar</label>
+                <label for="">Contas a Pagar</label>
                 <span class="ob">*</span>
-                <select name="contas" id="pidcontas" class="form-control selectpicker" data-live-search="true"
-                        onchange="mostrarValores()">
-                    <option value="">Selecione uma Conta a Pagar</option>
-                    @foreach($contas as $con)
-                        <option value="{{$con->idcontasp}}_{{$con->data}}_{{$con->valor}}_{{$con->descricao}}_{{$con->idcompra}}_{{$con->idfornecedor}}_{{$con->parcela}}">
-                            {{$con->contas}}
-                        </option>
+
+                <select name="contas" id="contas" class="form-control selectpicker" data-live-search="true">
+                    <option value="">Selecione uma Conta</option>
+                    @foreach($contaspagar as $con)
+                        <option value="{{$con->idcontasp}}_{{$con->data}}_{{$con->valor}}_{{$con->descricao}}_{{$con->idcompra}}_{{$con->idfornecedor}}_{{$con->parcela}}">{{$con->idcontasp}}</option>
                     @endforeach
 
                 </select>
 
             </div>
         </div>
+
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
@@ -108,7 +108,7 @@
                 <label for="observacao">Observação</label>
                 <span class="ob">*</span>
                 <input type="text" name="observacao" value="{{old('observacao')}}"
-                       id="observacao" class="form-control" >
+                       id="observacao" class="form-control">
 
             </div>
         </div>
@@ -121,18 +121,20 @@
             <div class="panel-body">
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-
-                        <label>Selecione a Parcela</label>
+                        <label>Parcela a Pagar</label>
                         <span class="ob">*</span>
-                        <select name="pidparcela" id="pidparcela" class="form-control selectpicker"
-                                data-live-search="true" onchange="mostrarParcela()">
-                            <option value="">Selecione um produto</option>
-                            @foreach($parcelapagar as $par)
-                                <option value="{{$par->idparcela}}_{{$par->dataVencimento}}_{{$par->valorParcela}}_{{$par->valorPago}}_{{$par->idcontasp}}">
-                                    {{$par->parcela}}
-                                </option>
-                            @endforeach
+                        <select name="parcelas" class="form-control" id="parcelas">
+                            <option selected="selected">Selecione a Parcela</option>
                         </select>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-1 col-sm-1 col-md-1  col-xs-1">
+                    <div class="form-group">
+                        <label for="numeroparcela">Cod Parcela</label>
+                        <input type="integer" name="numeroparcela" id="pnumeroparcela" disabled
+                               class="form-control">
                     </div>
                 </div>
 
@@ -155,7 +157,7 @@
                     <div class="form-group">
                         <label for="idvalorPago">Valor Pago</label>
                         <input type="text" name="idvalorPago" id="pvalorPago" disabled
-                               class="form-control">
+                             required  class="form-control">
                     </div>
                 </div>
 
@@ -251,18 +253,27 @@
 
                 });
 
-
             });
-            var cont = 0;
-            total = 0;
-            subtotal = [];
+
+            $('select#contas').change(function () {
 
 
-            $("#salvar").hide();
+                var idcontas = $(this).val();
+                $parcelasItens = $('.parcItens').remove();
+                $.get('/parcelapagar/' + idcontas, function (data) {
+                    console.log(data);
+                    $.each(data, function (create, element) {
+                        $('select#parcelas').append('<option value="' + element.idparcela + ',' + element.dataVencimento + ',' + element.valorParcela + ',' + element.valorPago + '" class="parcItens">' + element.idparcela + '</option>')
 
 
-            function mostrarValores() {
-                dadosContas = document.getElementById('pidcontas').value.split('_');
+                    });
+
+
+                }, 'json');
+
+
+                dadosContas = document.getElementById('contas').value.split('_');
+
 
                 $("#pdata").val(dadosContas[1]);
                 $("#pvalor").val(dadosContas[2]);
@@ -271,21 +282,42 @@
                 $("#pidfornecedor").val(dadosContas[5]);
                 $("#pidparcelas").val(dadosContas[6]);
 
-            }
+            });
 
-            function mostrarParcela() {
-                dadosParcelas = document.getElementById('pidparcela').value.split('_');
 
-                $("#pdataVencimento").val(dadosParcelas[1]);
-                $("#pvalorParcela").val(dadosParcelas[2]);
-                $("#pvalorPago").val(dadosParcelas[3]);
-                $("#pidcontasp").val(dadosParcelas[4]);
-                console.log(dadosParcelas);
+            var cont = 0;
+            total = 0;
+            subtotal = [];
 
-            }
+
+            $("#salvar").hide();
+
+
+            $('select#parcelas').change(function () {
+
+
+                var idcontas = $(this).val();
+                $parcelasItens = $('.parcItens').remove();
+                $.get('/parcelapagarget/' + idcontas, function (data) {
+
+                    $.each(data, function (create, element) {
+
+                        $("#pnumeroparcela").val(element.idparcela);
+                        $("#pdataVencimento").val(element.dataVencimento);
+                        $("#pvalorParcela").val(element.valorParcela);
+                        $("#pvalorPago").val(element.valorPago);
+
+                    });
+
+
+
+                }, 'json');
+
+            });
 
 
             function adicionar() {
+
                 dadosParcela = document.getElementById('pidparcela').value.split('_');
                 idparcela = dadosParcela[0];
                 parcela = $("#pidparcela option:selected").text();
@@ -293,8 +325,6 @@
                 valorParcela = $("#pvalorParcela").val();
                 valorPago = $("#pvalorPago").val();
                 valorPagamento = $("#pvalorPagamento").val();
-
-                console.log(dadosParcela);
 
 
                 var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idparcela[]" value="' + idparcela + '">' + parcela + '</td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'
