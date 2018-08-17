@@ -20,6 +20,7 @@ class Contaspagar extends Model
 
 	];
 
+
 	protected $guarded = [];
 
 }

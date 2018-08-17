@@ -141,6 +141,12 @@ class ContasreceberController extends Controller
 
 */
 
+    public function find($id){
+        $contas=contaspagar::findOrFail($id);
+
+        return $contas;
+    }
+
 }
 
 

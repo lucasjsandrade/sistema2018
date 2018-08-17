@@ -2,15 +2,12 @@
 
 namespace sistemaLaravel\Http\Controllers;
 
-use Illuminate\Http\Request;
-use sistemaLaravel\Contaspagar;
-use sistemaLaravel\ParcelaPagar;
-
-use Illuminate\Support\Facades\Redirect;
-use sistemaLaravel\Http\Requests\ContaspagarFormRequest;
-use Illuminate\Support\Collection;
-use Response;
 use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Response;
+use sistemaLaravel\Contaspagar;
+use sistemaLaravel\Http\Requests\ContaspagarFormRequest;
 
 
 class ContaspagarController extends Controller
@@ -142,6 +139,11 @@ class ContaspagarController extends Controller
 		return Redirect::to('contaspagar');
 	}
 
+ public function find($id){
+    $contas=contaspagar::findOrFail($id);
+
+    return $contas;
+}
 
 
 }
