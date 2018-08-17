@@ -56,7 +56,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="data">Data Lançamento</label>
-                <input type="text" name="data" id="pdata" disabled
+                <input type="text" name="data" id="pdata" readonly
                        class="form-control">
             </div>
         </div>
@@ -65,7 +65,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="valor">Valor da Conta</label>
-                <input type="number" name="valor" id="pvalor" disabled
+                <input type="number" name="valor" id="pvalor" readonly
                        class="form-control">
             </div>
         </div>
@@ -74,7 +74,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="descricao">Descrição</label>
-                <input type="text" name="descricao" id="pdescricao" disabled
+                <input type="text" name="descricao" id="pdescricao" readonly
                        class="form-control">
             </div>
         </div>
@@ -82,7 +82,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idcompra">N° Compra</label>
-                <input type="text" name="compra" id="pidcompra" disabled
+                <input type="text" name="compra" id="pidcompra" readonly
                        class="form-control">
             </div>
         </div>
@@ -90,7 +90,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idcompra">N° Fornecedor</label>
-                <input type="text" name="idfornecedor" id="pidfornecedor" disabled
+                <input type="text" name="idfornecedor" id="pidfornecedor" readonly
                        class="form-control">
             </div>
         </div>
@@ -98,7 +98,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idparcelas">N° de Parcelas</label>
-                <input type="text" name="idparcelas" id="pidparcelas" disabled
+                <input type="text" name="idparcelas" id="pidparcelas" readonly
                        class="form-control">
             </div>
         </div>
@@ -133,7 +133,7 @@
                 <div class="col-lg-1 col-sm-1 col-md-1  col-xs-1">
                     <div class="form-group">
                         <label for="numeroparcela">Cod Parcela</label>
-                        <input type="integer" name="numeroparcela" id="pnumeroparcela" disabled
+                        <input type="integer" name="numeroparcela" id="pnumeroparcela" readonly
                                class="form-control">
                     </div>
                 </div>
@@ -141,14 +141,14 @@
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="idvencimento">Vencimento</label>
-                        <input type="text" name="dataVencimento" id="pdataVencimento"" disabled
+                        <input type="text" name="dataVencimento" id="pdataVencimento" readonly
                         class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="idvalorParcela">Valor da Parcela</label>
-                        <input type="number" name="valorParcela" id="pvalorParcela" disabled
+                        <input type="number" name="valorParcela" id="pvalorParcela" readonly
                                class="form-control">
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="idvalorPago">Valor Pago</label>
-                        <input type="text" name="idvalorPago" id="pvalorPago" disabled
+                        <input type="text" name="idvalorPago" id="pvalorPago" readonly
                              required  class="form-control">
                     </div>
                 </div>
@@ -166,7 +166,7 @@
                         <label for="quantidade">Valor</label>
                         <span class="ob">*</span>
                         <input type="number" name="valorPagamento" value="{{old('valorPagamento')}}"
-                               id="pvalorPagamento" class="form-control" placeholder="Insira o Valor a ser Pago">
+                               id="pvalorPagamento" class="form-control" required placeholder="Insira o Valor a ser Pago">
 
                     </div>
                 </div>
@@ -307,6 +307,10 @@
                         $("#pvalorParcela").val(element.valorParcela);
                         $("#pvalorPago").val(element.valorPago);
 
+                        idparcela =  element.idparcela;
+                        dataVencimento =  element.dataVencimento;
+                        valorParcela =  element.valorParcela;
+                        valorPago =  element.valorPago;
                     });
 
 
@@ -318,16 +322,10 @@
 
             function adicionar() {
 
-                dadosParcela = document.getElementById('pidparcela').value.split('_');
-                idparcela = dadosParcela[0];
-                parcela = $("#pidparcela option:selected").text();
-                dataVencimento = $("#pdataVencimento").val();
-                valorParcela = $("#pvalorParcela").val();
-                valorPago = $("#pvalorPago").val();
-                valorPagamento = $("#pvalorPagamento").val();
+              valorPagamento  = document.getElementById('pvalorPagamento');
 
 
-                var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idparcela[]" value="' + idparcela + '">' + parcela + '</td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'
+                var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'
                 cont++;
 
 
