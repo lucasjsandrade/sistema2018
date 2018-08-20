@@ -29,11 +29,11 @@ class CaixaController extends Controller
             $query = trim($request->get('searchText'));
             $caixa = DB::table('caixa as c')
                 ->select('c.idcaixa', 'c.data',
-                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao')
+                    'c.saldoInicial', 'c.saldoAtual', 'c.saldoFinal', 'c.situacao')
                 ->where('c.idcaixa', 'LIKE', '%' . $query . '%')
                 ->where('c.idcaixa', '>', 0)
                 ->select('c.idcaixa', 'c.data',
-                    'c.saldoInicial', 'c.saldoFinal', 'c.diferenca', 'c.situacao')
+                    'c.saldoInicial', 'c.saldoAtual', 'c.saldoFinal', 'c.situacao')
                 ->orderBy('idcaixa', 'desc')
                 ->paginate(10);
             return view('caixa.index', [
@@ -62,6 +62,7 @@ class CaixaController extends Controller
 
         $caixa = new Caixa;
         $caixa->saldoInicial = $request->get('saldoInicial');
+        $caixa->saldoAtual = $request->get('saldoInicial');
         $caixa->situacao = 'Aberto';
         $mytime = Carbon::now('America/Sao_Paulo');
         $caixa->data = $mytime->toDateTimeString();
@@ -74,19 +75,11 @@ class CaixaController extends Controller
             $cook_abrir = $_COOKIE['caixa'] = 'ABERTO';
             $movimento = new movimentacaocaixa();
             $movimento->idcaixa = $caixa->idcaixa;
-
-
-
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->data = $data->toDateTimeString();
             $movimento->descricao = 'Abertura';
             $movimento->valor = $valor;
             $movimento->tipoMovimentacao = 'M';
-
-            $caixa->save();
-
-
-
             $movimento->save();
             DB::commit();
             echo '<script>alert("Abertura Realizada com Sucesso!")</script>';
@@ -104,8 +97,8 @@ class CaixaController extends Controller
     public function show($id)
     {
         $caixa = DB::table('caixa as cai')
-            ->select('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoFinal', 'cai.diferenca', 'cai.situacao')
-            ->groupBy('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoFinal', 'cai.diferenca', 'cai.situacao')
+            ->select('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao')
+            ->groupBy('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao')
             ->where('cai.idcaixa', '=', $id)
             ->first();
 
@@ -127,7 +120,10 @@ class CaixaController extends Controller
             if ($_COOKIE['caixa'] == 'aberto') {
                 DB::table('caixa')->update(['situacao' => 'Fechado']);
                 setcookie("caixa");
-
+                $last_id=DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+                $caixa = Caixa::findOrFail($last_id->idcaixa);
+                $caixa->saldoFInal = $caixa->saldoAtual;
+                $caixa->update();
                 echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
                 echo '<script>window.location="caixa"</script>';
                 //fecha o caixa

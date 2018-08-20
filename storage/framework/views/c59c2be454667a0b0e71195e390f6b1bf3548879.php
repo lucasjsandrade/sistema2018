@@ -17,8 +17,6 @@
                     <th>Numero Pagamento</th>
                     <th>Data</th>
                     <th>Valor</th>
-                    <th>Jurus</th>
-                    <th>Multa</th>
 					<th>ValorTotal</th>
                     <th>Opções</th>
 
@@ -38,8 +36,6 @@
                             <td><?php echo e($pag->idpagamento); ?></td>
                             <td><?php echo e($pag->data); ?></td>
                             <td><?php echo e($pag->valor); ?></td>
-                            <td><?php echo e($pag->juros); ?></td>
-                            <td><?php echo e($pag->multa); ?></td>
                             <td><?php echo e($pag->valorTotal); ?></td>
                             <td>
                                 <a href="<?php echo e(URL::action('PagamentoController@show',$pag->idpagamento)); ?>"><button class="btn btn-info">Detalhe</button></a>

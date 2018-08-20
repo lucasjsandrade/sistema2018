@@ -143,7 +143,7 @@
                     <div class="form-group">
                         <label for="idvencimento">Vencimento</label>
                         <input type="text" name="dataVencimento" id="pdataVencimento" readonly
-                        class="form-control">
+                               class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
@@ -158,7 +158,7 @@
                     <div class="form-group">
                         <label for="idvalorPago">Valor Pago</label>
                         <input type="text" name="idvalorPago" id="pvalorPago" readonly
-                             required  class="form-control">
+                               required class="form-control">
                     </div>
                 </div>
 
@@ -167,7 +167,8 @@
                         <label for="quantidade">Valor</label>
                         <span class="ob">*</span>
                         <input type="number" name="valorPagamento" value="<?php echo e(old('valorPagamento')); ?>"
-                               id="pvalorPagamento" class="form-control" required placeholder="Insira o Valor a ser Pago">
+                               id="pvalorPagamento" class="form-control" required
+                               placeholder="Insira o Valor a ser Pago">
 
                     </div>
                 </div>
@@ -205,10 +206,7 @@
                         <th></th>
 
 
-                        <td>
-                            <input type="text" name="valorTotal" readonly id="total" class="form-control"
-                                   style="width: 100px;">
-                        </td>
+
                         </tfoot>
                         </tfoot>
                     </table>
@@ -297,7 +295,6 @@
 
             $('select#parcelas').change(function () {
 
-
                 var idcontas = $(this).val();
                 $parcelasItens = $('.parcItens').remove();
                 $.get('/parcelapagarget/' + idcontas, function (data) {
@@ -309,12 +306,11 @@
                         $("#pvalorParcela").val(element.valorParcela);
                         $("#pvalorPago").val(element.valorPago);
 
-                        idparcela =  element.idparcela;
-                        dataVencimento =  element.dataVencimento;
-                        valorParcela =  element.valorParcela;
-                        valorPago =  element.valorPago;
+                        idparcela = element.idparcela;
+                        dataVencimento = element.dataVencimento;
+                        valorParcela = element.valorParcela;
+                        valorPago = element.valorPago;
                     });
-
 
 
                 }, 'json');
@@ -324,24 +320,30 @@
 
             function adicionar() {
 
-              valorPagamento  = document.getElementById('pvalorPagamento');
 
+                lvalorPagamento = $("#pvalorPagamento").val();
+                ltotal = lvalorPagamento;
+                if (lvalorPagamento != "") {
 
-                var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'
-                cont++;
+                    var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td><td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorPago[]" value="' + valorPago + '"></td> <td> <input type="text" name="valorPagamentos[]" value="' + lvalorPagamento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
+                    cont++;
+                    limpar();
+                    $("#total").val(ltotal);
 
+                    ocultar();
+                    $('#detalhes').append(linha);
 
-                limpar();
-                $("#total").val(total);
+                }
 
-                ocultar();
-                $('#detalhes').append(linha);
+                 else {
+                alert("Insira o Valor do Pagamento!!");
 
 
             }
 
+            }
 
-            total = 0;
+
 
             function limpar() {
                 $("#pquantidade").val("");

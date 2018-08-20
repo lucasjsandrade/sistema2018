@@ -37,7 +37,7 @@ class PagamentoController extends Controller
                 //->join('parcelapagar as par','par.idcontasp', '=', 'con.idcontasp')
 
 
-                ->select('pag.idpagamento', 'pag.data', 'pag.valor', 'pag.juros', 'pag.multa', 'pag.valorTotal')
+                ->select('pag.idpagamento', 'pag.data', 'pag.valor', 'pag.valorTotal')
                 ->orderBy('pag.idpagamento', 'desc')
                 ->where('pag.idpagamento', 'LIKE', '%' . $query . '%')
                 ->paginate(7);
@@ -66,28 +66,37 @@ class PagamentoController extends Controller
         $mytime = Carbon::now('America/Sao_Paulo');
         $pagamento->data = $mytime->toDateTimeString();
         $pagamento->valor = $request->get('valorPagamento');
-        $pagamento->juros = 0;
-        $pagamento->multa = 0;
         $pagamento->valorTotal = $request->get('valorPagamento');
-        $pagamento->idparcelap = $request->get('idparcela');
+        $pagamento->idparcelap = $request->get('lidparcela');
         $pagamento->idparcelap = $str = implode(':', $pagamento->idparcelap);
 
         $pagamento->save();
 
+        $last_id=DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+        $idpag = $pagamento->idpagamento;
         $movimento = new movimentacaocaixa();
-
-
         $data = Carbon::now('America/Sao_Paulo');
         $movimento->data = $data->toDateTimeString();
         $movimento->descricao = $request->get('observacao');
         $movimento->valor = $request->get('valorPagamento');
         $movimento->tipoMovimentacao = 'Pagamento';
-        $movimento->idcaixa = 2;
+        $movimento->idpagamento = $idpag;
+        $movimento->idrecebimento =0;
+        $movimento->idcaixa =$last_id->idcaixa;
 
         $movimento->save();
 
+        $caixa = Caixa::findOrFail($last_id->idcaixa);
+
+        $caixa->saldoAtual = $caixa->saldoAtual-$movimento->valor;
+        $caixa->update();
+
+
+
 
         DB::commit();
+
+        return \redirect('\caixa');
     }
 
 
