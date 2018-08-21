@@ -51,9 +51,14 @@ class PagamentoController extends Controller
 
     public function create()
     {
+        $contaspagar = DB::table('contaspagar as c')
+            ->join('parcelapagar as par','par.idcontasp', '=', 'c.idcontasp')
+            ->where('par.status', '=', 'pendente')
+            ->get();
 
 
-        return view("pagamento.create");
+        return view("pagamento.create", ["contaspagar" =>
+            $contaspagar]);
 
 
     }
@@ -98,18 +103,36 @@ class PagamentoController extends Controller
             $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
             $caixa->update();//atualiza o saldo Atual do caixa
             DB::commit();
-        }
-        elseif ($valorPagamento >= $last_id->saldoAtual){
-            echo '<script>alert("O saldo Atual deve ser maior que o pagamento!")</script>';
-            echo '<script>window.location="caixa"</script>';
+        } else {
+            echo '<script>alert("Insira os dados Obrigatorios!!")</script>';
 
         }
-
-
 
 
         return \redirect('\caixa');
     }
 
+    public function show($id)
+    {
+        $pagamento = DB::table('pagamento as pag')
+            ->join('parcelapagar as par', 'par.idparcela', '=', 'pag.idparcelap')
+            ->select('pag.idpagamento', 'pag.data', 'pag.valorTotal', 'pag.idparcelap', 'par.valorParcela', 'par.valorPago', 'par.status', 'par.idparcela')
+            ->groupBy('pag.idpagamento', 'pag.data', 'pag.valorTotal', 'pag.idparcelap', 'par.valorParcela', 'par.valorPago', 'par.status', 'idparcela')
+            ->where('pag.idpagamento', '=', $id)
+            ->first();
+
+
+        $parcela = DB::table('parcelapagar as pa')
+            ->join('pagamento as pag', 'pa.idparcela', '=', 'pag.idparcelap')
+            ->join('contaspagar as c', 'c.idcontasp', '=', 'pa.idcontasp')
+            ->select('pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'pag.idpagamento', 'pa.idcontasp', 'c.parcela')
+            ->groupBy('pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'pag.idpagamento', 'pa.idcontasp', 'c.parcela')
+            ->where('pag.idpagamento', '=', $id)
+            ->first();
+
+        return view("pagamento.show", ["pagamento" => $pagamento, "parcela" => $parcela]);
+
+
+    }
 
 }

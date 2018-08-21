@@ -106,7 +106,6 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="observacao">Observação</label>
-                <span class="ob">*</span>
                 <input type="text" name="observacao" value="{{old('observacao')}}"
                        id="observacao" class="form-control">
 
@@ -334,8 +333,7 @@
                 }
 
                  else {
-                alert("Insira o Valor do Pagamento!!");
-
+                alert("Insira os dados Obrigatorios!!");
 
             }
 
