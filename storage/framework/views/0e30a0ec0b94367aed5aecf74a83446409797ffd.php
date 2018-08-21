@@ -1,4 +1,21 @@
 <?php $__env->startSection('conteudo'); ?>
+    <?php
+
+    try {
+
+        if ($_COOKIE['caixa'] == 'aberto') {
+
+            //Sessão Liberada.
+        }
+    } catch (\Exception $Exception) {
+        echo '<script>alert("Para Realizar uma Sangria o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
+        unset($_COOKIE['caixa']);
+        echo '<script>window.location="/caixa/create"</script>';
+    }
+
+    ?>
+
+
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <h3>Nova Sangria</h3>
@@ -24,6 +41,12 @@
                         <span class="ob">*</span>
                         <input type="number" name="sangria" required value="<?php echo e(old('sangria')); ?>" class="form-control"
                                placeholder="Informe o valor da sangria">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" name="descricao"  value="<?php echo e(old('descricao')); ?>" class="form-control">
                     </div>
                 </div>
 

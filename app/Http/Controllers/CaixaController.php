@@ -77,9 +77,11 @@ class CaixaController extends Controller
             $movimento->idcaixa = $caixa->idcaixa;
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->data = $data->toDateTimeString();
-            $movimento->descricao = 'Abertura';
+            $movimento->descricao = $request->get('descricao');
             $movimento->valor = $valor;
-            $movimento->tipoMovimentacao = 'M';
+            $movimento->tipoMovimentacao ='Abertura';
+            $movimento->idrecebimento = 0;
+            $movimento->idpagamento = 0;
             $movimento->save();
             DB::commit();
             echo '<script>alert("Abertura Realizada com Sucesso!")</script>';
