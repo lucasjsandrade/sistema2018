@@ -27,15 +27,6 @@
             </div>
         </div>
 
-
-        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
-            <div class="form-group">
-                <label for="numeroParcela">N° da Parcela</label>
-                <p>{{$pagamento->idparcelap}}</p>
-            </div>
-
-        </div>
-
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="numero">N° da conta</label>
@@ -46,7 +37,17 @@
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="numero">N° de Parcelas</label>
+                <label for="numeroParcela">N° da Parcela</label>
+                <p>{{$pagamento->idparcelap}}</p>
+            </div>
+
+        </div>
+
+
+
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="numero">Quantidade de Parcelas</label>
                 <p>{{$parcela->parcela}}</p>
             </div>
 

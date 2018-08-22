@@ -34,9 +34,6 @@ class PagamentoController extends Controller
         if ($request) {
             $query = trim($request->get('searchText'));
             $pagamento = DB::table('pagamento as pag')
-                //->join('parcelapagar as par','par.idcontasp', '=', 'con.idcontasp')
-
-
                 ->select('pag.idpagamento', 'pag.data', 'pag.valor', 'pag.valorTotal')
                 ->orderBy('pag.idpagamento', 'desc')
                 ->where('pag.idpagamento', 'LIKE', '%' . $query . '%')
@@ -52,8 +49,10 @@ class PagamentoController extends Controller
     public function create()
     {
         $contaspagar = DB::table('contaspagar as c')
-            ->join('parcelapagar as par','par.idcontasp', '=', 'c.idcontasp')
+            ->join('parcelapagar as par', 'par.idcontasp', '=', 'c.idcontasp')
+            ->select('c.idcontasp', 'c.data', 'c.valor', 'c.descricao', 'c.idcompra', 'c.idfornecedor', 'c.parcela', 'par.idparcela', 'par.status')
             ->where('par.status', '=', 'pendente')
+            ->groupBy('c.idcontasp', 'c.data', 'c.valor', 'c.descricao', 'c.idcompra', 'c.idfornecedor', 'c.parcela', 'par.idparcela', 'par.status')
             ->get();
 
 
@@ -66,14 +65,16 @@ class PagamentoController extends Controller
     public function store(PagamentoFormRequest $request)
     {
         global $idpag;
+        global $idparc;
         global $last_id;
         $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();//consulta a ultima trazacao do caixa
-        DB::beginTransaction();
+
 
         $valorPagamento = $request->get('valorPagamento');
-        $valorParcela = $request->get('lvalorParcela');
+        $valorParcela = $request->get('valorParcela');
         if ($valorPagamento <= $last_id->saldoAtual) {
-            if ($valorPagamento = $valorParcela) {
+            if ($valorPagamento == $valorParcela) {// *se o valor do pagamento for igual a parcela gera um pagamento,atualiza o status da parcela*
+                DB::beginTransaction();
                 $pagamento = new Pagamento;
                 $mytime = Carbon::now('America/Sao_Paulo');
                 $pagamento->data = $mytime->toDateTimeString();
@@ -81,30 +82,93 @@ class PagamentoController extends Controller
                 $pagamento->valorTotal = $request->get('valorPagamento');
                 $pagamento->idparcelap = $request->get('lidparcela');
                 $pagamento->idparcelap = $str = implode(':', $pagamento->idparcelap);
-                //$usuario = DB::table('parcelapagar')->where('idparcela', '=', $pagamento->idparcelap)->delete();
-                $pagamento->save();//salva o pagamento
+                $pagamento->save();
                 $idpag = $pagamento->idpagamento;
+                $idparc = $pagamento->idparcelap;
+
+                $parcela = Parcelapagar::findOrFail($idparc);
+                $parcela->valorPago = $pagamento->valorTotal;
+                $parcela->valorParcela = 0;
+                $parcela->status = 'Paga';
+                $parcela->update();
+                $movimento = new movimentacaocaixa();
+                $data = Carbon::now('America/Sao_Paulo');
+                $movimento->data = $data->toDateTimeString();
+                $movimento->descricao = $request->get('observacao');
+                $movimento->valor = $request->get('valorPagamento');
+                $movimento->tipoMovimentacao = 'Pagamento';
+                $movimento->idpagamento = $idpag;
+                $movimento->idrecebimento = 0;
+                $movimento->idcaixa = $last_id->idcaixa;
+                $movimento->save();//salva o movimento do caixa
+
+                $caixa = Caixa::findOrFail($last_id->idcaixa);
+                $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
+                $caixa->update();//atualiza o saldo Atual do caixa
+                DB::commit();
+
+
+            } else {
+                DB::rollback();
+            }
+
+
+            if ($valorPagamento < $valorParcela) {//se o valor do pagamento for menor que a parcela
+
+                DB::beginTransaction();
+                $pagamento = new Pagamento;
+                $mytime = Carbon::now('America/Sao_Paulo');
+                $pagamento->data = $mytime->toDateTimeString();
+                $pagamento->valor = $request->get('valorParcela');
+                $pagamento->valorTotal = $request->get('valorPagamento');
+                $pagamento->idparcelap = $request->get('lidparcela');
+                $pagamento->idparcelap = $str = implode(':', $pagamento->idparcelap);
+                $pagamento->save();
+                $idpag = $pagamento->idpagamento;
+                $idparc = $pagamento->idparcelap;
+                $atualizaParcela =  $pagamento->valor - $pagamento->valorTotal;
+                $parcela = Parcelapagar::findOrFail($idparc);
+                $parcela->valorPago = $pagamento->valorTotal;
+                $parcela->valorParcela = $atualizaParcela;
+                $parcela->status = 'Pendente';
+                $parcela->update();
+                $movimento = new movimentacaocaixa();
+                $data = Carbon::now('America/Sao_Paulo');
+                $movimento->data = $data->toDateTimeString();
+                $movimento->descricao = $request->get('observacao');
+                $movimento->valor = $request->get('valorPagamento');
+                $movimento->tipoMovimentacao = 'Pagamento';
+                $movimento->idpagamento = $idpag;
+                $movimento->idrecebimento = 0;
+                $movimento->idcaixa = $last_id->idcaixa;
+                $movimento->save();//salva o movimento do caixa
+
+                $caixa = Caixa::findOrFail($last_id->idcaixa);
+                $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
+                $caixa->update();//atualiza o saldo Atual do caixa
+                DB::commit();
+
+
+            } else {
+                DB::rollback();
+            }
+
+
+            if ($valorPagamento > $valorParcela) {//se o valor do pagamento for maior que a parcela
+
+                echo '<script>alert("O valor do Pagamento não pode ser maior que o valor da parcela!!")</script>';
+                echo '<script>window.location="caixa"</script>';
+
+
+            } else {
 
             }
 
 
-            $movimento = new movimentacaocaixa();
-            $data = Carbon::now('America/Sao_Paulo');
-            $movimento->data = $data->toDateTimeString();
-            $movimento->descricao = $request->get('observacao');
-            $movimento->valor = $request->get('valorPagamento');
-            $movimento->tipoMovimentacao = 'Pagamento';
-            $movimento->idpagamento = $idpag;
-            $movimento->idrecebimento = 0;
-            $movimento->idcaixa = $last_id->idcaixa;
-            $movimento->save();//salva o movimento do caixa
-
-            $caixa = Caixa::findOrFail($last_id->idcaixa);
-            $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
-            $caixa->update();//atualiza o saldo Atual do caixa
-            DB::commit();
         } else {
-            echo '<script>alert("Insira os dados Obrigatorios!!")</script>';
+            echo '<script>alert("O saldo do caixa precisa ser maior que o valor do pagamento!!")</script>';
+            echo '<script>window.location="caixa"</script>';
+            die();
 
         }
 

@@ -2,6 +2,7 @@
 
     <?php
 
+
     try {
 
         if ($_COOKIE['caixa'] == 'aberto') {
