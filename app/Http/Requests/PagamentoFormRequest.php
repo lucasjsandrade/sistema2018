@@ -28,9 +28,6 @@ class PagamentoFormRequest extends FormRequest
 
             'idparcelap',
             'data',
-            'valor',
-            'jurus',
-            'multa',
             'valorTotal',
 
         ];

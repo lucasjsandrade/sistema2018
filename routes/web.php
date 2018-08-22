@@ -50,9 +50,9 @@ Route::get('/home', 'HomeController@index');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/{slug?}', 'HomeController@index' );
 
-Route::get('/pagamento/create',function(){
-    $contaspagar = Contaspagar::all();
-    return View::make('/pagamento/create')->with('contaspagar', $contaspagar);
-});
+//Route::get('/pagamento/create',function(){
+//    $contaspagar = Contaspagar::all();
+  //  return View::make('/pagamento/create')->with('contaspagar', $contaspagar);
+//});
 
 

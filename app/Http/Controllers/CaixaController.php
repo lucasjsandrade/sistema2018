@@ -62,6 +62,7 @@ class CaixaController extends Controller
 
         $caixa = new Caixa;
         $caixa->saldoInicial = $request->get('saldoInicial');
+        $caixa->saldoAtual = $request->get('saldoInicial');
         $caixa->situacao = 'Aberto';
         $mytime = Carbon::now('America/Sao_Paulo');
         $caixa->data = $mytime->toDateTimeString();
@@ -74,19 +75,13 @@ class CaixaController extends Controller
             $cook_abrir = $_COOKIE['caixa'] = 'ABERTO';
             $movimento = new movimentacaocaixa();
             $movimento->idcaixa = $caixa->idcaixa;
-
-
-
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->data = $data->toDateTimeString();
-            $movimento->descricao = 'Abertura';
+            $movimento->descricao = $request->get('descricao');
             $movimento->valor = $valor;
-            $movimento->tipoMovimentacao = 'M';
-
-            $caixa->save();
-
-
-
+            $movimento->tipoMovimentacao ='Abertura';
+            $movimento->idrecebimento = 0;
+            $movimento->idpagamento = 0;
             $movimento->save();
             DB::commit();
             echo '<script>alert("Abertura Realizada com Sucesso!")</script>';
@@ -127,7 +122,10 @@ class CaixaController extends Controller
             if ($_COOKIE['caixa'] == 'aberto') {
                 DB::table('caixa')->update(['situacao' => 'Fechado']);
                 setcookie("caixa");
-
+                $last_id=DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+                $caixa = Caixa::findOrFail($last_id->idcaixa);
+                $caixa->saldoFInal = $caixa->saldoAtual;
+                $caixa->update();
                 echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
                 echo '<script>window.location="caixa"</script>';
                 //fecha o caixa

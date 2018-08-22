@@ -18,8 +18,6 @@
                     <th>Numero Pagamento</th>
                     <th>Data</th>
                     <th>Valor</th>
-                    <th>Jurus</th>
-                    <th>Multa</th>
 					<th>ValorTotal</th>
                     <th>Opções</th>
 
@@ -39,8 +37,6 @@
                             <td>{{ $pag->idpagamento}}</td>
                             <td>{{ $pag->data}}</td>
                             <td>{{ $pag->valor}}</td>
-                            <td>{{ $pag->juros}}</td>
-                            <td>{{ $pag->multa}}</td>
                             <td>{{ $pag->valorTotal}}</td>
                             <td>
                                 <a href="{{URL::action('PagamentoController@show',$pag->idpagamento)}}"><button class="btn btn-info">Detalhe</button></a>

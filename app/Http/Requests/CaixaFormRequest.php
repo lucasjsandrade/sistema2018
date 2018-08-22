@@ -26,7 +26,7 @@ class CaixaFormRequest extends FormRequest
         return [
             'idmovimentacaocaixa',
             'data',
-            'saldoInicial'=>'required',
+            'saldoInicial',
             'saldoFinal',
             'diferenca',
             'situacao',

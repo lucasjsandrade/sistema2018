@@ -13,7 +13,7 @@
                             <a href="caixa/create">
                                 <button class="btn btn-primary">Abrir Caixa</button>
 
-                                <a href="/sangria">
+                                <a href="/sangria/create">
                                     <button class="btn btn-primary">Sangria</button>
 
                                     <a href="/suprimento">
