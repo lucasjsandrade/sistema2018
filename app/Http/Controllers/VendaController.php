@@ -7,6 +7,8 @@ use sistemaLaravel\Orcamento;
 use sistemaLaravel\Itensv;
 use sistemaLaravel\Contasreceber;
 use sistemaLaravel\Parcelareceber;
+use sistemaLaravel\MovimentacaoCaixa;
+use sistemaLaravel\Caixa;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\VendaFormRequest;
 use sistemaLaravel\Http\requests\orcamentoFormRequest;
@@ -16,7 +18,7 @@ use Response;
 use DB;
 use Illuminate\Support\Collection;
 
-
+ 
 class VendaController extends Controller
 {
 	public function __construct(){
@@ -80,10 +82,10 @@ class VendaController extends Controller
 
 	public function store(VendaFormRequest $request){
 
-		try{
-
+		global $last_id;
+        $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+		
 			DB::beginTransaction();
-
 			$venda = new venda;
 			$mytime = Carbon::now('America/Sao_Paulo'); 
 			$venda->dataVenda=$mytime->toDateTimeString();
@@ -93,35 +95,55 @@ class VendaController extends Controller
 			$venda->condicaoPagamento=$request->get('condicaoPagamento');
 			$venda->formaPagamento=$request->get('formaPagamento');
 			$venda->valorTotal=$request->get('valorTotal');
-
-
 			$venda->status='Fechada';
 			$venda->numeroDeParcelas=$request->get('numeroDeParcelas');
 			$venda->origemVenda=$request->get('origemVenda');
-
 			$venda->save();
 
+			
 
+			if ($condicaoPagamento = 'Avista'){
 
+			
+			
+
+			$movimento = new movimentacaocaixa();
+            
+            $data = Carbon::now('America/Sao_Paulo');
+            $movimento->idcaixa = $last_id->idcaixa;
+            $movimento->data = $data->toDateTimeString();            
+            $movimento->valor = $request->get('valorTotal');;
+            $movimento->tipoMovimentacao = 'Venda a vista';
+            $movimento->idrecebimento = 0;
+            $movimento->idpagamento = 0;
+            $movimento->save();
+
+            $caixa = Caixa::findOrFail($last_id->idcaixa);
+            $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
+            $caixa->update();//atualiza o saldo Atual do caixa
+            DB::commit();
+
+			}
+
+			else {DB::rollback();}
+
+			$condicao = $request->get('condicaoPagamento');
+
+			
+
+			if ($condicao = 'Aprazo'){
+		
 
 			$contas = new Contasreceber;
-
 			$contas->idvenda=$venda->idvenda;
 			$contas->idcliente=$request->get('idcliente');
 			$contas->data=$mytime->toDateTimeString();
 			$contas->valor=$venda->valorTotal;
 			$contas->descricao='Gerado Pela Venda!';;
 			$contas->parcela=$venda->numeroDeParcelas;
-
-
-
 			$contas->save(); 
 
-
-
-
-
-
+		
 
 			$cont =0;
 
@@ -133,33 +155,17 @@ class VendaController extends Controller
 				$parcela = new ParcelaReceber();
 				$parcela->idcontasr=$numero;
 				$parcela->valorParcela=($venda->valorTotal/$venda->numeroDeParcelas);
-
-
-
 				$dataParcela = date("Y-m-d",strtotime("+1 month",strtotime($dataParcela)));
 				$parcela->dataVencimento = $dataParcela;
-
 				$cont=$cont+1;
-
-
 				$parcela->save();
 
 			}
-
-
-
-
-
-
-
 
 			$idproduto=$request->get('idproduto');
 			$quantidade=$request->get('quantidade');
 			$valorUnitario=$request->get('valorUnitario');
 			$desconto=$request->get('desconto');
-
-
-			
 
 			$cont= 0;
 			while($cont < count($idproduto)){
@@ -170,37 +176,21 @@ class VendaController extends Controller
 				$itens->quantidade=$quantidade[$cont];
 				$itens->desconto=$desconto[$cont];
 				$itens->status='Venda';
-
 				$itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
-
-
-
 				$itens->save();
 				$cont=$cont+1;
 
-
-
-
-
-
-
 			}
+			db::commit();
+		}
 
+		else{DB::rollback();}
 
-			DB::commit();
+			
 
 			return Redirect::to('/venda/venda');
 
-
-
-		}catch(\Exception $e){
-			echo "<script>alert('Erro ao salvar no BD!');</script>";
-
-			DB::rollback();
-
-			echo "<script>window.location = '/venda/venda';</script>"; 
-
-		}
+	
 
 	}
 
