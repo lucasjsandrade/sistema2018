@@ -7,6 +7,8 @@ use sistemaLaravel\compra;
 use sistemaLaravel\itensc;
 use sistemaLaravel\Contaspagar;
 use sistemaLaravel\ParcelaPagar;
+use sistemaLaravel\MovimentacaoCaixa;
+use sistemaLaravel\Caixa;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\CompraFormRequest;
 use sistemaLaravel\Http\requests\ContaspagarFormRequest;
@@ -82,7 +84,16 @@ class CompraController extends Controller
 
 	public function store(CompraFormRequest $request){
 
-		try{
+		
+			global $last_id;
+   		     $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+		
+     		   $condicaoPagamento = $request->get('condicaoPagamento');
+			
+
+			if ($condicaoPagamento == 'Avista'){
+
+				//dd($condicaoPagamento);
 
 			DB::beginTransaction();
 
@@ -90,79 +101,28 @@ class CompraController extends Controller
 			$compra->idfornecedor=$request->get('idfornecedor');
 			$compra->idfuncionario=$request->get('idfuncionario');
 			$compra->condicaoPagamento=$request->get('condicaoPagamento');
-
-
 			$compra->totalCompra=$request->get('totalCompra');
 			$mytime = Carbon::now('America/Sao_Paulo'); 
 			$compra->dataCompra=$mytime->toDateTimeString();
-
 			$compra->formaPagamento=$request->get('formaPagamento');
 			$compra->status='Fechado';
 			$compra->numeroDeParcelas=$request->get('numeroDeParcelas');
-
 			$compra->save();
 
-			$contas = new Contaspagar;
+			$movimento = new movimentacaocaixa();            
+            $data = Carbon::now('America/Sao_Paulo');
+            $movimento->idcaixa = $last_id->idcaixa;
+            $movimento->data = $data->toDateTimeString();            
+            $movimento->valor = $request->get('totalCompra');;
+            $movimento->tipoMovimentacao = 'Compra a vista';
+            $movimento->idrecebimento = 0;
+            $movimento->idpagamento = 0;
+            $movimento->save();
 
-			$contas->idcompra=$compra->idcompra;
-			$contas->idfornecedor=$request->get('idfornecedor');
-			$contas->data=$mytime->toDateTimeString();
-			$contas->valor=$compra->totalCompra;
-			$contas->descricao='Gerado Pela compra!';;
-			$contas->parcela=$compra->numeroDeParcelas;
-
-
-
-			$contas->save();
-
-			
-			
-			$cont =0;
-
-			$dataParcela = $compra->dataCompra;
-
-			while($cont < ($compra->numeroDeParcelas)){
-
-				$teste = DB::table('contaspagar')->max('idcontasp');
-				$parcela = new ParcelaPagar();
-				$parcela->idcontasp=$teste;
-				$parcela->valorParcela=($compra->totalCompra/$compra->numeroDeParcelas);
-				$parcela->status = 'Pendente';
-				
-
-				$dataParcela = date("Y-m-d",strtotime("+1 month",strtotime($dataParcela)));
-				$parcela->dataVencimento = $dataParcela;
-           // [...] Gravar a parcela
-				
-
-
-
-
-				$cont=$cont+1;
-
-
-				$parcela->save();
-
-			}
-
-
-
-
-
-
-			$idproduto=$request->get('idproduto');
+            $idproduto=$request->get('idproduto');
 			$quantidade=$request->get('quantidade');
 			$valorUnitario=$request->get('valorUnitario');
-			//$totalCompra=$request->get('totalCompra');
-			$compra->numeroDeParcelas;
-
-
-
-
-
-
-
-
+			$desconto=$request->get('desconto');
 
 			$cont= 0;
 			while($cont < count($idproduto)){
@@ -176,34 +136,91 @@ class CompraController extends Controller
 				$itens->save();
 				$cont=$cont+1;
 
+			}
+
+			 $caixa = Caixa::findOrFail($last_id->idcaixa);
+                $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
+                $caixa->update();//atualiza o saldo Atual do caixa
+                DB::commit();
 
 
+            } else {
+                DB::rollback();
+            }
 
+            if ($condicaoPagamento == 'Aprazo'){
+
+            	//dd($condicaoPagamento);
+
+            DB::beginTransaction();
+
+			$compra = new compra;
+			$compra->idfornecedor=$request->get('idfornecedor');
+			$compra->idfuncionario=$request->get('idfuncionario');
+			$compra->condicaoPagamento=$request->get('condicaoPagamento');
+			$compra->totalCompra=$request->get('totalCompra');
+			$mytime = Carbon::now('America/Sao_Paulo'); 
+			$compra->dataCompra=$mytime->toDateTimeString();
+			$compra->formaPagamento=$request->get('formaPagamento');
+			$compra->status='Fechado';
+			$compra->numeroDeParcelas=$request->get('numeroDeParcelas');
+			$compra->save();
+
+			$contas = new Contaspagar;
+
+			$contas->idcompra=$compra->idcompra;
+			$contas->idfornecedor=$request->get('idfornecedor');
+			$contas->data=$mytime->toDateTimeString();
+			$contas->valor=$compra->totalCompra;
+			$contas->descricao='Gerado Pela compra!';;
+			$contas->parcela=$compra->numeroDeParcelas;
+			$contas->save();			
+			
+			$cont =0;
+			$dataParcela = $compra->dataCompra;
+			while($cont < ($compra->numeroDeParcelas)){
+
+				$teste = DB::table('contaspagar')->max('idcontasp');
+				$parcela = new ParcelaPagar();
+				$parcela->idcontasp=$teste;
+				$parcela->valorParcela=($compra->totalCompra/$compra->numeroDeParcelas);
+				$parcela->status = 'Pendente';
+				$dataParcela = date("Y-m-d",strtotime("+1 month",strtotime($dataParcela)));
+				$parcela->dataVencimento = $dataParcela;
+           // [...] Gravar a parcela
+				$cont=$cont+1;
+				$parcela->save();
 
 			}
 
-			DB::commit();
+			$idproduto=$request->get('idproduto');
+			$quantidade=$request->get('quantidade');
+			$valorUnitario=$request->get('valorUnitario');
+			//$totalCompra=$request->get('totalCompra');
+			$compra->numeroDeParcelas;
 
-			return Redirect::to('compra/compra');
+			$cont= 0;
+			while($cont < count($idproduto)){
 
+				$itens = new itensc();
+				$itens->idcompra=$compra->idcompra;
+				$itens->idproduto=$idproduto[$cont];
+				$itens->quantidade=$quantidade[$cont];
+				$itens->valorUnitario=$valorUnitario[$cont];
+				$itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+				$itens->save();
+				$cont=$cont+1;
 
+			}
 
-		}catch(\Exception $e){
-			echo "<script>alert('Erro ao salvar no BD!');</script>";
-
-			//DB::rollback();
-
-			echo "<script>window.location = 'compra';</script>"; 
-
+		db::commit();
 		}
 
+		else{DB::rollback();}
+
+			return Redirect::to('/compra/compra');
+
 	}
-
-
-
-
-
-
 
 	public function show($id){
 

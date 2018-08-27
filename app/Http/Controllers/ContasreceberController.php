@@ -33,7 +33,7 @@ class ContasreceberController extends Controller
                 ->join('parcelareceber as p', 'p.idcontasr', 'c.idcontasr')
                 ->select('ven.idvenda', 'cli.idcliente', 'ven.numeroDeParcelas', 'c.idcontasr', 'c.data', 'c.descricao', 'c.valor','p.idcontasr')
                 ->where('c.idcontasr', 'LIKE', '%' . $query . '%', 'or', 'is null')
-                ->where('p.status','=','Pendente')
+                //->where('p.status','=','Pendente')
                 ->orderBy('c.idcontasr', 'desc')
                 ->groupBy('ven.idvenda', 'cli.idcliente', 'ven.numeroDeParcelas', 'c.idcontasr', 'c.data', 'c.descricao', 'c.valor','p.idcontasr')
                 ->paginate(7);

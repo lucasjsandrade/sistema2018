@@ -39,6 +39,7 @@ class VendaController extends Controller
 			->select('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','v.valorTotal')
 			->where('v.idvenda','LIKE', '%'.$query.'%') 
 			->where('v.status','=','Fechada')
+			->orwhere('v.status','=','Pendente')
 			->groupBy('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','i.valorTotal')	
 			->orderBy('v.idvenda', 'desc')
 			
@@ -85,6 +86,13 @@ class VendaController extends Controller
 		global $last_id;
         $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
 		
+        $condicaoPagamento = $request->get('condicaoPagamento');
+			
+
+			if ($condicaoPagamento == 'Avista'){
+
+				//dd($condicaoPagamento);
+			
 			DB::beginTransaction();
 			$venda = new venda;
 			$mytime = Carbon::now('America/Sao_Paulo'); 
@@ -100,15 +108,7 @@ class VendaController extends Controller
 			$venda->origemVenda=$request->get('origemVenda');
 			$venda->save();
 
-			
-
-			if ($condicaoPagamento = 'Avista'){
-
-			
-			
-
-			$movimento = new movimentacaocaixa();
-            
+			$movimento = new movimentacaocaixa();            
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->idcaixa = $last_id->idcaixa;
             $movimento->data = $data->toDateTimeString();            
@@ -118,21 +118,55 @@ class VendaController extends Controller
             $movimento->idpagamento = 0;
             $movimento->save();
 
-            $caixa = Caixa::findOrFail($last_id->idcaixa);
-            $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
-            $caixa->update();//atualiza o saldo Atual do caixa
-            DB::commit();
+            $idproduto=$request->get('idproduto');
+			$quantidade=$request->get('quantidade');
+			$valorUnitario=$request->get('valorUnitario');
+			$desconto=$request->get('desconto');
+
+			$cont= 0;
+            while($cont < count($idproduto)){
+
+				$itens = new Itensv();
+				$itens->idvenda=$venda->idvenda;
+				$itens->idproduto=$idproduto[$cont];
+				$itens->quantidade=$quantidade[$cont];
+				$itens->desconto=$desconto[$cont];
+				$itens->status='Venda';
+				$itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+				$itens->save();
+				$cont=$cont+1;
 
 			}
+          
+                $caixa = Caixa::findOrFail($last_id->idcaixa);
+                $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
+                $caixa->update();//atualiza o saldo Atual do caixa
+                DB::commit();
 
-			else {DB::rollback();}
 
-			$condicao = $request->get('condicaoPagamento');
+            } else {
+                DB::rollback();
+            }
 
-			
 
-			if ($condicao = 'Aprazo'){
-		
+			if ($condicaoPagamento == 'Aprazo'){
+
+					//dd($condicaoPagamento);
+
+			DB::beginTransaction();
+			$venda = new venda;
+			$mytime = Carbon::now('America/Sao_Paulo'); 
+			$venda->dataVenda=$mytime->toDateTimeString();
+			$venda->valorTotal=$request->get('valorTotal');
+			$venda->idcliente=$request->get('idcliente');			
+			$venda->idfuncionario=$request->get('idfuncionario');
+			$venda->condicaoPagamento=$request->get('condicaoPagamento');
+			$venda->formaPagamento=$request->get('formaPagamento');
+			$venda->valorTotal=$request->get('valorTotal');
+			$venda->status='Pendente';
+			$venda->numeroDeParcelas=$request->get('numeroDeParcelas');
+			$venda->origemVenda=$request->get('origemVenda');
+			$venda->save();
 
 			$contas = new Contasreceber;
 			$contas->idvenda=$venda->idvenda;

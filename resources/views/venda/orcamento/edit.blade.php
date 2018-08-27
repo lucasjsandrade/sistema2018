@@ -30,7 +30,7 @@
                 <label for="status">Status</label>
                 <span class="ob">*</span>
                 <select name="status" id="status" class="form-control" required>
-                    <option value="">Selecine Orçamento</option>
+                    <option value="">Selecione Orçamento</option>
                     <option value="Aberta">Aberta (Orçamento)</option>
                     <option value="Fechada">Fechada(Venda)</option>
                 </select>
