@@ -39,8 +39,8 @@ class sangriaController extends Controller
             $movimento->idcaixa = $last_id->idcaixa;
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->data = $data->toDateTimeString();
-            $movimento->descricao =
-            $movimento->valor = $request->get('sangria');;
+            $movimento->descricao = $request->get('descricao');
+            $movimento->valor = $request->get('sangria');
             $movimento->tipoMovimentacao = 'Sangria';
             $movimento->idrecebimento = 0;
             $movimento->idpagamento = 0;

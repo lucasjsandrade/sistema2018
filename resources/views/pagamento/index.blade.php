@@ -5,7 +5,7 @@
             <h3>Pagamento<a href="/pagamento/create">
                     <button class="btn btn-success">Incluir</button>
                 </a></h3>
-            @include('compra.pedido.search')
+            @include('pagamento.search')
         </div>
     </div>
 

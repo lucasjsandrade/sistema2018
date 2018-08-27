@@ -45,7 +45,12 @@
                         </div>
                         <button class="btn btn-success" name="abrir" value="abrir">Abrir</button>
                     </div>
-
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for="descricao">Descrição</label>
+                            <input type="text" name="descricao"  value="<?php echo e(old('descricao')); ?>" class="form-control">
+                        </div>
+                    </div>
                 </article>
             </section>
 

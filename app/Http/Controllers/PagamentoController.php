@@ -50,9 +50,10 @@ class PagamentoController extends Controller
     {
         $contaspagar = DB::table('contaspagar as c')
             ->join('parcelapagar as par', 'par.idcontasp', '=', 'c.idcontasp')
-            ->select('c.idcontasp', 'c.data', 'c.valor', 'c.descricao', 'c.idcompra', 'c.idfornecedor', 'c.parcela', 'par.idparcela', 'par.status')
+            ->join('fornecedor as for', 'for.idfornecedor', '=', 'c.idfornecedor')
+            ->select('c.idcontasp', 'c.data', 'c.valor', 'c.descricao', 'c.idcompra', 'c.idfornecedor', 'c.parcela', 'par.idparcela', 'par.status','for.idfornecedor','for.razaoSocial')
             ->where('par.status', '=', 'pendente')
-            ->groupBy('c.idcontasp', 'c.data', 'c.valor', 'c.descricao', 'c.idcompra', 'c.idfornecedor', 'c.parcela', 'par.idparcela', 'par.status')
+            ->groupBy('c.idcontasp', 'c.data', 'c.valor', 'c.descricao', 'c.idcompra', 'c.idfornecedor', 'c.parcela', 'par.idparcela', 'par.status','for.idfornecedor','for.razaoSocial')
             ->get();
 
 
@@ -189,8 +190,9 @@ class PagamentoController extends Controller
         $parcela = DB::table('parcelapagar as pa')
             ->join('pagamento as pag', 'pa.idparcela', '=', 'pag.idparcelap')
             ->join('contaspagar as c', 'c.idcontasp', '=', 'pa.idcontasp')
-            ->select('pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'pag.idpagamento', 'pa.idcontasp', 'c.parcela')
-            ->groupBy('pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'pag.idpagamento', 'pa.idcontasp', 'c.parcela')
+            ->join('fornecedor as for', 'for.idfornecedor', '=', 'c.idfornecedor')
+            ->select('pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'pag.idpagamento', 'pa.idcontasp', 'c.parcela','for.idfornecedor','for.razaoSocial','for.telefone')
+            ->groupBy('pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'pag.idpagamento', 'pa.idcontasp', 'c.parcela','idfornecedor','for.razaoSocial','for.telefone')
             ->where('pag.idpagamento', '=', $id)
             ->first();
 

@@ -127,7 +127,7 @@ class CompraController extends Controller
 				$parcela = new ParcelaPagar();
 				$parcela->idcontasp=$teste;
 				$parcela->valorParcela=($compra->totalCompra/$compra->numeroDeParcelas);
-				
+				$parcela->status = 'Pendente';
 				
 
 				$dataParcela = date("Y-m-d",strtotime("+1 month",strtotime($dataParcela)));
@@ -191,7 +191,7 @@ class CompraController extends Controller
 		}catch(\Exception $e){
 			echo "<script>alert('Erro ao salvar no BD!');</script>";
 
-			DB::rollback();
+			//DB::rollback();
 
 			echo "<script>window.location = 'compra';</script>"; 
 

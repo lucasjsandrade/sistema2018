@@ -137,6 +137,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/caixa"><i class="fa fa-calculator" aria-hidden="true"></i>Caixa</a></li>
+                <li><a href="/pagamento"><i class="fa fa-calculator" aria-hidden="true"></i>Pagamento</a></li>
                 <li><a href="/contaspagar"><i class="fa fa-money "></i>Contas a Pagar</a></li>
                 <li><a href="/contasreceber"><i class="fa fa-money "></i>Contas a Receber</a></li>
               </ul>

@@ -2,6 +2,7 @@
 
     <?php
 
+
     try {
 
         if ($_COOKIE['caixa'] == 'aberto') {
@@ -15,6 +16,7 @@
     }
 
     ?>
+
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <h3>Pagamento <i class="fa fa-money"></i></h3>
@@ -38,16 +40,13 @@
     <div class="row">
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label>Contas a Pagar</label>
+                <label for="">Contas a Pagar</label>
                 <span class="ob">*</span>
-                <select name="contas" id="pidcontas" class="form-control selectpicker" data-live-search="true"
-                        onchange="mostrarValores()">
-                    <option value="">Selecione uma Conta a Pagar</option>
-                    <?php $__currentLoopData = $contas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $con): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                        <option value="<?php echo e($con->idcontasp); ?>_<?php echo e($con->data); ?>_<?php echo e($con->valor); ?>_<?php echo e($con->descricao); ?>_<?php echo e($con->idcompra); ?>_<?php echo e($con->idfornecedor); ?>_<?php echo e($con->parcela); ?>">
-                            <?php echo e($con->contas); ?>
 
-                        </option>
+                <select name="contas" id="contas" class="form-control selectpicker" data-live-search="true">
+                    <option value="">Selecione uma Conta</option>
+                    <?php $__currentLoopData = $contaspagar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $con): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                        <option value="<?php echo e($con->idcontasp); ?>_<?php echo e($con->data); ?>_<?php echo e($con->valor); ?>_<?php echo e($con->descricao); ?>_<?php echo e($con->idcompra); ?>_<?php echo e($con->idfornecedor); ?>_<?php echo e($con->parcela); ?>"><?php echo e($con->idcontasp); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
                 </select>
@@ -55,10 +54,11 @@
             </div>
         </div>
 
+
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="data">Data Lançamento</label>
-                <input type="text" name="data" id="pdata" disabled
+                <input type="text" name="data" id="pdata" readonly
                        class="form-control">
             </div>
         </div>
@@ -67,7 +67,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="valor">Valor da Conta</label>
-                <input type="number" name="valor" id="pvalor" disabled
+                <input type="number" name="valor" id="pvalor" readonly
                        class="form-control">
             </div>
         </div>
@@ -76,7 +76,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="descricao">Descrição</label>
-                <input type="text" name="descricao" id="pdescricao" disabled
+                <input type="text" name="descricao" id="pdescricao" readonly
                        class="form-control">
             </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idcompra">N° Compra</label>
-                <input type="text" name="compra" id="pidcompra" disabled
+                <input type="text" name="compra" id="pidcompra" readonly
                        class="form-control">
             </div>
         </div>
@@ -92,7 +92,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idcompra">N° Fornecedor</label>
-                <input type="text" name="idfornecedor" id="pidfornecedor" disabled
+                <input type="text" name="idfornecedor" id="pidfornecedor" readonly
                        class="form-control">
             </div>
         </div>
@@ -100,7 +100,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="idparcelas">N° de Parcelas</label>
-                <input type="text" name="idparcelas" id="pidparcelas" disabled
+                <input type="text" name="idparcelas" id="pidparcelas" readonly
                        class="form-control">
             </div>
         </div>
@@ -108,9 +108,8 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="observacao">Observação</label>
-                <span class="ob">*</span>
                 <input type="text" name="observacao" value="<?php echo e(old('observacao')); ?>"
-                       id="observacao" class="form-control" >
+                       id="observacao" class="form-control">
 
             </div>
         </div>
@@ -123,33 +122,34 @@
             <div class="panel-body">
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-
-                        <label>Selecione a Parcela</label>
+                        <label>Parcela a Pagar</label>
                         <span class="ob">*</span>
-                        <select name="pidparcela" id="pidparcela" class="form-control selectpicker"
-                                data-live-search="true" onchange="mostrarParcela()">
-                            <option value="">Selecione um produto</option>
-                            <?php $__currentLoopData = $parcelapagar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $par): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                                <option value="<?php echo e($par->idparcela); ?>_<?php echo e($par->dataVencimento); ?>_<?php echo e($par->valorParcela); ?>_<?php echo e($par->valorPago); ?>_<?php echo e($par->idcontasp); ?>">
-                                    <?php echo e($par->parcela); ?>
-
-                                </option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+                        <select name="parcelas" class="form-control" id="parcelas">
+                            <option selected="selected">Selecione a Parcela</option>
                         </select>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-1 col-sm-1 col-md-1  col-xs-1">
+                    <div class="form-group">
+                        <label for="numeroparcela">Cod Parcela</label>
+                        <input type="integer" name="numeroparcela" id="pnumeroparcela" readonly
+                               class="form-control">
                     </div>
                 </div>
 
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="idvencimento">Vencimento</label>
-                        <input type="text" name="dataVencimento" id="pdataVencimento"" disabled
-                        class="form-control">
+                        <input type="text" name="dataVencimento" id="pdataVencimento" readonly
+                               class="form-control">
                     </div>
                 </div>
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="idvalorParcela">Valor da Parcela</label>
-                        <input type="number" name="valorParcela" id="pvalorParcela" disabled
+                        <input type="number" name="valorParcela" id="pvalorParcela" readonly
                                class="form-control">
                     </div>
                 </div>
@@ -157,8 +157,8 @@
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="idvalorPago">Valor Pago</label>
-                        <input type="text" name="idvalorPago" id="pvalorPago" disabled
-                               class="form-control">
+                        <input type="text" name="idvalorPago" id="pvalorPago" readonly
+                               required class="form-control">
                     </div>
                 </div>
 
@@ -167,7 +167,8 @@
                         <label for="quantidade">Valor</label>
                         <span class="ob">*</span>
                         <input type="number" name="valorPagamento" value="<?php echo e(old('valorPagamento')); ?>"
-                               id="pvalorPagamento" class="form-control" placeholder="Insira o Valor a ser Pago">
+                               id="pvalorPagamento" class="form-control" required
+                               placeholder="Insira o Valor a ser Pago">
 
                     </div>
                 </div>
@@ -205,10 +206,7 @@
                         <th></th>
 
 
-                        <td>
-                            <input type="text" name="valorTotal" readonly id="total" class="form-control"
-                                   style="width: 100px;">
-                        </td>
+
                         </tfoot>
                         </tfoot>
                     </table>
@@ -255,18 +253,27 @@
 
                 });
 
-
             });
-            var cont = 0;
-            total = 0;
-            subtotal = [];
+
+            $('select#contas').change(function () {
 
 
-            $("#salvar").hide();
+                var idcontas = $(this).val();
+                $parcelasItens = $('.parcItens').remove();
+                $.get('/parcelapagar/' + idcontas, function (data) {
+                    console.log(data);
+                    $.each(data, function (create, element) {
+                        $('select#parcelas').append('<option value="' + element.idparcela + ',' + element.dataVencimento + ',' + element.valorParcela + ',' + element.valorPago + '" class="parcItens">' + element.idparcela + '</option>')
 
 
-            function mostrarValores() {
-                dadosContas = document.getElementById('pidcontas').value.split('_');
+                    });
+
+
+                }, 'json');
+
+
+                dadosContas = document.getElementById('contas').value.split('_');
+
 
                 $("#pdata").val(dadosContas[1]);
                 $("#pvalor").val(dadosContas[2]);
@@ -275,47 +282,67 @@
                 $("#pidfornecedor").val(dadosContas[5]);
                 $("#pidparcelas").val(dadosContas[6]);
 
-            }
+            });
 
-            function mostrarParcela() {
-                dadosParcelas = document.getElementById('pidparcela').value.split('_');
 
-                $("#pdataVencimento").val(dadosParcelas[1]);
-                $("#pvalorParcela").val(dadosParcelas[2]);
-                $("#pvalorPago").val(dadosParcelas[3]);
-                $("#pidcontasp").val(dadosParcelas[4]);
-                console.log(dadosParcelas);
+            var cont = 0;
+            total = 0;
+            subtotal = [];
 
-            }
+
+            $("#salvar").hide();
+
+
+            $('select#parcelas').change(function () {
+
+                var idcontas = $(this).val();
+                $parcelasItens = $('.parcItens').remove();
+                $.get('/parcelapagarget/' + idcontas, function (data) {
+
+                    $.each(data, function (create, element) {
+
+                        $("#pnumeroparcela").val(element.idparcela);
+                        $("#pdataVencimento").val(element.dataVencimento);
+                        $("#pvalorParcela").val(element.valorParcela);
+                        $("#pvalorPago").val(element.valorPago);
+
+                        idparcela = element.idparcela;
+                        dataVencimento = element.dataVencimento;
+                        valorParcela = element.valorParcela;
+                        valorPago = element.valorPago;
+                    });
+
+
+                }, 'json');
+
+            });
 
 
             function adicionar() {
-                dadosParcela = document.getElementById('pidparcela').value.split('_');
-                idparcela = dadosParcela[0];
-                parcela = $("#pidparcela option:selected").text();
-                dataVencimento = $("#pdataVencimento").val();
-                valorParcela = $("#pvalorParcela").val();
-                valorPago = $("#pvalorPago").val();
-                valorPagamento = $("#pvalorPagamento").val();
-
-                console.log(dadosParcela);
 
 
-                var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td>      <td> <input type="hidden" name="idparcela[]" value="' + idparcela + '">' + parcela + '</td><td> <input type="text" name="dataVencimento[]" value="' + dataVencimento + '"></td>  <td> <input type="number" name="valorParcela[]" value="' + valorParcela + '"></td> <td> <input type="number" name="valorPago[]" value="' + valorPago + '"></td> <td> <input type="number" name="valorPagamentos[]" value="' + valorPagamento + '"></tr>'
-                cont++;
+                lvalorPagamento = $("#pvalorPagamento").val();
+                ltotal = lvalorPagamento;
+                if (lvalorPagamento != "") {
 
+                    var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td><td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorPago[]" value="' + valorPago + '"></td> <td> <input type="text" name="valorPagamentos[]" value="' + lvalorPagamento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
+                    cont++;
+                    limpar();
+                    $("#total").val(ltotal);
 
-                limpar();
-                $("#total").val(total);
+                    ocultar();
+                    $('#detalhes').append(linha);
 
-                ocultar();
-                $('#detalhes').append(linha);
+                }
 
+                 else {
+                alert("Insira os dados Obrigatorios!!");
+
+            }
 
             }
 
 
-            total = 0;
 
             function limpar() {
                 $("#pquantidade").val("");
