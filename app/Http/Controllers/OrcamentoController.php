@@ -364,7 +364,7 @@ class OrcamentoController extends Controller
                 $dataParcela = $orcamento->dataVenda;
                 while ($cont < ($orcamento->numeroDeParcelas)) {
 
-                    $numero = DB::table('Contasreceber')->max('idcontasr');
+                    $numero = DB::table('contasreceber')->max('idcontasr');
                     $parcela = new ParcelaReceber();
                     $parcela->idcontasr = $numero;
                     $parcela->valorParcela = ($orcamento->valorTotal / $orcamento->numeroDeParcelas);
@@ -374,6 +374,8 @@ class OrcamentoController extends Controller
                     $parcela->save();
 
                 }
+
+               
 
                 $orcamento = Orcamento::findOrFail($id);
                 $usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();

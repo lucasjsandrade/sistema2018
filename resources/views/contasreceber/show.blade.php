@@ -56,14 +56,10 @@ function converteData($data){
   </div> 
 
 
-
-
-  
 </div>
 
 
-
-<div class="row">
+  <div class="row">
 
 
   <div class="panel panel-primary">
