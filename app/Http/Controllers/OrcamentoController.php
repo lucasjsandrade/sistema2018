@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\support\Facades\Redirect;
 use Response;
 use sistemaLaravel\Contasreceber;
+use sistemaLaravel\MovimentacaoCaixa;
+use sistemaLaravel\Caixa;
 use sistemaLaravel\Http\requests\orcamentoFormRequest;
 use sistemaLaravel\Itensv;
 use sistemaLaravel\Orcamento;
@@ -164,6 +166,9 @@ class OrcamentoController extends Controller
     public function update(orcamentoFormRequest $request, $id)
     {
 
+        global $last_id;
+        $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+
         $orcamento = venda::findOrFail($id);
         $orcamento->status = $request->get('status');
 
@@ -223,10 +228,15 @@ class OrcamentoController extends Controller
             return Redirect::to('venda/orcamento');
         } /* **Gera a  venda fechada e gera contas a receber** */
 
-        else if ($orcamento->status == 'Fechada') {
 
-            try {
-                DB::beginTransaction();
+        $condicaoPagamento = $request->get('condicaoPagamento');
+
+         if ($orcamento->status == 'Fechada') {
+            if($condicaoPagamento == 'Avista'){
+
+                //dd($condicaoPagamento);
+
+                 DB::beginTransaction();
                 /*Altera dados do orçamento e salva como venda fechada */
 
                 $mytime = Carbon::now('America/Sao_Paulo');
@@ -239,25 +249,119 @@ class OrcamentoController extends Controller
                 $orcamento->origemVenda = 'Orçamento';
                 $orcamento->update();
 
-                /*Gera contas a receber */
+                
+
+                $movimento = new movimentacaocaixa();    
+
+                $data = Carbon::now('America/Sao_Paulo');
+
+                $movimento->idcaixa = $last_id->idcaixa;
+                $movimento->data = $data->toDateTimeString();   
+
+                $movimento->valor = $request->get('total');
+                
+                $movimento->tipoMovimentacao = 'Venda através do orçamento';
+                $movimento->idrecebimento = 0;
+                $movimento->idpagamento = 0;
+                $movimento->save();
+
+
+
+                $orcamento = Orcamento::findOrFail($id);
+                $usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();
+                $produto = $request->get('idproduto');
+                $idvenda = $request->get('idvenda');
+                $quantidade = $request->get('quantidade');
+                $desconto = $request->get('desconto');
+                $maodeobra = $request->get('maodeobra');
+                $valorUnitario = $request->get('valorUnitario');
+                $estoque = $request->get('estoque');
+                $valorUnitario = $request->get('valorUnitario');
+
+
+                foreach ($produto as $key => $value) { //Pesqusia linha a linha da tabela
+
+                    $estoque = DB::table('produto as p')
+                        ->select('p.quantidade')
+                        ->where('p.idproduto', '=', $value)
+                        ->get();
+                    $estoque = $estoque->toArray();
+                    $estoque = $estoque[0]->quantidade;
+
+                    if ($quantidade[$key] > $estoque) {
+                        echo "<script>alert('Estoque Insuficiente');</script>";
+                        echo "<script>window.location = '/venda/orcamento';</script>";
+                        die();
+
+                        /*NAO SALVA VENDA*/
+
+                    } else {
+                        echo('ESTOQUE MAIOR');
+                        echo('<br>');
+                        /*SALVAR VENDA*/
+                        $cont = 0;
+                        while ($cont < count($desconto)) {
+                            $itens = new Itensv();
+                            $itens->idvenda = $orcamento->idvenda;
+                            $itens->idproduto = $produto[$cont];
+                            $itens->desconto = $orcamento->desconto[$cont];
+                            $itens->quantidade = $quantidade[$cont];
+                            $itens->desconto = $desconto[$cont];
+                            $itens->maodeobra = $maodeobra[$cont];
+                            $itens->valorUnitario = $valorUnitario[$cont];
+                            $itens->status = 'orcamento';
+                            $itens->valorTotal = $valorTotal[$cont] = ($valorUnitario[$cont] * $quantidade[$cont]) + $maodeobra[$cont] - $desconto[$cont];
+
+                            $itens->save();
+                            $cont = $cont + 1;
+                        }
+                    }
+
+                }
+
+                $caixa = Caixa::findOrFail($last_id->idcaixa);
+                $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
+                $caixa->update();//atualiza o saldo Atual do caixa
+                DB::commit();
+
+                
+
+            } 
+            else {
+                DB::rollback();
+            }
+
+            if($condicaoPagamento == 'Aprazo'){
+
+             //dd($condicaoPagamento);
+
+                 DB::beginTransaction();
+                /*Altera dados do orçamento e salva como venda fechada */
+
+                $mytime = Carbon::now('America/Sao_Paulo');
+                $orcamento->dataVenda = $mytime->toDateTimeString();
+                $orcamento->idcliente = $request->get('idcliente');
+                $orcamento->idfuncionario = $request->get('idfuncionario');
+                $orcamento->valorTotal = $request->get('total');
+                $orcamento->numeroDeParcelas = $request->get('numeroDeParcelas');
+                $orcamento->status = 'Fechada';
+                $orcamento->origemVenda = 'Orçamento';
+                $orcamento->update();
+
+                 /*Gera contas a receber */
 
                 $contas = new Contasreceber;
-
                 $contas->idvenda = $orcamento->idvenda;
                 $contas->idcliente = $request->get('idcliente');
                 $contas->data = $mytime->toDateTimeString();
                 $contas->valor = $orcamento->valorTotal;
                 $contas->descricao = 'Gerado Pelo Orçamento!';;
                 $contas->parcela = $orcamento->numeroDeParcelas;
-
-
                 $contas->save();
 
                 /*Gera Parcela a Receber*/
                 $cont = 0;
-
                 $dataParcela = $orcamento->dataVenda;
-
                 while ($cont < ($orcamento->numeroDeParcelas)) {
 
                     $numero = DB::table('Contasreceber')->max('idcontasr');
@@ -266,32 +370,21 @@ class OrcamentoController extends Controller
                     $parcela->valorParcela = ($orcamento->valorTotal / $orcamento->numeroDeParcelas);
                     $dataParcela = date("Y-m-d", strtotime("+1 month", strtotime($dataParcela)));
                     $parcela->dataVencimento = $dataParcela;
-
                     $cont = $cont + 1;
-
-
                     $parcela->save();
 
                 }
 
-
                 $orcamento = Orcamento::findOrFail($id);
-
                 $usuario = DB::table('itensv')->where('idvenda', '=', $id)->delete();
-
-
                 $produto = $request->get('idproduto');
                 $idvenda = $request->get('idvenda');
                 $quantidade = $request->get('quantidade');
                 $desconto = $request->get('desconto');
                 $maodeobra = $request->get('maodeobra');
-
                 $valorUnitario = $request->get('valorUnitario');
                 $estoque = $request->get('estoque');
-
-
                 $valorUnitario = $request->get('valorUnitario');
-
 
                 foreach ($produto as $key => $value) { //Pesqusia linha a linha da tabela
 
@@ -333,11 +426,19 @@ class OrcamentoController extends Controller
 
                 }
 
-                DB::commit();
+        DB::commit();
 
-            } catch (Exception $e) {
+
+            } else {
                 DB::rollback();
             }
+               
+
+               
+
+               
+
+           
             return Redirect::to('venda/orcamento');
         } else {
             echo "<script>alert('Escolha o Status da venda ou Orcamento');</script>";

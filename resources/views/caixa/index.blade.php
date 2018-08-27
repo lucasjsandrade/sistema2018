@@ -16,7 +16,7 @@
                                 <a href="/sangria/create">
                                     <button class="btn btn-primary">Sangria</button>
 
-                                    <a href="/suprimento">
+                                    <a href="/suprimento/create">
                                         <button class="btn btn-primary">Suprimento</button>
 
                                         <a href="/contaspagar">
