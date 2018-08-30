@@ -85,13 +85,21 @@ class VendaController extends Controller
 		$condicaoPagamento = $request->get('condicaoPagamento');
 		
 
+<<<<<<< HEAD
 		if ($condicaoPagamento == 'Avista'){
 
 				//dd($condicaoPagamento);
 			
 			DB::beginTransaction();
+=======
+            //dd($condicaoPagamento);
+>>>>>>> 84a7e0673a235d5309164a7da72716a1e72dd438
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 84a7e0673a235d5309164a7da72716a1e72dd438
 
 			$condicao = $request->get('condicaoPagamento');
 
