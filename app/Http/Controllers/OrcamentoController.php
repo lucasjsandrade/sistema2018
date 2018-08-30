@@ -344,6 +344,7 @@ class OrcamentoController extends Controller
                 $orcamento->idfuncionario = $request->get('idfuncionario');
                 $orcamento->valorTotal = $request->get('total');
                 $orcamento->numeroDeParcelas = $request->get('numeroDeParcelas');
+
                 $orcamento->status = 'Fechada';
                 $orcamento->origemVenda = 'Orçamento';
                 $orcamento->update();
@@ -367,6 +368,7 @@ class OrcamentoController extends Controller
                     $numero = DB::table('contasreceber')->max('idcontasr');
                     $parcela = new ParcelaReceber();
                     $parcela->idcontasr = $numero;
+                    $parcela->status='Pendente';
                     $parcela->valorParcela = ($orcamento->valorTotal / $orcamento->numeroDeParcelas);
                     $dataParcela = date("Y-m-d", strtotime("+1 month", strtotime($dataParcela)));
                     $parcela->dataVencimento = $dataParcela;

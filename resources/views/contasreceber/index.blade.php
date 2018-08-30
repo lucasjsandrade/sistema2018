@@ -55,6 +55,15 @@ function converteData($data)
                 @endforeach
             </table>
         </div>          
+<<<<<<< HEAD
+
+    </thead>    
+
+
+
+</div>
+</div>   
+=======
 
                     </thead>
                     @foreach ($contasreceber as $c)
@@ -89,6 +98,7 @@ function converteData($data)
 
            
 
+>>>>>>> 84a7e0673a235d5309164a7da72716a1e72dd438
 
 {{$contasreceber->render()}}
 
