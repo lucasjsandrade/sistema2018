@@ -170,22 +170,23 @@
 
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-                        <label for="idvalorPago">Valor Pago</label>
-                        <input type="text" name="idvalorPago" id="pvalorPago" readonly
+                        <label for="idvalorRecebido">Valor Recebido</label>
+                        <input type="text" name="valorRecebido" id="pvalorRecebido" readonly
                                required class="form-control">
                     </div>
                 </div>
 
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-                        <label for="quantidade">Valor</label>
+                        <label for="valorRecebimento">Valor Recebimento</label>
                         <span class="ob">*</span>
                         <input type="number" name="valorRecebimento" value="<?php echo e(old('valorRecebimento')); ?>"
                                id="pvalorRecebimento" class="form-control" required
-                               placeholder="Insira o Valor a ser Recebido">
+                               placeholder="Valor do Recebimento">
 
                     </div>
                 </div>
+
 
 
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
@@ -207,7 +208,7 @@
                         <th>Data Vencimento</th>
                         <th>Valor da Parcela</th>
                         <th>Valor Recebido</th>
-                        <th>Valor Recebimenmento</th>
+                        <th>Valor Recebimento</th>
 
                         <th>Total</th>
                         </thead>
@@ -240,7 +241,7 @@
         <div class="form-group">
             <input name="_token" value="<?php echo e(csrf_token()); ?>" type="hidden">
             <button class="btn btn-success" id="salvar" type="submit"><i class="fa fa-save"></i> Confirmar</button>
-            <button class="btn btn-danger" type="reset" onclick="javascript: location.href='/venda/venda';">Cancelar
+            <button class="btn btn-danger" type="reset" onclick="javascript: location.href='/recebimento';">Cancelar
             </button>
         </div>
     </div>
@@ -319,22 +320,22 @@
 
                //
                 var idcontas = $(this).val();
-                console.log(idcontas);
+
                 $parcelasItens = $('.parcItens').remove();
                 $.get('/parcelareceberget/' + idcontas, function (data) {
-
+                    console.log(data);
                     $.each(data, function (create, element) {
 
                         $("#pnumeroparcela").val(element.idparcela);
                         $("#pstatus").val(element.status);
                         $("#pdataVencimento").val(element.dataVencimento);
                         $("#pvalorParcela").val(element.valorParcela);
-                        $("#pvalorRecebimento").val(element.valorRecebimento);
+                        $("#pvalorRecebido").val(element.valorRecebido);
 
                         idparcela = element.idparcela;
                         dataVencimento = element.dataVencimento;
                         valorParcela = element.valorParcela;
-                        valorRecebimento = element.valorRecebimento;
+                        valorRecebido = element.valorRecebido;
                         status = element.status;
 
 
@@ -349,13 +350,13 @@
             function adicionar() {
 
 
-                lvalorPagamento = $("#pvalorPagamento").val();
-                ltotal = lvalorPagamento;
-                if (lvalorPagamento != "") {
+                lvalorRecebimento = $("#pvalorRecebimento").val();
+                ltotal = lvalorRecebimento;
+                if (lvalorRecebimento != "") {
 
-                    var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status +'"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorPago[]" value="' + valorPago + '"></td> <td> <input type="text" name="valorPagamentos[]" value="' + lvalorPagamento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
+                    var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status +'"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorRecebido[]" value="' + valorRecebido + '"></td> <td> <input type="text" name="lvalorRecebimento[]" value="' + lvalorRecebimento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
                     cont++;
-                    console.log(valorPago);
+                    console.log(valorRecebido);
                     limpar();
                     $("#total").val(ltotal);
 

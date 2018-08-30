@@ -27,6 +27,7 @@ function converteData($data)
                     <th>Id-Venda</th>
                     <th>Id-Cliente</th>
 
+
                 </thead>
                 <?php $__currentLoopData = $contasreceber; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                 <tr>
@@ -53,7 +54,12 @@ function converteData($data)
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
             </table>
         </div>          
-    </div>
+
+    </thead>    
+
+
+
+</div>
 </div>   
 
 <?php echo e($contasreceber->render()); ?>

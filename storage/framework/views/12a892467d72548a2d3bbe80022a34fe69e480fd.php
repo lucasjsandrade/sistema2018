@@ -1,6 +1,6 @@
 <?php $__env->startSection('conteudo'); ?>
 
-    <h1>Detalhes Do Pagamento</h1><br>
+    <h1>Detalhes Do Recebimento</h1><br>
 
     <div class="row">
 
@@ -22,14 +22,14 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="valorPagamento">Valor Pagamento</label>
-                <p><?php echo e($pagamento->valorTotal); ?></p>
+                <p><?php echo e($recebimento->valor); ?></p>
             </div>
         </div>
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="numero">N° da conta</label>
-                <p><?php echo e($parcela->idcontasp); ?></p>
+                <p><?php echo e($parcela->idcontasr); ?></p>
             </div>
 
         </div>
@@ -37,7 +37,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="numeroParcela">N° da Parcela</label>
-                <p><?php echo e($pagamento->idparcelap); ?></p>
+                <p><?php echo e($recebimento->idparcela); ?></p>
             </div>
 
         </div>
@@ -51,21 +51,21 @@
         </div>
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="numero">N° fornecedor</label>
-                <p><?php echo e($parcela->idfornecedor); ?></p>
+                <label for="numero">N° Cliente</label>
+                <p><?php echo e($parcela->idcliente); ?></p>
             </div>
 
         </div>
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="numero">Fornecedor</label>
-                <p><?php echo e($parcela->razaoSocial); ?></p>
+                <label for="numero">Cliente</label>
+                <p><?php echo e($parcela->nomeCliente); ?></p>
             </div>
 
         </div>
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="text">Telefone Fonecedor</label>
+                <label for="text">Telefone Cliente</label>
                 <p><?php echo e($parcela->telefone); ?></p>
             </div>
 
@@ -85,7 +85,7 @@
 
                         <th>Numero Parcela</th>
                         <th>Valor da Parcela</th>
-                        <th>Valor Pago</th>
+                        <th>Valor Recebido</th>
                         <th>Status</th>
                         <th>Valor Restante</th>
                         </thead>
@@ -104,8 +104,8 @@
 
                             <tr>
                                 <td><?php echo e($parcela->idparcela); ?></td>
-                                <td><?php echo e($parcela->valorParcela+$parcela->valorPago); ?></td>
-                                <td><?php echo e($parcela->valorPago); ?></td>
+                                <td><?php echo e($parcela->valorParcela+$parcela->valorRecebido); ?></td>
+                                <td><?php echo e($parcela->valorRecebido); ?></td>
                                 <td><?php echo e($parcela->status); ?></td>
                                 <td><?php echo e($parcela->valorParcela); ?></td>
                             </tr>

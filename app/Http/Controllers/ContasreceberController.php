@@ -79,11 +79,11 @@ class ContasreceberController extends Controller
         $parcelareceber=DB::table('parcelareceber as parc')
 
             ->join('contasreceber as cr', 'cr.idcontasr','=','parc.idcontasr')
-<<<<<<< HEAD
+
             ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
-=======
+
             ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr')
->>>>>>> 8e8546118bd879ba9f294a1c448ac76337dd0525
+
             ->where('cr.idcontasr', '=',$id)
             ->get();
 
