@@ -114,8 +114,8 @@
                 <li><a href="/estoque/categoria"><i class="fa fa-inbox"></i> Categorias</a></li>
                 <li><a href="/estoque/marca"><i class="fa fa-tags"></i> Marca</a></li>
               </ul>
-            </li>       
-            
+            </li>
+
 
             <li class="treeview">
               <a href="#">
@@ -128,7 +128,7 @@
                 <li><a href="/pessoa/cliente"><i class="fa fa-user-plus"></i>Cliente</a></li>
                 <li><a href="/pessoa/funcionario"><i class="fa fa-user-plus"></i>Funcionario</a></li>
               </ul>
-            </li>  
+            </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-money "></i>
@@ -138,6 +138,7 @@
               <ul class="treeview-menu">
                 <li><a href="/caixa"><i class="fa fa-calculator" aria-hidden="true"></i>Caixa</a></li>
                 <li><a href="/pagamento"><i class="fa fa-calculator" aria-hidden="true"></i>Pagamento</a></li>
+                <li><a href="/recebimento"><i class="fa fa-calculator" aria-hidden="true"></i>Recebimento</a></li>
                 <li><a href="/contaspagar"><i class="fa fa-money "></i>Contas a Pagar</a></li>
                 <li><a href="/contasreceber"><i class="fa fa-money "></i>Contas a Receber</a></li>
               </ul>
@@ -148,26 +149,26 @@
                   <i class="fa fa-shopping-cart"></i>
                 <span>Compras</span>
                   <i class="fa fa-angle-left pull-right"></i>
-                </a> 
+                </a>
 
                 <ul class="treeview-menu">
                   <li><a href="/compra/compra"><i class="fa fa-shopping-cart"></i>Entradas</a></li>
-                  <li><a href="/compra/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>                  
+                  <li><a href="/compra/pedido"><i class="fa fa-pencil-square-o"></i> Pedido</a></li>
                 </ul>
-              </li> 
+              </li>
 
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
                 <span>Vendas</span>
                 <i class="fa fa-angle-left pull-right"></i>
-              </a> 
+              </a>
               <ul class="treeview-menu">
                 <li><a href="/venda/agendamento"><i class="fa fa-calendar"></i> Agendamento</a>
                   <li><a href="/venda/orcamento"><i class="fa fa-calendar"></i> Orcamentos</a></li>
                   <li><a href="/venda/venda"><i class="fa fa-calendar"></i> Vendas</a></li>
                 </ul>
-              </li>   
+              </li>
 
             <li class="treeview">
               <a href="#">
@@ -185,13 +186,13 @@
               <small class="label pull-right bg-red">PDF</small>
             </a>
           </li>
-        
+
         <li>
           <a href="#">
             <i class="fa fa-info-circle"></i> <span>Sobre...</span>
             <small class="label pull-right bg-yellow">IT</small>
           </a>
-        </li> 
+        </li>
 
       </ul>
     </section>
@@ -261,9 +262,9 @@
     <script type="text/javascript">
 
       jQuery(function($){
-       $(".celular").mask("(99) 99999-9999"); 
-       $(".phone").mask("(99) 9999-9999"); 
-       $(".cpf").mask("999.999.999-99"); 
+       $(".celular").mask("(99) 99999-9999");
+       $(".phone").mask("(99) 9999-9999");
+       $(".cpf").mask("999.999.999-99");
        $(".cep").mask("99.999-999");
        $(".cnpj").mask("99.999.999/9999-99");
 
@@ -278,12 +279,12 @@
             alert('CNPJ Invállido');
             $('#cnpj').val('');
           }
-            
+
 
         }
       );
 
-      function validarCNPJ(cnpj) 
+      function validarCNPJ(cnpj)
       {
 
         cnpj = cnpj.replace(/[^\d]+/g, '');
@@ -350,11 +351,11 @@
         }
       )
 
-      function validaCpf( valor ) 
+      function validaCpf( valor )
       {
         // Garante que o valor é uma string
         valor = valor.toString();
-        
+
         // Remove caracteres inválidos do valor
         valor = valor.replace(/[^0-9]/g, '');
         if (valor == "00000000000" ||
@@ -368,7 +369,7 @@
           valor == "88888888888" ||
           valor == "99999999999"){
          return false;
-       }else{      
+       }else{
           // Captura os 9 primeiros dígitos do CPF
           // Ex.: 02546288423 = 025462884
           var digitos = valor.substr(0, 9);
@@ -378,7 +379,7 @@
 
           // Faz o cálculo dos 10 dígitos do CPF para obter o último dígito
           var novo_cpf = calc_digitos_posicoes( novo_cpf, 11 );
-          
+
 
           // Verifica se o novo CPF gerado é idêntico ao CPF enviado
           if ( novo_cpf === valor ) {
@@ -389,9 +390,9 @@
               return false;
           }
         }
-      } 
+      }
 
-      function calc_digitos_posicoes( digitos, posicoes = 10, soma_digitos = 0 ) 
+      function calc_digitos_posicoes( digitos, posicoes = 10, soma_digitos = 0 )
       {
         // Garante que o valor é uma string
         digitos = digitos.toString();

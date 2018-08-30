@@ -108,7 +108,9 @@ class RecebimentoController extends Controller
             $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
             $caixa->update();//atualiza o saldo Atual do caixa
             DB::commit();
-
+            echo '<script>alert("Movimento Realizado com Sucesso!!")</script>';
+            echo '<script>window.location="/caixa"</script>';
+            exit("Saiu do codigo");
 
         } else {
             DB::rollback();
@@ -140,8 +142,7 @@ class RecebimentoController extends Controller
             $movimento->descricao = $request->get('observacao');
             $movimento->valor = $request->get('valorRecebimento');
             $movimento->tipoMovimentacao = 'Recebimento';
-            $movimento->idrecebimento = 0;
-
+            $movimento->idpagamento =0;
             $movimento->idrecebimento = $idrec;
             $movimento->idcaixa = $last_id->idcaixa;
             $movimento->save();//salva o movimento do caixa
@@ -150,7 +151,9 @@ class RecebimentoController extends Controller
             $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
             $caixa->update();//atualiza o saldo Atual do caixa
             DB::commit();
-
+            echo '<script>alert("Movimento Realizado com Sucesso!!")</script>';
+            echo '<script>window.location="/caixa"</script>';
+            exit("Saiu do codigo");
 
         } else {
             DB::rollback();
@@ -159,17 +162,16 @@ class RecebimentoController extends Controller
 
         if ($valorRecebimento > $valorParcela) {//se o valor do recebimento for maior que a parcela
 
-            echo '<script>alert("O valor do Recebimento não pode ser maior que o valor da parcela!!")</script>';
-
-            echo '<script>window.location="caixa"</script>';
+            echo '<script>alert("O valor do Recebimento não pode ser maior que o valor da parcela!!");</script>';
+            echo '<script>window.location="/caixa"</script>';
+            exit("Saiu do codigo");
 
 
         }
 
 
-    else {
 
-    }
+
 
 
         return \redirect('\caixa');

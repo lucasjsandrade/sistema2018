@@ -107,6 +107,9 @@ class PagamentoController extends Controller
                 $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
                 $caixa->update();//atualiza o saldo Atual do caixa
                 DB::commit();
+                echo '<script>alert("Movimento Realizado com Sucesso!!")</script>';
+                echo '<script>window.location="/caixa"</script>';
+                exit("Saiu do codigo");
 
 
             } else {
@@ -148,7 +151,9 @@ class PagamentoController extends Controller
                 $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
                 $caixa->update();//atualiza o saldo Atual do caixa
                 DB::commit();
-
+                echo '<script>alert("Movimento Realizado com Sucesso!!")</script>';
+                echo '<script>window.location="/caixa"</script>';
+                exit("Saiu do codigo");
 
             } else {
                 DB::rollback();
@@ -159,7 +164,7 @@ class PagamentoController extends Controller
 
                 echo '<script>alert("O valor do Pagamento não pode ser maior que o valor da parcela!!")</script>';
                 echo '<script>window.location="caixa"</script>';
-
+                exit("Saiu do codigo");
 
             } else {
 
@@ -167,10 +172,9 @@ class PagamentoController extends Controller
 
 
         } else {
-            echo '<script>alert("O saldo do caixa precisa ser maior que o valor do pagamento!!")</script>';
+            echo '<script>alert("O saldo do caixa precisa ser maior que o valor do Pagamento!!")</script>';
             echo '<script>window.location="caixa"</script>';
-            die();
-
+            exit("Saiu do codigo");
         }
 
 
