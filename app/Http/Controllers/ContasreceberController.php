@@ -83,10 +83,7 @@ class ContasreceberController extends Controller
             ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
 
             ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr')
-<<<<<<< HEAD
 
-=======
->>>>>>> 84a7e0673a235d5309164a7da72716a1e72dd438
             ->where('cr.idcontasr', '=',$id)
             ->get();
 
