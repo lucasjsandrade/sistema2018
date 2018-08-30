@@ -1,24 +1,20 @@
 <?php
 namespace sistemaLaravel\Http\Controllers;
 
-use Illuminate\Http\Request;
-use sistemaLaravel\Venda;
-use sistemaLaravel\Orcamento;
-use sistemaLaravel\Itensv;
-use sistemaLaravel\Contasreceber;
-use sistemaLaravel\Parcelareceber;
-use sistemaLaravel\MovimentacaoCaixa;
-use sistemaLaravel\Caixa;
-use Illuminate\support\Facades\Redirect;
-use sistemaLaravel\Http\requests\VendaFormRequest;
-use sistemaLaravel\Http\requests\orcamentoFormRequest;
-use sistemaLaravel\Http\requests\ContasreceberFormRequest;
 use Carbon\Carbon;
-use Response;
 use DB;
-use Illuminate\Support\Collection;
+use Illuminate\Http\Request;
+use Illuminate\support\Facades\Redirect;
+use Response;
+use sistemaLaravel\Caixa;
+use sistemaLaravel\Contasreceber;
+use sistemaLaravel\Http\requests\VendaFormRequest;
+use sistemaLaravel\Itensv;
+use sistemaLaravel\MovimentacaoCaixa;
+use sistemaLaravel\Parcelareceber;
+use sistemaLaravel\Venda;
 
- 
+
 class VendaController extends Controller
 {
 	public function __construct(){
@@ -94,21 +90,34 @@ class VendaController extends Controller
 				//dd($condicaoPagamento);
 			
 			DB::beginTransaction();
-			$venda = new venda;
-			$mytime = Carbon::now('America/Sao_Paulo'); 
-			$venda->dataVenda=$mytime->toDateTimeString();
-			$venda->valorTotal=$request->get('valorTotal');
-			$venda->idcliente=$request->get('idcliente');			
-			$venda->idfuncionario=$request->get('idfuncionario');
-			$venda->condicaoPagamento=$request->get('condicaoPagamento');
-			$venda->formaPagamento=$request->get('formaPagamento');
-			$venda->valorTotal=$request->get('valorTotal');
-			$venda->status='Fechada';
-			$venda->numeroDeParcelas=$request->get('numeroDeParcelas');
-			$venda->origemVenda=$request->get('origemVenda');
-			$venda->save();
+
+
+
+            $condicao = $request->get('condicaoPagamento');
+
+
+			if ($condicao == 'Avista'){
+
+                $venda = new venda;
+                $mytime = Carbon::now('America/Sao_Paulo');
+                $venda->dataVenda=$mytime->toDateTimeString();
+                $venda->valorTotal=$request->get('valorTotal');
+                $venda->idcliente=$request->get('idcliente');
+                $venda->idfuncionario=$request->get('idfuncionario');
+                $venda->condicaoPagamento=$request->get('condicaoPagamento');
+                $venda->formaPagamento=$request->get('formaPagamento');
+                $venda->valorTotal=$request->get('valorTotal');
+                $venda->status='Fechada';
+                $venda->numeroDeParcelas=$request->get('numeroDeParcelas');
+                $venda->origemVenda=$request->get('origemVenda');
+                $venda->save();
+			
+
+			$movimento = new movimentacaocaixa();
+            
 
 			$movimento = new movimentacaocaixa();            
+
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->idcaixa = $last_id->idcaixa;
             $movimento->data = $data->toDateTimeString();            
@@ -143,10 +152,33 @@ class VendaController extends Controller
                 $caixa->update();//atualiza o saldo Atual do caixa
                 DB::commit();
 
+}
+			else {
+
+            }
+
 
             } else {
                 DB::rollback();
             }
+
+
+
+			if ($condicao == 'Aprazo'){
+                $venda = new venda;
+                $mytime = Carbon::now('America/Sao_Paulo');
+                $venda->dataVenda=$mytime->toDateTimeString();
+                $venda->valorTotal=$request->get('valorTotal');
+                $venda->idcliente=$request->get('idcliente');
+                $venda->idfuncionario=$request->get('idfuncionario');
+                $venda->condicaoPagamento=$request->get('condicaoPagamento');
+                $venda->formaPagamento=$request->get('formaPagamento');
+                $venda->valorTotal=$request->get('valorTotal');
+                $venda->status='Fechada';
+                $venda->numeroDeParcelas=$request->get('numeroDeParcelas');
+                $venda->origemVenda=$request->get('origemVenda');
+                $venda->save();
+
 
 
 			if ($condicaoPagamento == 'Aprazo'){
@@ -167,6 +199,7 @@ class VendaController extends Controller
 			$venda->numeroDeParcelas=$request->get('numeroDeParcelas');
 			$venda->origemVenda=$request->get('origemVenda');
 			$venda->save();
+
 
 			$contas = new Contasreceber;
 			$contas->idvenda=$venda->idvenda;
@@ -227,7 +260,7 @@ class VendaController extends Controller
 	
 
 	}
-
+}
 	public function show($id){
 
 		$venda=DB::table('venda as v')

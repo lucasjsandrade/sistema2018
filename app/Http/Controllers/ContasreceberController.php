@@ -76,11 +76,11 @@ class ContasreceberController extends Controller
             ->first();
 
 
-        $parcelareceber = DB::table('parcelareceber as parc')
-            ->join('contasreceber as cr', 'cr.idcontasr', '=', 'parc.idcontasr')
-            ->select('parc.idparcela', 'parc.dataVencimento', 'valorParcela', 'parc.idcontasr','parc.status')
-            ->where('cr.idcontasr', '=', $id)
-            ->where('parc.status', '=', 'pendente')
+        $parcelareceber=DB::table('parcelareceber as parc')
+
+            ->join('contasreceber as cr', 'cr.idcontasr','=','parc.idcontasr')
+            ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
+            ->where('cr.idcontasr', '=',$id)
             ->get();
 
 

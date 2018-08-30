@@ -4,7 +4,7 @@
             <h3>Pagamento<a href="/pagamento/create">
                     <button class="btn btn-success">Incluir</button>
                 </a></h3>
-            <?php echo $__env->make('compra.pedido.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php echo $__env->make('pagamento.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         </div>
     </div>
 

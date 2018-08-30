@@ -1,4 +1,6 @@
 <?php $__env->startSection('conteudo'); ?>
+   
+
 
     <h1>Detalhes Do Pagamento</h1><br>
 
@@ -42,8 +44,6 @@
 
         </div>
 
-
-
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="numero">Quantidade de Parcelas</label>
@@ -51,9 +51,28 @@
             </div>
 
         </div>
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="numero">N° fornecedor</label>
+                <p><?php echo e($parcela->idfornecedor); ?></p>
+            </div>
 
+        </div>
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="numero">Fornecedor</label>
+                <p><?php echo e($parcela->razaoSocial); ?></p>
+            </div>
 
-    </div>
+        </div>
+        <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+            <div class="form-group">
+                <label for="text">Telefone Fonecedor</label>
+                <p><?php echo e($parcela->telefone); ?></p>
+            </div>
+
+        </div>
+
 
     <div class="row">
 
@@ -87,10 +106,10 @@
 
                             <tr>
                                 <td><?php echo e($parcela->idparcela); ?></td>
-                                <td><?php echo e($parcela->valorParcela); ?></td>
+                                <td><?php echo e($parcela->valorParcela+$parcela->valorPago); ?></td>
                                 <td><?php echo e($parcela->valorPago); ?></td>
                                 <td><?php echo e($parcela->status); ?></td>
-                                <td><?php echo e($parcela->valorParcela-$parcela->valorPago); ?></td>
+                                <td><?php echo e($parcela->valorParcela); ?></td>
                             </tr>
 
 
