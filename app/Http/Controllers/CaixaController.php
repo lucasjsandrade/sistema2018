@@ -143,8 +143,6 @@ class CaixaController extends Controller
     public function destroy()
     {
 
-        echo('aqui');
-        die();
 
 
     }
