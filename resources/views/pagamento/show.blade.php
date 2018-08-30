@@ -1,9 +1,5 @@
 @extends('layouts.admin')
 @section('conteudo')
-    <?php
-    dd ($parcelareceber);
-
-    ?>
 
 
     <h1>Detalhes Do Pagamento</h1><br>

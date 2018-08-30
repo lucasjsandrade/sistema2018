@@ -76,11 +76,11 @@ class ContasreceberController extends Controller
             ->first();
 
 
-        $parcelareceber = DB::table('parcelareceber as parc')
-            ->join('contasreceber as cr', 'cr.idcontasr', '=', 'parc.idcontasr')
-            ->select('parc.idparcela', 'parc.dataVencimento', 'valorParcela', 'parc.idcontasr','parc.status')
-            ->where('cr.idcontasr', '=', $id)
-            ->where('parc.status', '=', 'pendente')
+        $parcelareceber=DB::table('parcelareceber as parc')
+
+            ->join('contasreceber as cr', 'cr.idcontasr','=','parc.idcontasr')
+            ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr')
+            ->where('cr.idcontasr', '=',$id)
             ->get();
 
 
@@ -88,40 +88,7 @@ class ContasreceberController extends Controller
             ["contasreceber" => $contasreceber, "parcelareceber" => $parcelareceber]);
     }
 
-    /*
-     public function edit($id){
 
-         $contas = Contaspagar::findOrFail($id);
-         $compra = DB::table('compra')
-         ->get();
-         $fornecedor = DB::table('fornecedor')
-         ->get();
-
-
-         return view("contaspagar.edit", ["compra"=>
-             $compra],["fornecedor"=>$fornecedor]);
-     }
-
-     public function update(ContaspagarFormRequest $request, $id){
-         $contas=contaspagar::findOrFail($id);
-         $contas->idcompra=$request->get('idcompra');
-         $contas->idfornecedor=$request->get('idfornecedor');
-         $contas->data=$request->get('data');
-         $contas->valor=$request->get('valor');
-         $contas->descricao=$request->get('descricao');
-         $contas->update();
-         return Redirect::to('contaspagar');
-     }
-
-     public function destroy($id){
-         $contas=contaspagar::findOrFail($id);
-         delete('contas');
-         $contas->update();
-         return Redirect::to('contaspagar');
-     }
-
-
- */
 
     public function find($id)
     {

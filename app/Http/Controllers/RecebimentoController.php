@@ -3,11 +3,13 @@
 namespace sistemaLaravel\Http\Controllers;
 
 use Illuminate\Http\Request;
+use sistemaLaravel\Http\Requests\RecebimentoFormRequest;
 use sistemaLaravel\Recebimento;
 use sistemaLaravel\Contasreceber;
 use sistemaLaravel\ParcelaReceber;
 use sistemaLaravel\MovimentacaoCaixa;
 use sistemaLaravel\Caixa;
+use sistemaLaravel\Http\Controllers\Pagamento;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\RecebimentoFormRequestFormRequest;
 use sistemaLaravel\Http\requests\ContasreceberFormRequest;
@@ -60,115 +62,114 @@ class RecebimentoController extends Controller
 
     }
 
-    public function store(PagamentoFormRequest $request)
+    public function store(RecebimentoFormRequest $request)
     {
-        global $idpag;
+        global $idrec;
         global $idparc;
         global $last_id;
         $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();//consulta a ultima trazacao do caixa
 
 
-        $valorPagamento = $request->get('valorPagamento');
+        $valorRecebimento = $request->get('valorRecebimento');
+
         $valorParcela = $request->get('valorParcela');
-        if ($valorPagamento <= $last_id->saldoAtual) {
-            if ($valorPagamento == $valorParcela) {// *se o valor do pagamento for igual a parcela gera um pagamento,atualiza o status da parcela*
-                DB::beginTransaction();
-                $pagamento = new Pagamento;
-                $mytime = Carbon::now('America/Sao_Paulo');
-                $pagamento->data = $mytime->toDateTimeString();
-                $pagamento->valor = $request->get('valorParcela');
-                $pagamento->valorTotal = $request->get('valorPagamento');
-                $pagamento->idparcelap = $request->get('lidparcela');
-                $pagamento->idparcelap = $str = implode(':', $pagamento->idparcelap);
-                $pagamento->save();
-                $idpag = $pagamento->idpagamento;
-                $idparc = $pagamento->idparcelap;
-
-                $parcela = Parcelapagar::findOrFail($idparc);
-                $parcela->valorPago = $pagamento->valorTotal;
-                $parcela->valorParcela = 0;
-                $parcela->status = 'Paga';
-                $parcela->update();
-                $movimento = new movimentacaocaixa();
-                $data = Carbon::now('America/Sao_Paulo');
-                $movimento->data = $data->toDateTimeString();
-                $movimento->descricao = $request->get('observacao');
-                $movimento->valor = $request->get('valorPagamento');
-                $movimento->tipoMovimentacao = 'Pagamento';
-                $movimento->idpagamento = $idpag;
-                $movimento->idrecebimento = 0;
-                $movimento->idcaixa = $last_id->idcaixa;
-                $movimento->save();//salva o movimento do caixa
-
-                $caixa = Caixa::findOrFail($last_id->idcaixa);
-                $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
-                $caixa->update();//atualiza o saldo Atual do caixa
-                DB::commit();
 
 
-            } else {
-                DB::rollback();
-            }
+        if ($valorRecebimento == $valorParcela) {// *se o valor do recebimento for igual a parcela gera um recebimento,atualiza o status da parcela*
+            DB::beginTransaction();
+            $recebimento = new Recebimento;
 
+            $mytime = Carbon::now('America/Sao_Paulo');
+            $recebimento->data = $mytime->toDateTimeString();
+            $recebimento->valor = $request->get('valorParcela');
+            $recebimento->valorTotal = $request->get('valorRecebimento');
+            $recebimento->idparcela = $request->get('lidparcela');
+            $recebimento->idparcela = $str = implode(':', $recebimento->idparcela);
+            $recebimento->save();
+            $idrec = $recebimento->idrecebimento;
+            $idparc = $recebimento->idparcela;
+            $parcela = ParcelaReceber::findOrFail($idparc);
+            $parcela->valorRecebido = $recebimento->valorTotal;
+            $parcela->valorParcela = 0;
+            $parcela->status = 'Paga';
+            $parcela->update();
+            $movimento = new movimentacaocaixa();
+            $data = Carbon::now('America/Sao_Paulo');
+            $movimento->data = $data->toDateTimeString();
+            $movimento->descricao = $request->get('observacao');
+            $movimento->valor = $request->get('valorRecebimento');
+            $movimento->tipoMovimentacao = 'Recebimento';
+            $movimento->idpagamento = 0;
+            $movimento->idrecebimento = $idrec;
+            $movimento->idcaixa = $last_id->idcaixa;
+            $movimento->save();//salva o movimento do caixa
 
-            if ($valorPagamento < $valorParcela) {//se o valor do pagamento for menor que a parcela
-
-                DB::beginTransaction();
-                $pagamento = new Pagamento;
-                $mytime = Carbon::now('America/Sao_Paulo');
-                $pagamento->data = $mytime->toDateTimeString();
-                $pagamento->valor = $request->get('valorParcela');
-                $pagamento->valorTotal = $request->get('valorPagamento');
-                $pagamento->idparcelap = $request->get('lidparcela');
-                $pagamento->idparcelap = $str = implode(':', $pagamento->idparcelap);
-                $pagamento->save();
-                $idpag = $pagamento->idpagamento;
-                $idparc = $pagamento->idparcelap;
-                $atualizaParcela = $pagamento->valor - $pagamento->valorTotal;
-                $parcela = Parcelapagar::findOrFail($idparc);
-                $parcela->valorPago = $pagamento->valorTotal;
-                $parcela->valorParcela = $atualizaParcela;
-                $parcela->status = 'Pendente';
-                $parcela->update();
-                $movimento = new movimentacaocaixa();
-                $data = Carbon::now('America/Sao_Paulo');
-                $movimento->data = $data->toDateTimeString();
-                $movimento->descricao = $request->get('observacao');
-                $movimento->valor = $request->get('valorPagamento');
-                $movimento->tipoMovimentacao = 'Pagamento';
-                $movimento->idpagamento = $idpag;
-                $movimento->idrecebimento = 0;
-                $movimento->idcaixa = $last_id->idcaixa;
-                $movimento->save();//salva o movimento do caixa
-
-                $caixa = Caixa::findOrFail($last_id->idcaixa);
-                $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
-                $caixa->update();//atualiza o saldo Atual do caixa
-                DB::commit();
-
-
-            } else {
-                DB::rollback();
-            }
-
-
-            if ($valorPagamento > $valorParcela) {//se o valor do pagamento for maior que a parcela
-
-                echo '<script>alert("O valor do Pagamento não pode ser maior que o valor da parcela!!")</script>';
-                echo '<script>window.location="caixa"</script>';
-
-
-            } else {
-
-            }
+            $caixa = Caixa::findOrFail($last_id->idcaixa);
+            $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
+            $caixa->update();//atualiza o saldo Atual do caixa
+            DB::commit();
 
 
         } else {
-            echo '<script>alert("O saldo do caixa precisa ser maior que o valor do pagamento!!")</script>';
+            DB::rollback();
+        }
+
+
+        if ($valorRecebimento < $valorParcela) {//se o valor do recebimento for menor que a parcela
+
+            DB::beginTransaction();
+            $recebimento = new Recebimento;
+            $mytime = Carbon::now('America/Sao_Paulo');
+            $recebimento->data = $mytime->toDateTimeString();
+            $recebimento->valor = $request->get('valorParcela');
+            $recebimento->valorTotal = $request->get('valorRecebimento');
+            $recebimento->idparcela = $request->get('lidparcela');
+            $recebimento->idparcela = $str = implode(':', $recebimento->idparcela);
+            $recebimento->save();
+            $idrec = $recebimento->idrecebimento;
+            $idparc = $recebimento->idparcela;
+            $atualizaParcela = $recebimento->valor - $recebimento->valorTotal;
+            $parcela = ParcelaReceber::findOrFail($idparc);
+            $parcela->valorRecebido = $recebimento->valorTotal;
+            $parcela->valorParcela = $atualizaParcela;
+            $parcela->status = 'Pendente';
+            $parcela->update();
+            $movimento = new movimentacaocaixa();
+            $data = Carbon::now('America/Sao_Paulo');
+            $movimento->data = $data->toDateTimeString();
+            $movimento->descricao = $request->get('observacao');
+            $movimento->valor = $request->get('valorRecebimento');
+            $movimento->tipoMovimentacao = 'Recebimento';
+            $movimento->idrecebimento = 0;
+
+            $movimento->idrecebimento = $idrec;
+            $movimento->idcaixa = $last_id->idcaixa;
+            $movimento->save();//salva o movimento do caixa
+
+            $caixa = Caixa::findOrFail($last_id->idcaixa);
+            $caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
+            $caixa->update();//atualiza o saldo Atual do caixa
+            DB::commit();
+
+
+        } else {
+            DB::rollback();
+        }
+
+
+        if ($valorRecebimento > $valorParcela) {//se o valor do recebimento for maior que a parcela
+
+            echo '<script>alert("O valor do Recebimento não pode ser maior que o valor da parcela!!")</script>';
+
             echo '<script>window.location="caixa"</script>';
-            die();
+
 
         }
+
+
+    else {
+
+    }
 
 
         return \redirect('\caixa');
@@ -178,8 +179,8 @@ class RecebimentoController extends Controller
     {
         $recebimento = DB::table('recebimento as rec')
             ->join('parcelareceber as par', 'par.idparcela', '=', 'rec.idparcela')
-            ->select('rec.idrecebimento', 'par.dataVencimento', 'par.idparcela', 'par.valorParcela', 'par.valorRecebido', 'par.status', 'par.idparcela')
-            ->groupBy('rec.idrecebimento', 'par.dataVencimento', 'par.idparcela', 'par.valorParcela', 'par.valorRecebido', 'par.status', 'par.idparcela')
+            ->select('rec.idrecebimento','rec.data','rec.valor', 'par.dataVencimento', 'par.idparcela', 'par.valorParcela', 'par.valorRecebido', 'par.status', 'par.idparcela')
+            ->groupBy('rec.idrecebimento','rec.data','rec.valor',  'par.dataVencimento', 'par.idparcela', 'par.valorParcela', 'par.valorRecebido', 'par.status', 'par.idparcela')
             ->where('rec.idrecebimento', '=', $id)
             ->first();
 
@@ -188,8 +189,8 @@ class RecebimentoController extends Controller
             ->join('recebimento as rec', 'rec.idparcela', '=', 'pa.idparcela')
             ->join('contasreceber as c', 'c.idcontasr', '=', 'pa.idcontasr')
             ->join('cliente as cli', 'cli.idcliente', '=', 'c.idcliente')
-            ->select('pa.valorParcela', 'pa.valorRecebido', 'pa.status', 'pa.idparcela', 'rec.idrecebimento', 'pa.idcontasr', 'c.parcela', 'cli.idcliente', 'cli.nomeCliente', 'cli.telefone')
-            ->groupBy('pa.valorParcela', 'pa.valorRecebido', 'pa.status', 'pa.idparcela', 'rec.idrecebimento', 'pa.idcontasr', 'c.parcela', 'cli.idcliente', 'cli.nomeCliente', 'cli.telefone')
+            ->select('pa.valorParcela', 'pa.valorRecebido', 'pa.status', 'pa.idparcela', 'rec.idrecebimento', 'rec.data', 'pa.idcontasr', 'c.parcela', 'cli.idcliente', 'cli.nomeCliente', 'cli.telefone')
+            ->groupBy('pa.valorParcela', 'pa.valorRecebido', 'pa.status', 'pa.idparcela', 'rec.idrecebimento', 'rec.data', 'pa.idcontasr', 'c.parcela', 'cli.idcliente', 'cli.nomeCliente', 'cli.telefone')
             ->where('rec.idrecebimento', '=', $id)
             ->first();
 

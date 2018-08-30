@@ -178,7 +178,7 @@
 
                 <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-                        <label for="quantidade">Valor</label>
+                        <label for="pvalorPagamento">Valor</label>
                         <span class="ob">*</span>
                         <input type="number" name="valorPagamento" value="<?php echo e(old('valorPagamento')); ?>"
                                id="pvalorPagamento" class="form-control" required
