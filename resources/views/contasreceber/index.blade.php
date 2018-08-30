@@ -28,7 +28,7 @@ function converteData($data)
                     <th>Id-Venda</th>
                     <th>Id-Cliente</th>
 
-<<<<<<< HEAD
+
                 </thead>
                 @foreach ($contasreceber as $c)
                 <tr>
@@ -55,7 +55,7 @@ function converteData($data)
                 @endforeach
             </table>
         </div>          
-=======
+
                     </thead>
                     @foreach ($contasreceber as $c)
                         <tr>
@@ -80,17 +80,15 @@ function converteData($data)
                         </tr>
                         @include('contasreceber.modal')
                     @endforeach
-                </table>
-            </div>
 
-            </thead>
+                </table>
+
+    </div>
+</div>
+
+
            
 
-        {{$contasreceber->render()}}
-    </div>
->>>>>>> 8e8546118bd879ba9f294a1c448ac76337dd0525
-    </div>
-</div>   
 
 {{$contasreceber->render()}}
 

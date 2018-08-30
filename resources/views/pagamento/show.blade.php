@@ -1,9 +1,6 @@
 @extends('layouts.admin')
 @section('conteudo')
-<<<<<<< HEAD
-   
-=======
->>>>>>> 8e8546118bd879ba9f294a1c448ac76337dd0525
+
 
 
     <h1>Detalhes Do Pagamento</h1><br>
