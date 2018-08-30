@@ -28,6 +28,7 @@ function converteData($data)
                     <th>Id-Venda</th>
                     <th>Id-Cliente</th>
 
+<<<<<<< HEAD
                 </thead>
                 @foreach ($contasreceber as $c)
                 <tr>
@@ -54,6 +55,40 @@ function converteData($data)
                 @endforeach
             </table>
         </div>          
+=======
+                    </thead>
+                    @foreach ($contasreceber as $c)
+                        <tr>
+                            <td>{{ $c->idcontasr}}</td>
+                            <td>{{converteData($c->data)}}</td>
+                            <td>{{ $c->valor}}</td>
+                            <td>{{ $c->descricao}}</td>
+                            <td>{{ $c->numeroDeParcelas}}</td>
+                            <td>{{ $c->idvenda}}</td>
+                            <td>{{ $c->idcliente}}</td>
+                            <td>
+                                <a href="{{URL::action('ContasreceberController@show',$c->idcontasr)}}">
+                                    <button class="btn btn-info">Mostrar</button>
+                                </a>
+                                <a href="{{URL::action('desenvolvimentoController@index')}}">
+                                    <button class="btn btn-info">Alterar</button>
+                                </a>
+                                <a href="" data-target="#modal-delete-{{$c->idcontasr}}" data-toggle="modal">
+                                    <button class="btn btn-danger">Excluir</button>
+                                </a>
+                            </td>
+                        </tr>
+                        @include('contasreceber.modal')
+                    @endforeach
+                </table>
+            </div>
+
+            </thead>
+           
+
+        {{$contasreceber->render()}}
+    </div>
+>>>>>>> 8e8546118bd879ba9f294a1c448ac76337dd0525
     </div>
 </div>   
 

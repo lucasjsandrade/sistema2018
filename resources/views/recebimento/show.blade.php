@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('conteudo')
 
-    <h1>Detalhes Do Pagamento</h1><br>
+    <h1>Detalhes Do Recebimento</h1><br>
 
     <div class="row">
 
@@ -23,14 +23,14 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="valorPagamento">Valor Pagamento</label>
-                <p>{{$pagamento->valorTotal}}</p>
+                <p>{{$recebimento->valor}}</p>
             </div>
         </div>
 
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="numero">N° da conta</label>
-                <p>{{$parcela->idcontasp}}</p>
+                <p>{{$parcela->idcontasr}}</p>
             </div>
 
         </div>
@@ -38,7 +38,7 @@
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
                 <label for="numeroParcela">N° da Parcela</label>
-                <p>{{$pagamento->idparcelap}}</p>
+                <p>{{$recebimento->idparcela}}</p>
             </div>
 
         </div>
@@ -52,21 +52,21 @@
         </div>
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="numero">N° fornecedor</label>
-                <p>{{$parcela->idfornecedor}}</p>
+                <label for="numero">N° Cliente</label>
+                <p>{{$parcela->idcliente}}</p>
             </div>
 
         </div>
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="numero">Fornecedor</label>
-                <p>{{$parcela->razaoSocial}}</p>
+                <label for="numero">Cliente</label>
+                <p>{{$parcela->nomeCliente}}</p>
             </div>
 
         </div>
         <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
             <div class="form-group">
-                <label for="text">Telefone Fonecedor</label>
+                <label for="text">Telefone Cliente</label>
                 <p>{{$parcela->telefone}}</p>
             </div>
 
@@ -86,7 +86,7 @@
 
                         <th>Numero Parcela</th>
                         <th>Valor da Parcela</th>
-                        <th>Valor Pago</th>
+                        <th>Valor Recebido</th>
                         <th>Status</th>
                         <th>Valor Restante</th>
                         </thead>
@@ -105,8 +105,8 @@
 
                             <tr>
                                 <td>{{$parcela->idparcela}}</td>
-                                <td>{{$parcela->valorParcela+$parcela->valorPago}}</td>
-                                <td>{{$parcela->valorPago}}</td>
+                                <td>{{$parcela->valorParcela+$parcela->valorRecebido}}</td>
+                                <td>{{$parcela->valorRecebido}}</td>
                                 <td>{{$parcela->status}}</td>
                                 <td>{{$parcela->valorParcela}}</td>
                             </tr>

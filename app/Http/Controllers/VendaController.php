@@ -17,81 +17,85 @@ use sistemaLaravel\Venda;
 
 class VendaController extends Controller
 {
-	public function __construct(){
-		$this->middleware('auth');
+    public function __construct(){
+        $this->middleware('auth');
 
-	}
+    }
 
-	public function index(Request $request){
+    public function index(Request $request){
 
-		if($request){
-			$query=trim($request->get('searchText'));
-			$venda=DB::table('venda as v')	
+        if($request){
+            $query=trim($request->get('searchText'));
+            $venda=DB::table('venda as v')
 
-			->join('funcionario as func', 'func.idfuncionario', '=', 'v.idfuncionario')
-			->join('cliente as cli', 'cli.idcliente', '=', 'v.idcliente')
-			->join('itensv as i', 'i.idvenda', '=', 'v.idvenda')
+                ->join('funcionario as func', 'func.idfuncionario', '=', 'v.idfuncionario')
+                ->join('cliente as cli', 'cli.idcliente', '=', 'v.idcliente')
+                ->join('itensv as i', 'i.idvenda', '=', 'v.idvenda')
 
-			->select('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','v.valorTotal')
-			->where('v.idvenda','LIKE', '%'.$query.'%') 
-			->where('v.status','=','Fechada')
-			->orwhere('v.status','=','Pendente')
-			->groupBy('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','i.valorTotal')	
-			->orderBy('v.idvenda', 'desc')
-			
-			->paginate(7);
+                ->select('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','v.valorTotal')
+                ->where('v.idvenda','LIKE', '%'.$query.'%')
+                ->where('v.status','=','Fechada')
+                ->orwhere('v.status','=','Pendente')
+                ->groupBy('v.idvenda','v.dataVenda', 'v.status','v.valorTotal','func.idfuncionario','cli.idcliente','i.valorTotal')
+                ->orderBy('v.idvenda', 'desc')
 
-
-			return view('venda/venda.index', [
-				"venda"=>$venda, "searchText"=>$query
-			]);
-		}
-	}
+                ->paginate(7);
 
 
-	
-
-	public function create(){
-
-		$funcionario=DB::table('funcionario')
-		->where('status','=','Ativo')
-		->get();
-		$cliente=DB::table('cliente')		 
-		->where('status','=','Ativo')
-		->get();
-		$produto=DB::table('produto as pro')
-		
-		->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
-
-		->where('status','=','Ativo')
-		->where('pro.quantidade', '>', '0')
-		->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
-		->get();
-
-		
-
-		return view("venda.venda.create",
-			["produto"=>$produto,"funcionario"=>$funcionario, "cliente"=>$cliente]);
-	}
+            return view('venda/venda.index', [
+                "venda"=>$venda, "searchText"=>$query
+            ]);
+        }
+    }
 
 
 
 
-	public function store(VendaFormRequest $request){
+    public function create(){
 
-		global $last_id;
+        $funcionario=DB::table('funcionario')
+            ->where('status','=','Ativo')
+            ->get();
+        $cliente=DB::table('cliente')
+            ->where('status','=','Ativo')
+            ->get();
+        $produto=DB::table('produto as pro')
+
+            ->select(DB::raw('CONCAT(pro.idproduto, " : ", pro.modelo) as produto'),'pro.idproduto', 'pro.quantidade','pro.preco')
+
+            ->where('status','=','Ativo')
+            ->where('pro.quantidade', '>', '0')
+            ->groupBy('produto', 'pro.idproduto', 'pro.quantidade','pro.preco')
+            ->get();
+
+
+
+        return view("venda.venda.create",
+            ["produto"=>$produto,"funcionario"=>$funcionario, "cliente"=>$cliente]);
+    }
+
+
+
+
+    public function store(VendaFormRequest $request){
+
+        global $last_id;
         $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
-		
+
         $condicaoPagamento = $request->get('condicaoPagamento');
-			
-
-			if ($condicaoPagamento == 'Avista'){
-
-				//dd($condicaoPagamento);
-			
-			DB::beginTransaction();
 
 
+        if ($condicaoPagamento == 'Avista'){
+
+<<<<<<< HEAD
+
+=======
+            //dd($condicaoPagamento);
+
+            DB::beginTransaction();
+
+            <<<<<<< HEAD
+>>>>>>> 8e8546118bd879ba9f294a1c448ac76337dd0525
 
             $condicao = $request->get('condicaoPagamento');
 

@@ -1,6 +1,6 @@
 <?php $__env->startSection('conteudo'); ?>
     <?php
-    dd ($parcela);
+    dd ($parcelareceber);
 
     ?>
 
