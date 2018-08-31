@@ -68,11 +68,10 @@ class ContasreceberController extends Controller
 
             ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
 
-<<<<<<< HEAD
+
             ->groupBy('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
-=======
-            ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr')
->>>>>>> bdc427c60f6d52cdd91cc4eb736dfd06479dbfb8
+
+            
 
             ->where('cr.idcontasr', '=',$id)
             ->get();
