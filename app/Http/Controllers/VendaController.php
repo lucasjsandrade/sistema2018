@@ -86,9 +86,80 @@ class VendaController extends Controller
 
 
 
+<<<<<<< HEAD
         if ($condicaoPagamento == 'Avista'){
 
             //dd($condicaoPagamento);
+=======
+
+		if ($condicaoPagamento == 'Avista'){
+
+				//dd($condicaoPagamento);
+			
+			DB::beginTransaction();
+
+            //dd($condicaoPagamento);
+
+
+			$condicao = $request->get('condicaoPagamento');
+
+
+			if ($condicao == 'Avista'){
+
+				$venda = new venda;
+				$mytime = Carbon::now('America/Sao_Paulo');
+				$venda->dataVenda=$mytime->toDateTimeString();
+				$venda->valorTotal=$request->get('valorTotal');
+				$venda->idcliente=$request->get('idcliente');
+				$venda->idfuncionario=$request->get('idfuncionario');
+				$venda->condicaoPagamento=$request->get('condicaoPagamento');
+				$venda->formaPagamento=$request->get('formaPagamento');
+				$venda->valorTotal=$request->get('valorTotal');
+				$venda->status='Fechada';
+				$venda->numeroDeParcelas=$request->get('numeroDeParcelas');
+				$venda->origemVenda=$request->get('origemVenda');
+				$venda->save();
+				
+
+				$movimento = new movimentacaocaixa();
+				
+
+				$movimento = new movimentacaocaixa();            
+
+				$data = Carbon::now('America/Sao_Paulo');
+				$movimento->idcaixa = $last_id->idcaixa;
+				$movimento->data = $data->toDateTimeString();            
+				$movimento->valor = $request->get('valorTotal');;
+				$movimento->tipoMovimentacao = 'Venda a vista';
+				$movimento->idrecebimento = 0;
+				$movimento->idpagamento = 0;
+				$movimento->save();
+
+				$idproduto=$request->get('idproduto');
+				$quantidade=$request->get('quantidade');
+				$valorUnitario=$request->get('valorUnitario');
+				$desconto=$request->get('desconto');
+
+				$cont= 0;
+				while($cont < count($idproduto)){
+
+					$itens = new Itensv();
+					$itens->idvenda=$venda->idvenda;
+					$itens->idproduto=$idproduto[$cont];
+					$itens->quantidade=$quantidade[$cont];
+					$itens->desconto=$desconto[$cont];
+					$itens->status='Venda';
+					$itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+					$itens->save();
+					$cont=$cont+1;
+
+				}
+				
+				$caixa = Caixa::findOrFail($last_id->idcaixa);
+				$caixa->saldoAtual = $caixa->saldoAtual + $movimento->valor;
+                $caixa->update();//atualiza o saldo Atual do caixa
+                DB::commit();
+>>>>>>> bdc427c60f6d52cdd91cc4eb736dfd06479dbfb8
 
             DB::beginTransaction();
 
