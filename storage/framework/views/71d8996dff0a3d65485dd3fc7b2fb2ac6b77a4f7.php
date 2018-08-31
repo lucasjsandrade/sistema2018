@@ -2,7 +2,7 @@
 
 <div class="row">
 	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-		<h3>CONTAS A PAGAR   <a href="contaspagar/create"><button class="btn btn-success">Incluir</button></a></h3>
+		<h3>CONTAS A PAGAR  </h3>
 		<?php echo $__env->make('contaspagar.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 	</div>
 </div>
@@ -21,9 +21,9 @@ function converteData($data){
 					<th>Data</th>
 					<th>Valor</th>
 					<th>Descricao</th>
-					<th>N de parcela</th>
-					<th>Id-Compra</th>
-					<th>Id-Fornecedor</th>
+					<th>N° de parcela</th>
+					<th>N° Compra</th>
+					<th>N° Fornecedor</th>
 				</thead>
 				<?php $__currentLoopData = $contaspagar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
 				<tr>
@@ -39,10 +39,9 @@ function converteData($data){
 					<td>
 						<a href="<?php echo e(URL::action('ContaspagarController@show',$c->idcontasp)); ?>"><button class="btn btn-info">Mostrar</button></a>
 					
-						<a href="" data-target="#modal-delete-<?php echo e($c->idcontasp); ?>" data-toggle="modal"><button class="btn btn-danger">Excluir</button></a>
 					</td>
 				</tr>
-				<?php echo $__env->make('contaspagar.modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
 				<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 			</table>
 		</div>

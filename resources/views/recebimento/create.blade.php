@@ -137,14 +137,14 @@
                     </div>
                 </div>
 
-                <div class="col-lg-1 col-sm-1 col-md-1  col-xs-1">
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-                        <label for="numeroparcela">Cod Parcela</label>
+                        <label for="numeroparcela">N° Parcela</label>
                         <input type="integer" name="numeroparcela" id="pnumeroparcela" readonly
                                class="form-control">
                     </div>
                 </div>
-                <div class="col-lg-1 col-sm-1 col-md-1  col-xs-1">
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="status">Status</label>
                         <input type="text" name="status" id="pstatus" readonly
@@ -179,7 +179,7 @@
                     <div class="form-group">
                         <label for="valorRecebimento">Valor Recebimento</label>
                         <span class="ob">*</span>
-                        <input type="number" name="valorRecebimento" value="{{old('valorRecebimento')}}"
+                        <input type="float" name="valorRecebimento" value="{{old('valorRecebimento')}}"
                                id="pvalorRecebimento" class="form-control" required
                                placeholder="Valor do Recebimento">
 

@@ -75,7 +75,8 @@ function converteData($data){
             <th>Id</th>
             <th>Valor</th>
             <th>Data Vencimento</th>
-           
+            <th>Status</th>
+
           </thead>
           
 
@@ -85,7 +86,8 @@ function converteData($data){
              <td><?php echo e($pa->idparcela); ?></td>
              <td><?php echo e($pa->valorParcela); ?></td>
              <td><?php echo e(converteData($pa->dataVencimento)); ?></td>
-             
+             <td><?php echo e(($pa->status)); ?></td>
+
            </tr>
            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
