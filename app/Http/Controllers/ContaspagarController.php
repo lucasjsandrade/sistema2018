@@ -43,36 +43,6 @@ class ContaspagarController extends Controller
         }
     }
 
-
-    public function create()
-    {
-
-        $compra = DB::table('compra')
-            ->get();
-        $fornecedor = DB::table('fornecedor')
-            ->get();
-        return view("contaspagar.create", ["compra" =>
-            $compra], ["fornecedor" => $fornecedor]);
-
-
-    }
-
-    public function store(ContaspagarFormRequest $request)
-    {
-        $contas = new Contaspagar;
-        $contas->data = $request->get('data');
-        $contas->valor = $request->get('valor');
-        $contas->descricao = $request->get('descricao');
-        $contas->idfornecedor = $request->get('idfornecedor');
-        $contas->idcompra = $request->get('idcompra');
-        $contas->parcela = $request->get('parcela');
-
-        $contas->save();
-        return Redirect::to('contaspagar');
-
-
-    }
-
     public function show($id)
     {
 
@@ -88,9 +58,10 @@ class ContaspagarController extends Controller
 
         $parcelapagar = DB::table('parcelapagar as parc')
             ->join('contaspagar as cp', 'cp.idcontasp', '=', 'parc.idcontasp')
-            ->select('parc.idparcela', 'parc.dataVencimento', 'valorParcela', 'parc.idcontasp')
+            ->select('parc.idparcela', 'parc.dataVencimento', 'valorParcela', 'parc.idcontasp','parc.status')
             ->where('cp.idcontasp', '=', $id)
             ->where('parc.status', '=', 'pendente')
+            ->groupBy('parc.idparcela', 'parc.dataVencimento', 'valorParcela', 'parc.idcontasp','parc.status')
             ->get();
 
 
@@ -98,46 +69,7 @@ class ContaspagarController extends Controller
             ["contaspagar" => $contaspagar, "parcelapagar" => $parcelapagar]);
     }
 
-    public function edit($id)
-    {
 
-        $contas = Contaspagar::findOrFail($id);
-        $compra = DB::table('compra')
-            ->get();
-        $fornecedor = DB::table('fornecedor')
-            ->get();
-
-
-        return view("contaspagar.edit", ["compra" =>
-            $compra], ["fornecedor" => $fornecedor]);
-    }
-
-    public function update(ContaspagarFormRequest $request, $id)
-    {
-        $contas = contaspagar::findOrFail($id);
-        $contas->idcompra = $request->get('idcompra');
-        $contas->idfornecedor = $request->get('idfornecedor');
-        $contas->data = $request->get('data');
-        $contas->valor = $request->get('valor');
-        $contas->descricao = $request->get('descricao');
-        $contas->update();
-        return Redirect::to('contaspagar');
-    }
-
-    public function destroy($id)
-    {
-        $contas = contaspagar::findOrFail($id);
-        delete('contas');
-        $contas->update();
-        return Redirect::to('contaspagar');
-    }
-
-    public function find($id)
-    {
-        $contas = contaspagar::findOrFail($id);
-
-        return $contas;
-    }
 
 
 }

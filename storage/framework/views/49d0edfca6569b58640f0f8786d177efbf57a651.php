@@ -75,6 +75,7 @@ function converteData($data){
             <th>Id</th>
             <th>Valor</th>
             <th>Data Vencimento</th>
+            <th>Status</th>
           </thead>
           <tfoot>
 
@@ -86,7 +87,7 @@ function converteData($data){
             <tr>
              <td><?php echo e($pa->idparcela); ?></td>
              <td><?php echo e($pa->valorParcela); ?></td>
-             <td><?php echo e(converteData($pa->dataVencimento)); ?></td>
+             <td><?php echo e(($pa->status)); ?></td>
 
 
 

@@ -47,21 +47,7 @@ class ContasreceberController extends Controller
 
 
 
-    public function store(ContaspagarFormRequest $request)
-    {
-        $contas = new Contaspagar;
-        $contas->data = $request->get('data');
-        $contas->valor = $request->get('valor');
-        $contas->descricao = $request->get('descricao');
-        $contas->idfornecedor = $request->get('idfornecedor');
-        $contas->idcompra = $request->get('idcompra');
-        $contas->parcela = $request->get('parcela');
 
-        $contas->save();
-        return Redirect::to('contaspagar');
-
-
-    }
 
     public function show($id)
     {
@@ -70,9 +56,9 @@ class ContasreceberController extends Controller
         $contasreceber = DB::table('contasreceber as cr')
             ->join('parcelareceber as parc', 'parc.idcontasr', '=', 'cr.idcontasr')
             ->join('venda as v ', 'v.idvenda', '=', 'cr.idvenda')
-            ->select('cr.idcontasr', 'cr.data', 'cr.valor', 'parc.idparcela', 'parc.dataVencimento', 'parc.idcontasr', 'cr.descricao', 'cr.idvenda', 'cr.parcela')
+            ->select('cr.idcontasr', 'cr.data', 'cr.valor', 'parc.idparcela', 'parc.dataVencimento', 'parc.idcontasr', 'cr.descricao', 'cr.idvenda', 'cr.parcela','parc.status')
             ->where('cr.idcontasr', '=', $id)
-            ->groupBy('cr.idcontasr', 'cr.data', 'cr.valor', 'parc.idparcela', 'parc.dataVencimento', 'parc.idcontasr', 'cr.descricao', 'cr.idvenda', 'cr.parcela')
+            ->groupBy('cr.idcontasr', 'cr.data', 'cr.valor', 'parc.idparcela', 'parc.dataVencimento', 'parc.idcontasr', 'cr.descricao', 'cr.idvenda', 'cr.parcela','parc.status')
             ->first();
 
 
@@ -82,11 +68,8 @@ class ContasreceberController extends Controller
 
             ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
 
-            ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr')
-<<<<<<< HEAD
+            ->groupBy('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
 
-=======
->>>>>>> 84a7e0673a235d5309164a7da72716a1e72dd438
             ->where('cr.idcontasr', '=',$id)
             ->get();
 
@@ -97,12 +80,6 @@ class ContasreceberController extends Controller
 
 
 
-    public function find($id)
-    {
-        $contas = contaspagar::findOrFail($id);
-
-        return $contas;
-    }
 
 }
 

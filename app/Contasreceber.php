@@ -17,6 +17,7 @@ class Contasreceber extends Model
 		'data',
 		'valor',
 		'descricao'
+		'status'
 
 	];
 
