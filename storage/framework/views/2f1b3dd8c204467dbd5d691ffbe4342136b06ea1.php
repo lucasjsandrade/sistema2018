@@ -127,7 +127,7 @@
     <div class="form-group">
       <label>Cidade</label>
       <span class="ob">*</span>
-      <select name="idcidade" class="form-control">
+      <select name="idcidade" class="form-control selectpicker" data-live-search="true">>
         <?php $__currentLoopData = $cidade; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cid): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
         <?php if($cid->idcidade==$fornecedor->idcidade): ?>
         <option value="<?php echo e($cid->idcidade); ?>" selected>

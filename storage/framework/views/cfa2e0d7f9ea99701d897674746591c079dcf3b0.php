@@ -1,5 +1,5 @@
 <?php $__env->startSection('conteudo'); ?>
-   
+
 
 
     <h1>Detalhes Do Pagamento</h1><br>

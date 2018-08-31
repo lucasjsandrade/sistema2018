@@ -24,17 +24,17 @@ class CidadeController extends Controller
         if ($request) {
             $query = trim($request->get('searchText'));
             $cidade = DB::table('cidade as c')
-                ->join('estado as e', 'e.idestado', '=',
-                    'c.idestado')
-                ->join('pais as p', 'p.idpais', '=',
-                    'e.idpais')
-                ->select('c.idcidade', 'c.nomeCidade',
-                    'e.nomeEstado', 'p.nomePais', 'c.status')
-                ->where('c.nomeCidade', 'LIKE', '%' . $query . '%')
-                ->where('c.status', '=', 'Ativo')
-                ->orwhere('e.nomeEstado', 'LIKE', '%' . $query . '%')
-                ->orderBy('idcidade', 'desc')
-                ->paginate(7);
+            ->join('estado as e', 'e.idestado', '=',
+                'c.idestado')
+            ->join('pais as p', 'p.idpais', '=',
+                'e.idpais')
+            ->select('c.idcidade', 'c.nomeCidade',
+                'e.nomeEstado', 'p.nomePais', 'c.status')
+
+             ->where('c.nomeCidade', 'LIKE', '%'.$query.'%')
+
+            ->orderBy('idcidade', 'desc')
+            ->paginate(7);
             return view('regiao.cidade.index', [
                 "cidade" => $cidade, "searchText" => $query
             ]);
@@ -45,8 +45,8 @@ class CidadeController extends Controller
     {
 
         $estado = DB::table('estado')
-            ->where('status', '=', 'Ativo')
-            ->get();
+        ->where('status', '=', 'Ativo')
+        ->get();
         return view("regiao.cidade.create", ["estado" =>
             $estado]);
 
@@ -94,7 +94,7 @@ class CidadeController extends Controller
 
         $cidade = Cidade::findOrFail($id);
         $estado = DB::table('estado')
-            ->get();
+        ->get();
 
 
         return view("regiao.cidade.edit",

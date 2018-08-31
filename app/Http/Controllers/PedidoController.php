@@ -219,194 +219,213 @@ class pedidoController extends Controller
 
   /* **Gera a  venda fechada e gera contas a receber** */
 
+  $totalCompra=$request->get('totalCompra');   
   $condicaoPagamento = $request->get('condicaoPagamento');
 
+
   if ($pedido->status =='Fechado') {
+
     if($condicaoPagamento == 'Avista'){
 
-      DB::beginTransaction();
+      if ($totalCompra <= $last_id->saldoAtual) { 
 
-      $mytime = Carbon::now('America/Sao_Paulo'); 
-      $pedido->dataCompra=$mytime->toDateTimeString();
-      $pedido->idfornecedor=$request->get('idfornecedor');     
-      $pedido->idfuncionario=$request->get('idfuncionario'); 
-      $pedido->totalCompra=$request->get('total');  
-      $pedido->numeroDeParcelas=$request->get('numeroDeParcelas');  
-      $pedido->status='Fechado';    
-      $pedido->update();
+        DB::beginTransaction();
 
-      $movimento = new movimentacaocaixa();    
+        $mytime = Carbon::now('America/Sao_Paulo'); 
+        $pedido->dataCompra=$mytime->toDateTimeString();
+        $pedido->idfornecedor=$request->get('idfornecedor');     
+        $pedido->idfuncionario=$request->get('idfuncionario'); 
+        $pedido->totalCompra=$request->get('total');  
+        $pedido->numeroDeParcelas=$request->get('numeroDeParcelas');  
+        $pedido->status='Fechado';    
+        $pedido->update();
 
-      $data = Carbon::now('America/Sao_Paulo');
+        $movimento = new movimentacaocaixa();    
 
-      $movimento->idcaixa = $last_id->idcaixa;
-      $movimento->data = $data->toDateTimeString(); 
-      $movimento->valor = $request->get('total');                
-      $movimento->tipoMovimentacao = 'Compra através do pedido';
-      $movimento->idrecebimento = 0;
-      $movimento->idpagamento = 0;
-      $movimento->save();
+        $data = Carbon::now('America/Sao_Paulo');
 
-      $pedido = pedido::findOrFail($id);
+        $movimento->idcaixa = $last_id->idcaixa;
+        $movimento->data = $data->toDateTimeString(); 
+        $movimento->valor = $request->get('total');                
+        $movimento->tipoMovimentacao = 'Compra através do pedido';
+        $movimento->idrecebimento = 0;
+        $movimento->idpagamento = 0;
+        $movimento->save();
 
-      $usuario = DB::table('itensc')->where('idcompra', '=', $id)->delete();
+        $pedido = pedido::findOrFail($id);
 
-      $idproduto=$request->get('idproduto');
-      $idcompra=$request->get('idcompra');
-      $quantidade=$request->get('quantidade');
-      $valorUnitario=$request->get('valorUnitario');      
+        $usuario = DB::table('itensc')->where('idcompra', '=', $id)->delete();
 
-      $cont= 0;
-      while($cont < count($idproduto)){
+        $idproduto=$request->get('idproduto');
+        $idcompra=$request->get('idcompra');
+        $quantidade=$request->get('quantidade');
+        $valorUnitario=$request->get('valorUnitario');      
 
-        $itens = new itensc();
-        $itens->idcompra=$pedido->idcompra;
-        $itens->idproduto=$idproduto[$cont];
-        $itens->quantidade=$quantidade[$cont];
-        $itens->valorUnitario=$valorUnitario[$cont];
-        $itens->status='Compra';
-        $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
-        $itens->save();
-        $cont=$cont+1;
+        $cont= 0;
+        while($cont < count($idproduto)){
 
-      }
+          $itens = new itensc();
+          $itens->idcompra=$pedido->idcompra;
+          $itens->idproduto=$idproduto[$cont];
+          $itens->quantidade=$quantidade[$cont];
+          $itens->valorUnitario=$valorUnitario[$cont];
+          $itens->status='Compra';
+          $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+          $itens->save();
+          $cont=$cont+1;
 
-      $caixa = Caixa::findOrFail($last_id->idcaixa);
-      $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
+        }
+
+        $caixa = Caixa::findOrFail($last_id->idcaixa);
+        $caixa->saldoAtual = $caixa->saldoAtual - $movimento->valor;
                 $caixa->update();//atualiza o saldo Atual do caixa
                 DB::commit();
-
-                
-
-              } 
-              else {
-                DB::rollback();
-              }
-
-
-              if($condicaoPagamento == 'Aprazo'){
-
-               DB::beginTransaction();
-
-               $mytime = Carbon::now('America/Sao_Paulo'); 
-               $pedido->dataCompra=$mytime->toDateTimeString();
-               $pedido->idfornecedor=$request->get('idfornecedor');     
-               $pedido->idfuncionario=$request->get('idfuncionario'); 
-               $pedido->totalCompra=$request->get('total');  
-               $pedido->numeroDeParcelas=$request->get('numeroDeParcelas');  
-               $pedido->status='Fechado';    
-               $pedido->update();
-
-               $contas = new Contaspagar;
-
-               $contas->idcompra=$pedido->idcompra;
-               $contas->idfornecedor=$request->get('idfornecedor');
-               $contas->data=$mytime->toDateTimeString();
-               $contas->valor=$pedido->totalCompra;
-               $contas->descricao='Gerado Pelo pedido!';   
-               $contas->parcela=$pedido->numeroDeParcelas;
-               $contas->save();
-
-               $cont =0;
-
-               $dataParcela = $pedido->dataCompra;
-
-               while($cont < ($pedido->numeroDeParcelas)){
-
-                $numero = DB::table('contaspagar')->max('idcontasp');
-                $parcela = new ParcelaPagar();
-                $parcela->idcontasp=$numero;
-                $parcela->valorParcela=($pedido->totalCompra/$pedido->numeroDeParcelas);       
-                $parcela->status ='Pendente';
-                $dataParcela = date("Y-m-d",strtotime("+1 month",strtotime($dataParcela)));
-                $parcela->dataVencimento = $dataParcela;
-           // [...] Gravar a parcela 
-                $cont=$cont+1;
-                $parcela->save();
+                echo '<script>alert("Movimento Realizado com Sucesso!!")</script>';
+                echo '<script>window.location="/caixa"</script>';
+                exit("Saiu do codigo");
 
               }
-
-              $pedido = pedido::findOrFail($id);
-
-              $usuario = DB::table('itensc')->where('idcompra', '=', $id)->delete();
-
-              $idproduto=$request->get('idproduto');
-              $idcompra=$request->get('idcompra');
-              $quantidade=$request->get('quantidade');
-              $valorUnitario=$request->get('valorUnitario');      
-
-
-              $cont= 0;
-              while($cont < count($idproduto)){
-
-                $itens = new itensc();
-                $itens->idcompra=$pedido->idcompra;
-                $itens->idproduto=$idproduto[$cont];
-                $itens->quantidade=$quantidade[$cont];
-                $itens->valorUnitario=$valorUnitario[$cont];
-                $itens->status='Compra';
-                $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
-                $itens->save();
-                $cont=$cont+1;
-
+              else 
+              {
+                echo '<script>alert("O saldo do caixa precisa ser maior que o valor do Pagamento!!")</script>';
+                echo '<script>window.location="/caixa"</script>';
+                exit("Saiu do codigo");
               }
-
-              DB::commit();
-
 
             }
-
-            else {
+            else
+            {
               DB::rollback();
             }
 
+            
+
+            if($condicaoPagamento == 'Aprazo'){
+
+             DB::beginTransaction();
+
+             $mytime = Carbon::now('America/Sao_Paulo'); 
+             $pedido->dataCompra=$mytime->toDateTimeString();
+             $pedido->idfornecedor=$request->get('idfornecedor');     
+             $pedido->idfuncionario=$request->get('idfuncionario'); 
+             $pedido->totalCompra=$request->get('total');  
+             $pedido->numeroDeParcelas=$request->get('numeroDeParcelas');  
+             $pedido->status='Fechado';    
+             $pedido->update();
+
+             $contas = new Contaspagar;
+
+             $contas->idcompra=$pedido->idcompra;
+             $contas->idfornecedor=$request->get('idfornecedor');
+             $contas->data=$mytime->toDateTimeString();
+             $contas->valor=$pedido->totalCompra;
+             $contas->descricao='Gerado Pelo pedido!';   
+             $contas->parcela=$pedido->numeroDeParcelas;
+             $contas->save();
+
+             $cont =0;
+
+             $dataParcela = $pedido->dataCompra;
+
+             while($cont < ($pedido->numeroDeParcelas)){
+
+              $numero = DB::table('contaspagar')->max('idcontasp');
+              $parcela = new ParcelaPagar();
+              $parcela->idcontasp=$numero;
+              $parcela->status='Pendente';
+              $parcela->valorParcela=($pedido->totalCompra/$pedido->numeroDeParcelas);       
+              $parcela->status ='Pendente';
+              $dataParcela = date("Y-m-d",strtotime("+1 month",strtotime($dataParcela)));
+              $parcela->dataVencimento = $dataParcela;
+           // [...] Gravar a parcela 
+              $cont=$cont+1;
+              $parcela->save();
+
+            }
+
+            $pedido = pedido::findOrFail($id);
+
+            $usuario = DB::table('itensc')->where('idcompra', '=', $id)->delete();
+
+            $idproduto=$request->get('idproduto');
+            $idcompra=$request->get('idcompra');
+            $quantidade=$request->get('quantidade');
+            $valorUnitario=$request->get('valorUnitario');      
 
 
+            $cont= 0;
+            while($cont < count($idproduto)){
 
-            return Redirect::to('compra/pedido');
+              $itens = new itensc();
+              $itens->idcompra=$pedido->idcompra;
+              $itens->idproduto=$idproduto[$cont];
+              $itens->quantidade=$quantidade[$cont];
+              $itens->valorUnitario=$valorUnitario[$cont];
+              $itens->status='Compra';
+              $itens->valorTotal=$valorTotal[$cont]=($valorUnitario[$cont]*$quantidade[$cont]);
+              $itens->save();
+              $cont=$cont+1;
+
+            }
+
+            DB::commit();
+            echo '<script>alert("Movimento Realizado com Sucesso!!")</script>';
+            echo '<script>window.location="/caixa"</script>';
+            exit("Saiu do codigo");
+
           }
+
           else {
-           echo "<script>alert('Escolha o Status da Compra ou Pedido');</script>";
-           echo "<script>window.location = '/compra/pedido';</script>"; 
+            DB::rollback();
+          }
 
-         } 
-       }
+          return Redirect::to('compra/pedido');
 
+        }else {
+         echo "<script>alert('Escolha o Status da Compra ou Pedido');</script>";
+         echo "<script>window.location = '/compra/pedido';</script>"; 
 
-       public function show($id){
-
-        $compra=DB::table('compra as comp')
-        ->join('itensc as itens', 'itens.idcompra','=','comp.idcompra')
-        ->join('produto as pro', 'pro.idproduto','=','itens.idproduto')
-        ->join('funcionario as fun', 'fun.idfuncionario','=','comp.idfuncionario')
-        ->join('fornecedor as f', 'f.idfornecedor', '=', 
-         'comp.idfornecedor')
-
-        ->select('fun.idfuncionario','f.idfornecedor','comp.dataCompra','fun.nomeFuncionario','f.razaoSocial','comp.status','pro.modelo','pro.unidadeMedida','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra','itens.quantidade','itens.valorUnitario','itens.valorTotal',DB::raw('sum((itens.quantidade*itens.valorUnitario))as total'))
-        ->where('comp.idcompra', '=', $id )
+       } 
 
 
-        ->groupBy('itens.iditensc','fun.idfuncionario','f.idfornecedor','comp.dataCompra','fun.nomeFuncionario','f.razaoSocial','pro.modelo','pro.unidadeMedida','itens.quantidade','itens.valorUnitario','itens.valorTotal','comp.status','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra')
-        ->first();  
 
-        $itensc=DB::table('itensc as itens')
-
-        ->join('produto as pro', 'pro.idproduto','=','itens.idproduto')
-        ->join('compra as comp', 'itens.idcompra','=','comp.idcompra')
-        ->select('itens.iditensc','pro.idproduto','pro.modelo','pro.unidadeMedida','itens.quantidade','itens.valorUnitario','itens.valorTotal','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra')
-        ->where('comp.idcompra', '=',$id)
-        ->get();
+     }
 
 
-        return view("compra/pedido.show", 
-          ["compra"=>$compra, "itensc"=>$itensc]);
+     public function show($id){
 
-      }
+      $compra=DB::table('compra as comp')
+      ->join('itensc as itens', 'itens.idcompra','=','comp.idcompra')
+      ->join('produto as pro', 'pro.idproduto','=','itens.idproduto')
+      ->join('funcionario as fun', 'fun.idfuncionario','=','comp.idfuncionario')
+      ->join('fornecedor as f', 'f.idfornecedor', '=', 
+       'comp.idfornecedor')
 
-      public function destroy($id){
-        $pedido=Pedido::findOrFail($id);
-        $pedido->status='Cancelado'; 
-        $pedido->update();
-        return Redirect::to('pedido');      
-      }
+      ->select('fun.idfuncionario','f.idfornecedor','comp.dataCompra','fun.nomeFuncionario','f.razaoSocial','comp.status','pro.modelo','pro.unidadeMedida','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra','itens.quantidade','itens.valorUnitario','itens.valorTotal',DB::raw('sum((itens.quantidade*itens.valorUnitario))as total'))
+      ->where('comp.idcompra', '=', $id )
+
+
+      ->groupBy('itens.iditensc','fun.idfuncionario','f.idfornecedor','comp.dataCompra','fun.nomeFuncionario','f.razaoSocial','pro.modelo','pro.unidadeMedida','itens.quantidade','itens.valorUnitario','itens.valorTotal','comp.status','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra')
+      ->first();  
+
+      $itensc=DB::table('itensc as itens')
+
+      ->join('produto as pro', 'pro.idproduto','=','itens.idproduto')
+      ->join('compra as comp', 'itens.idcompra','=','comp.idcompra')
+      ->select('itens.iditensc','pro.idproduto','pro.modelo','pro.unidadeMedida','itens.quantidade','itens.valorUnitario','itens.valorTotal','comp.formaPagamento','comp.condicaoPagamento','comp.idcompra')
+      ->where('comp.idcompra', '=',$id)
+      ->get();
+
+
+      return view("compra/pedido.show", 
+        ["compra"=>$compra, "itensc"=>$itensc]);
+
     }
+
+    public function destroy($id){
+      $pedido=Pedido::findOrFail($id);
+      $pedido->status='Cancelado'; 
+      $pedido->update();
+      return Redirect::to('pedido');      
+    }
+  }

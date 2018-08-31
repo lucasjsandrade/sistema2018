@@ -157,7 +157,7 @@
   <div class="form-group">
     <label>Cidade</label>
     <span class="ob">*</span>
-    <select name="idcidade" class="form-control">
+    <select name="idcidade" class="form-control selectpicker" data-live-search="true">
       @foreach($cidade as $cid)
       @if($cid->idcidade==$cliente->idcidade)
       <option value="{{$cid->idcidade}}" selected>
