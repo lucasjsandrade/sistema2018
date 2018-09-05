@@ -1,5 +1,36 @@
 @extends('layouts.admin')
 @section('conteudo')
+    <?php
+    global $idusuario;
+    global $last_id;
+    $idusuario = Auth::user()->id;
+    $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+
+    try {
+
+
+        if($last_id->situacao == 'Aberto'){
+
+            //Libera o Formulario
+
+        }
+
+
+        if($last_id->situacao !== 'Aberto'){
+
+            echo '<script>alert("Para Realizar uma Compra o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
+            echo '<script>window.location="/caixa/create"</script>';
+            exit;
+        }
+    }
+    catch (\Exception $Exception) {
+
+
+    }
+
+    ?>
+
+
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <h3>Nova Compra <i class="fa fa-shopping-cart"></i></h3>
@@ -14,21 +45,7 @@
             @endif
         </div>
     </div>
-    <?php
 
-    try {
-
-        if ($_COOKIE['caixa'] == 'aberto') {
-
-            //Sessão Liberada.
-        }
-    } catch (\Exception $Exception) {
-        echo '<script>alert("Para Realizar uma Compra o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
-        unset($_COOKIE['caixa']);
-        echo '<script>window.location="/caixa/create"</script>';
-    }
-
-    ?>
 
     {!!Form::open(array('url'=>'compra/compra','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
