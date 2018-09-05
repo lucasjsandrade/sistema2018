@@ -26,7 +26,18 @@
             <p>{{converteData($caixa->data)}}</p>
         </div>
     </div>
-
+    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+            <label for="N">Abertura Caixa</label>
+            <p>Usuario:{{$caixa->name}}</p>
+        </div>
+    </div>
+    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+            <label for="N">N° Usuario</label>
+            <p>{{$caixa->id}}</p>
+        </div>
+    </div>
     <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
         <div class="form-group">
             <label for="saldoinical">Saldo Inicial</label>
@@ -45,6 +56,8 @@
             <p>{{$caixa->situacao}}</p>
         </div>
     </div>
+
+
 
     <div class="row">
 

@@ -1,5 +1,10 @@
 <?php $__env->startSection('conteudo'); ?>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <h3>CAIXA</h3>
 
+        </div>
+    </div>
 
     <body>
     <div class="row">
@@ -60,7 +65,7 @@
 
                 </header>
 
-
+                <?php echo $__env->make('caixa.search', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
             </section>
         </div>
     </div>

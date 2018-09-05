@@ -1,13 +1,29 @@
 <?php $__env->startSection('conteudo'); ?>
     <?php
+    global $idusuario;
+    global $last_id;
+     $idusuario = Auth::user()->id;
+
+    $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
 
     try {
-        session_start();
-        if ($_COOKIE['caixa'] == 'aberto') {
-            echo '<script>alert("Já exixte um caixa aberto!")</script>';
-            echo '<script>window.location="/caixa"</script>';
-            //Sessão Liberada.
-        }
+
+                if($last_id->situacao !== 'Aberto'){
+
+                //Libera o Formulario
+
+            }
+
+
+     if($last_id->situacao == 'Aberto'){
+
+         echo '<script>alert("Já exixte um caixa aberto!")</script>';
+         echo '<script>window.location="/caixa"</script>';
+         exit;
+
+    }
+
+
     } catch (\Exception $Exception) {
 
     }
@@ -51,6 +67,8 @@
                             <input type="text" name="descricao"  value="<?php echo e(old('descricao')); ?>" class="form-control">
                         </div>
                     </div>
+                    <input type="text" name="idusuario" hidden value="<?php echo $idusuario; ?>" class="hidden">
+
                 </article>
             </section>
 

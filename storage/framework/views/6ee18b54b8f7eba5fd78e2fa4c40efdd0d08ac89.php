@@ -25,7 +25,18 @@
             <p><?php echo e(converteData($caixa->data)); ?></p>
         </div>
     </div>
-
+    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+            <label for="N">Abertura Caixa</label>
+            <p>Usuario:<?php echo e($caixa->name); ?></p>
+        </div>
+    </div>
+    <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
+        <div class="form-group">
+            <label for="N">N° Usuario</label>
+            <p><?php echo e($caixa->id); ?></p>
+        </div>
+    </div>
     <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
         <div class="form-group">
             <label for="saldoinical">Saldo Inicial</label>
@@ -44,6 +55,8 @@
             <p><?php echo e($caixa->situacao); ?></p>
         </div>
     </div>
+
+
 
     <div class="row">
 

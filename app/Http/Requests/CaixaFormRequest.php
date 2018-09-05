@@ -30,7 +30,8 @@ class CaixaFormRequest extends FormRequest
             'saldoFinal',
             'diferenca',
             'situacao',
-        
+            'id',
+
 
         ];
     }

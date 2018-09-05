@@ -71,7 +71,7 @@ class ContasreceberController extends Controller
 
             ->groupBy('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorRecebido','parc.idcontasr','parc.status')
 
-            
+
 
             ->where('cr.idcontasr', '=',$id)
             ->get();

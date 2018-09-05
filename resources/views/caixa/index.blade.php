@@ -1,6 +1,11 @@
 @extends('layouts.admin')
 @section('conteudo')
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <h3>CAIXA</h3>
 
+        </div>
+    </div>
 
     <body>
     <div class="row">
@@ -61,7 +66,7 @@
 
                 </header>
 
-
+                @include('caixa.search')
             </section>
         </div>
     </div>

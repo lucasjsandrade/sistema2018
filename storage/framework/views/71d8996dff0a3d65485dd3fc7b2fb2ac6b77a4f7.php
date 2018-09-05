@@ -10,6 +10,8 @@
 function converteData($data){
 	return  $data <> "" ? date('d/m/Y', strtotime($data)) : $data = null;
 }
+
+
 ?>
 
 <div class="row">
