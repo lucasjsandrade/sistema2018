@@ -359,17 +359,24 @@
                 ltotal = lvalorPagamento;
                 if (lvalorPagamento != "") {
 
-                    var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status +'"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorPago[]" value="' + valorPago + '"></td> <td> <input type="text" name="valorPagamentos[]" value="' + lvalorPagamento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
-                    cont++;
-                    console.log(valorPago);
-                    limpar();
-                    $("#total").val(ltotal);
+                    if (lvalorPagamento > 0) {
 
-                    ocultar();
-                    $('#detalhes').append(linha);
+                        var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status + '"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorPago[]" value="' + valorPago + '"></td> <td> <input type="text" name="valorPagamentos[]" value="' + lvalorPagamento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
+                        cont++;
+                        console.log(valorPago);
+                        limpar();
+                        $("#total").val(ltotal);
 
+                        ocultar();
+                        $('#detalhes').append(linha);
+
+                    }
+
+                    else {
+                        alert("Valor do Pagamento não pode ser negativo!!");
+
+                    }
                 }
-
                  else {
                 alert("Insira os dados Obrigatorios!!");
 
