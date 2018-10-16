@@ -141,7 +141,7 @@ class CaixaController extends Controller
                 exit;
             }
             else{
-                echo '<script> alert("Caixa deve ser fechado pelo Usuario que realizou a abertura! ID_USUARIO: '.$idusuario.'");</script>';
+                echo '<script> alert("Caixa deve ser fechado pelo Usuario que realizou a abertura! ID_USUARIO: '.$last_id->id.'");</script>';
                 echo '<script>window.location="caixa"</script>';
                 exit;
             }

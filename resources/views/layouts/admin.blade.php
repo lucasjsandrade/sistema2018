@@ -180,10 +180,13 @@
 
              </ul>
            </li>
-           <li>
+           <li class="treeview">
             <a href="#">
-              <i class="fa fa-plus-square"></i> <span>Ajuda</span>
+              <i class="fa fa-file-pdf-o" aria-hidden="true"></i><span>Relatórios</span>
               <small class="label pull-right bg-red">PDF</small>
+              <ul class="treeview-menu">
+                <li><a href="/pdf/produtoGetPDF"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Produtos</a></li>
+              </ul>
             </a>
           </li>
 

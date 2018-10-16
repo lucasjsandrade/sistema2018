@@ -20,6 +20,7 @@ Route::get('/', function () {
 
 Route::resource('estoque/categoria', 'CategoriaController');
 Route::resource('estoque/produto', 'ProdutoController');
+Route::resource('estoque/produto/pdf', 'ProdutoController@pdf');
 Route::resource('estoque/marca', 'MarcaController');
 Route::resource('regiao/pais',   'PaisController');
 Route::resource('regiao/estado', 'EstadoController');
@@ -53,10 +54,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/{slug?}', 'HomeController@index' );
-
-//Route::get('/pagamento/create',function(){
-//    $contaspagar = Contaspagar::all();
-  //  return View::make('/pagamento/create')->with('contaspagar', $contaspagar);
-//});
+Route::get('/pdf/getPDF', 'PDFController@getPDF');
+Route::get('/pdf/produtoGetPDF', 'PDFController@ProdutoGetPDF');
 
 

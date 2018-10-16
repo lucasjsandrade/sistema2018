@@ -18,7 +18,7 @@
 
         if($last_id->situacao !== 'Aberto'){
 
-            echo '<script>alert("Para Realizar uma Sangria o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
+            echo '<script>alert("Para Realizar um Pagamento o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
             echo '<script>window.location="/caixa/create"</script>';
             exit;
         }
