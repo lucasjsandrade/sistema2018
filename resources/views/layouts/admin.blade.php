@@ -187,6 +187,12 @@
               <ul class="treeview-menu">
                 <li><a href="/pdf/produtoGetPDF"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Produtos</a></li>
               </ul>
+              <ul class="treeview-menu">
+                <li><a href="/pdf/compra"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Compras</a></li>
+              </ul>
+              <ul class="treeview-menu">
+                <li><a href="/pdf/venda"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Vendas</a></li>
+              </ul>
             </a>
           </li>
 

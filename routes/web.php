@@ -56,5 +56,9 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/{slug?}', 'HomeController@index' );
 Route::get('/pdf/getPDF', 'PDFController@getPDF');
 Route::get('/pdf/produtoGetPDF', 'PDFController@ProdutoGetPDF');
+Route::get('/pdf/compra', 'PDFController@CompraIndex');
+Route::post('/pdf/CompraGetPDF', 'PDFController@CompraGetPDF');
+Route::get('/pdf/venda', 'PDFController@VendaIndex');
+Route::post('/pdf/VendaGetPDF', 'PDFController@VendaGetPDF');
 
 
