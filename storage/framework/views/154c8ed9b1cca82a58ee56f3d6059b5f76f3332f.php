@@ -192,6 +192,8 @@
               </ul>
               <ul class="treeview-menu">
                 <li><a href="/pdf/venda"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Vendas</a></li>
+              </ul><ul class="treeview-menu">
+                <li><a href="/pdf/caixa"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Caixa</a></li>
               </ul>
             </a>
           </li>

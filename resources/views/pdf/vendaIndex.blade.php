@@ -2,7 +2,7 @@
 @section('conteudo')
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <h3>Relatório de Venda <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <i class="fa fa-shopping-cart"></i></h3>
+            <h3>Relatório de Compras <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <i class="fa fa-shopping-cart"></i></h3>
             @if (count($errors)>0)
                 <div class="alert alert-danger">
                     <ul>
@@ -17,7 +17,7 @@
     </div>
 
 
-    {!!Form::open(array('url'=>'/pdf/VendaGetPDF','method'=>'POST','autocomplete'=>'off'))!!}
+    {!!Form::open(array('url'=>'/pdf/CompraGetPDF','method'=>'POST','autocomplete'=>'off'))!!}
     {{Form::token()}}
 
     <div class="col-lg-2 col-sm-2 col-xs-2">
@@ -57,7 +57,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="salvar">
         <div class="form-group">
             <input name="_token" value="{{ csrf_token()}}" type="hidden">
-            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i>Gerar Relatório</button>
+            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
 
         </div>
     </div>

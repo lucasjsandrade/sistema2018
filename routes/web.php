@@ -60,5 +60,7 @@ Route::get('/pdf/compra', 'PDFController@CompraIndex');
 Route::post('/pdf/CompraGetPDF', 'PDFController@CompraGetPDF');
 Route::get('/pdf/venda', 'PDFController@VendaIndex');
 Route::post('/pdf/VendaGetPDF', 'PDFController@VendaGetPDF');
+Route::get('/pdf/caixa', 'PDFController@CaixaIndex');
+Route::post('/pdf/CaixaGetPDF', 'PDFController@CaixaGetPDF');
 
 

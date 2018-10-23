@@ -1,4 +1,4 @@
-<?php  global  $soma_total; global $soma_vendas;
+<?php  global  $soma_total; global $soma_compras;
 
 function converteData($data)
 {
@@ -11,8 +11,8 @@ function converteData($data)
 
 <html>
 <head>
-    <h1>Relatório de Vendas</h1>
-    <title><h1>Relatório de Vendas</h1></title>
+    <h1>Relatório de Compras</h1>
+    <title><h1>Relatório de Compras</h1></title>
     <style type="text/css">
         table {
             width: 80%;
@@ -26,10 +26,10 @@ function converteData($data)
 <table>
     <thead>
     <tr>
-        <td>Numero da Venda:</td>
-        <td>Data Venda:</td>
+        <td>Numero da Compra:</td>
+        <td>Data Compra:</td>
         <td>Condicao de Pagamento:</td>
-        <td>Valor da Vendaa:</td>
+        <td>Valor da Compra:</td>
 
 
     </tr>
@@ -39,16 +39,16 @@ function converteData($data)
 
     <tbody>
 
-    @forelse($venda as $v)
+    @forelse($compra as $c)
         <tr>
 
-            <td>{{$v->idvenda}}</td>
-            <td>{{ converteData($v->dataVenda)}}</td>
-            <td>{{$v->condicaoPagamento}}</td>
-            <td>{{'R$ '.$v->valorTotal}}</td>
+            <td>{{$c->idcompra}}</td>
+            <td>{{ converteData($c->dataCompra)}}</td>
+            <td>{{$c->condicaoPagamento}}</td>
+            <td>{{'R$ '.$c->totalCompra}}</td>
 
-            <?php $soma_total =$soma_total   + $v->valorTotal?>
-            <?php $soma_vendas = $soma_vendas + 1; ?>
+            <?php $soma_total =$soma_total   + $c->totalCompra;?>
+            <?php $soma_compras = $soma_compras + 1; ?>
 
 
 
@@ -65,12 +65,12 @@ function converteData($data)
 
     @endforelse
     <tr>
-        <td>Vendas no período:</td>
+        <td>Compras no período:</td>
         <td></td>
         <td></td>
-        <td>Total de Vendas:</td>
+        <td>Total de Compras:</td>
     </tr>
-    <th><?php echo $soma_vendas; ?></th>
+    <th><?php echo $soma_compras; ?></th>
     <th></th>
     <th></th>
     <th><?php echo 'R$ '.$soma_total; ?></th>

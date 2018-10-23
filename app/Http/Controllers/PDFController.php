@@ -1,6 +1,7 @@
 <?php
 
 namespace sistemaLaravel\Http\Controllers;
+
 use Illuminate\Http\Request;
 use sistemaLaravel\Http\Controllers\Controller;
 use PDF;
@@ -9,6 +10,7 @@ use sistemaLaravel\Cliente;
 use sistemaLaravel\Produto;
 use sistemaLaravel\Compra;
 use sistemaLaravel\Venda;
+use sistemaLaravel\Caixa;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\CompraPDFFormRequest;
 use Illuminate\Support\Facades\Input;
@@ -22,31 +24,32 @@ class PDFController extends Controller
     }
 
 
-    public function getPDF(){
+    public function getPDF()
+    {
 
-        $clientes=Cliente::all();
-        $pdf=PDF::loadView('pdf.cliente',['cliente'=>$clientes]);
+        $clientes = Cliente::all();
+        $pdf = PDF::loadView('pdf.cliente', ['cliente' => $clientes]);
         //return $pdf->download('customer.pdf');
-        return $pdf->stream('cliente.pdf',['cliente'=>$clientes]);
+        return $pdf->stream('cliente.pdf', ['cliente' => $clientes]);
 
 
     }
 
-    public function ProdutoGetPDF(){
+    public function ProdutoGetPDF()
+    {
 
         $produtos = DB::table('produto as p')
             ->join('categoria as c', 'c.idcategoria', '=',
                 'p.idcategoria')
-
-            ->select('p.idproduto', 'p.modelo','p.quantidade', 'p.status','c.nome', DB::raw('count(p.idproduto)as total'),DB::raw('sum(p.quantidade)as estoque'))
+            ->select('p.idproduto', 'p.modelo', 'p.quantidade', 'p.status', 'c.nome', DB::raw('count(p.idproduto)as total'), DB::raw('sum(p.quantidade)as estoque'))
             ->orderBy('p.idproduto', 'asc')
-            ->groupBy('p.idproduto', 'p.modelo','p.quantidade', 'p.status','c.nome')
+            ->groupBy('p.idproduto', 'p.modelo', 'p.quantidade', 'p.status', 'c.nome')
             ->paginate(10);
 
 
-        $pdf=PDF::loadView('pdf.produto',['produto'=>$produtos]);
+        $pdf = PDF::loadView('pdf.produto', ['produto' => $produtos]);
         //return $pdf->download('customer.pdf');
-        return $pdf->stream('produto.pdf',['produto'=>$produtos]);
+        return $pdf->stream('produto.pdf', ['produto' => $produtos]);
 
 
     }
@@ -74,37 +77,33 @@ class PDFController extends Controller
         }
     }
 
-    public function CompraGetPDF(){
+    public function CompraGetPDF()
+    {
         $filtroPag;
 
-          // $dataInicial = $request->get('dataInicial');
-         //  $dataFinal = $request->get('dataFinal');
-        // $condicaoPagamento = $request->get('condicaoPagamento');
-
         $dataInicial = Input::get('dataInicial');
-        $dataFinal = Input::get('dataFinal');
         $dataFinal = Input::get('dataFinal');
         $condicaoPagamento = Input::get('condicaoPagamento');
 
 
-
-        if ($condicaoPagamento != 'T'){
-            $compra = Compra::whereBetween('dataCompra', [$dataInicial,$dataFinal])
-                ->whereBetween('condicaoPagamento', [$condicaoPagamento,$condicaoPagamento])
+        if ($condicaoPagamento != 'T') {
+            $compra = Compra::whereBetween('dataCompra', [$dataInicial, $dataFinal])
+                ->whereBetween('condicaoPagamento', [$condicaoPagamento, $condicaoPagamento])
                 ->orderBy('idcompra')
                 ->get();
-        }else{
-            $compra = Compra::whereBetween('dataCompra', [$dataInicial,$dataFinal])
+        } else {
+            $compra = Compra::whereBetween('dataCompra', [$dataInicial, $dataFinal])
                 ->orderBy('idcompra')
                 ->get();
         }
 
 
-        $pdf=PDF::loadView('pdf.compra',['compra'=>$compra]);
+        $pdf = PDF::loadView('pdf.compra', ['compra' => $compra]);
         //return $pdf->download('customer.pdf');
-        return $pdf->stream('compra.pdf',['compra'=>$compra]);
+        return $pdf->stream('compra.pdf', ['compra' => $compra]);
 
     }
+
     public function VendaIndex(Request $request)
     {
 
@@ -128,7 +127,8 @@ class PDFController extends Controller
         }
     }
 
-    public function VendaGetPDF(){
+    public function VendaGetPDF()
+    {
         $filtroPag;
 
         // $dataInicial = $request->get('dataInicial');
@@ -141,29 +141,57 @@ class PDFController extends Controller
         $condicaoPagamento = Input::get('condicaoPagamento');
 
 
-
-        if ($condicaoPagamento != 'T'){
-            $venda = Venda::whereBetween('dataVenda', [$dataInicial,$dataFinal])
-                ->whereBetween('condicaoPagamento', [$condicaoPagamento,$condicaoPagamento])
+        if ($condicaoPagamento != 'T') {
+            $venda = Venda::whereBetween('dataVenda', [$dataInicial, $dataFinal])
+                ->whereBetween('condicaoPagamento', [$condicaoPagamento, $condicaoPagamento])
                 ->orderBy('idvenda')
                 ->get();
-        }else{
-            $venda = Venda::whereBetween('dataVenda', [$dataInicial,$dataFinal])
+        } else {
+            $venda = Venda::whereBetween('dataVenda', [$dataInicial, $dataFinal])
                 ->orderBy('idvenda')
                 ->get();
         }
 
 
-        $pdf=PDF::loadView('pdf.venda',['venda'=>$venda]);
+        $pdf = PDF::loadView('pdf.venda', ['venda' => $venda]);
         //return $pdf->download('customer.pdf');
-        return $pdf->stream('venda.pdf',['venda'=>$venda]);
+        return $pdf->stream('venda.pdf', ['venda' => $venda]);
 
     }
 
+    public function CaixaIndex(Request $request)
+    {
 
+        if ($request) {
+            $query = trim($request->get('searchText'));
+            $caixa = DB::table('caixa as c')
+                ->select('c.idcaixa', 'c.data', 'c.saldoInicial', 'c.saldoAtual', 'c.saldoFinal', 'c.situacao')
+                ->where('c.situacao', '=', 'Fechado')
+                ->get();
 
+            return view('pdf.CaixaIndex', [
+                "caixa" => $caixa, "searchText" => $query
+            ]);
+        }
+    }
 
+    public function CaixaGetPDF()
+    {
 
+        $dataInicial = Input::get('dataInicial');
+        $dataFinal = Input::get('dataFinal');
+
+        $caixa = DB::table('caixa as c')
+            ->whereBetween('data', [$dataInicial, $dataFinal])
+            ->where('c.situacao', '=', 'Fechado')
+            ->orderBy('idcaixa')
+            ->get();
+
+        $pdf = PDF::loadView('pdf.caixa', ['caixa' => $caixa]);
+        //return $pdf->download('customer.pdf');
+        return $pdf->stream('caixa.pdf', ['caixa' => $caixa]);
+
+    }
 
 
 }
