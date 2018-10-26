@@ -57,7 +57,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="salvar">
         <div class="form-group">
             <input name="_token" value="{{ csrf_token()}}" type="hidden">
-            <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Confirmar</button>
+            <button class="btn btn-success" type="submit"> Gerar Relatorio <i class="fa fa-file-pdf-o"aria-hidden="true"></i></button>
 
         </div>
     </div>

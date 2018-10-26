@@ -11,6 +11,7 @@ use sistemaLaravel\Produto;
 use sistemaLaravel\Compra;
 use sistemaLaravel\Venda;
 use sistemaLaravel\Caixa;
+use sistemaLaravel\Pagamento;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\CompraPDFFormRequest;
 use Illuminate\Support\Facades\Input;
@@ -79,8 +80,6 @@ class PDFController extends Controller
 
     public function CompraGetPDF()
     {
-        $filtroPag;
-
         $dataInicial = Input::get('dataInicial');
         $dataFinal = Input::get('dataFinal');
         $condicaoPagamento = Input::get('condicaoPagamento');
@@ -129,11 +128,7 @@ class PDFController extends Controller
 
     public function VendaGetPDF()
     {
-        $filtroPag;
 
-        // $dataInicial = $request->get('dataInicial');
-        //  $dataFinal = $request->get('dataFinal');
-        // $condicaoPagamento = $request->get('condicaoPagamento');
 
         $dataInicial = Input::get('dataInicial');
         $dataFinal = Input::get('dataFinal');
@@ -190,6 +185,62 @@ class PDFController extends Controller
         $pdf = PDF::loadView('pdf.caixa', ['caixa' => $caixa]);
         //return $pdf->download('customer.pdf');
         return $pdf->stream('caixa.pdf', ['caixa' => $caixa]);
+
+    }
+
+    public function PagamentoIndex(Request $request)
+    {
+
+        if ($request) {
+            $query = trim($request->get('searchText'));
+            $pagamento = DB::table('pagamento as p')
+                ->select('p.idpagamento')
+                ->get();
+            $fornecedor = DB::table('fornecedor')
+                ->where('status', '=', 'Ativo')
+                ->get();
+
+            return view('pdf.PagamentoIndex', [
+                "pagamento" => $pagamento, "fornecedor" => $fornecedor, "searchText" => $query
+            ]);
+        }
+    }
+
+    public function PagamentoGetPDF()
+    {
+
+        $dataInicial = Input::get('dataInicial');
+        $dataFinal = Input::get('dataFinal');
+        $fornecedor = Input::get('idfornecedor');
+        if ($fornecedor != 'T') {
+            $pagamento = DB::table('pagamento as p')
+                ->join('parcelapagar as pa', 'pa.idparcela', '=', 'p.idparcelap')
+                ->join('contaspagar as c', 'c.idcontasp', '=', 'pa.idcontasp')
+                ->join('compra as com', 'c.idcompra', '=', 'com.idcompra')
+                ->join('fornecedor as for', 'for.idfornecedor', '=', 'c.idfornecedor')
+                ->select('p.data', 'pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'p.idpagamento', 'pa.idcontasp', 'c.parcela', 'for.idfornecedor',
+                    'for.razaoSocial', 'for.telefone', 'com.idcompra', 'com.totalCompra', 'com.numeroDeParcelas')
+                ->whereBetween('p.data', [$dataInicial, $dataFinal])
+                ->whereBetween('for.idfornecedor', [$fornecedor, $fornecedor])
+                ->orderBy('idpagamento')
+                ->get();
+        } else {
+
+            $pagamento = DB::table('pagamento as p')
+                ->join('parcelapagar as pa', 'pa.idparcela', '=', 'p.idparcelap')
+                ->join('contaspagar as c', 'c.idcontasp', '=', 'pa.idcontasp')
+                ->join('compra as com', 'c.idcompra', '=', 'com.idcompra')
+                ->join('fornecedor as for', 'for.idfornecedor', '=', 'c.idfornecedor')
+                ->select('p.data', 'pa.valorParcela', 'pa.valorPago', 'pa.status', 'pa.idparcela', 'p.idpagamento', 'pa.idcontasp', 'c.parcela', 'for.idfornecedor',
+                    'for.razaoSocial', 'for.telefone', 'com.idcompra', 'com.totalCompra', 'com.numeroDeParcelas')
+                ->whereBetween('p.data', [$dataInicial, $dataFinal])
+                ->orderBy('p.idpagamento')
+                ->get();
+
+        }
+        $pdf = PDF::loadView('pdf.pagamento', ['pagamento' => $pagamento]);
+        //return $pdf->download('customer.pdf');
+        return $pdf->stream('caixa.pdf', ['pagamento' => $pagamento]);
 
     }
 

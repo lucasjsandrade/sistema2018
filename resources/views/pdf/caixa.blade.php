@@ -65,7 +65,7 @@ function converteData($data)
     <tr>
         <td>Caixas no período:</td>
         <td></td>
-  
+
         <td>Total:</td>
     </tr>
     <th><?php echo $soma_caixas; ?></th>
