@@ -1,19 +1,31 @@
 @extends('layouts.admin')
 @section('conteudo')
-
     <?php
-
+    global $idusuario;
+    global $last_id;
+    $idusuario = Auth::user()->id;
+    $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
 
     try {
 
-        if ($_COOKIE['caixa'] == 'aberto') {
 
-            //Sessão Liberada.
+        if($last_id->situacao == 'Aberto'){
+
+            //Libera o Formulario
+
         }
-    } catch (\Exception $Exception) {
-        echo '<script>alert("Para Realizar uma Venda o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
-        unset($_COOKIE['caixa']);
-        echo '<script>window.location="/caixa/create"</script>';
+
+
+        if($last_id->situacao !== 'Aberto'){
+
+            echo '<script>alert("Para Realizar um Pagamento o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
+            echo '<script>window.location="/caixa/create"</script>';
+            exit;
+        }
+    }
+    catch (\Exception $Exception) {
+
+
     }
 
     ?>
@@ -347,17 +359,24 @@
                 ltotal = lvalorPagamento;
                 if (lvalorPagamento != "") {
 
-                    var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status +'"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorPago[]" value="' + valorPago + '"></td> <td> <input type="text" name="valorPagamentos[]" value="' + lvalorPagamento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
-                    cont++;
-                    console.log(valorPago);
-                    limpar();
-                    $("#total").val(ltotal);
+                    if (lvalorPagamento > 0) {
 
-                    ocultar();
-                    $('#detalhes').append(linha);
+                        var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status + '"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorPago[]" value="' + valorPago + '"></td> <td> <input type="text" name="valorPagamentos[]" value="' + lvalorPagamento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
+                        cont++;
+                        console.log(valorPago);
+                        limpar();
+                        $("#total").val(ltotal);
 
+                        ocultar();
+                        $('#detalhes').append(linha);
+
+                    }
+
+                    else {
+                        alert("Valor do Pagamento não pode ser negativo!!");
+
+                    }
                 }
-
                  else {
                 alert("Insira os dados Obrigatorios!!");
 

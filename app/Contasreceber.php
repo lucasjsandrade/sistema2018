@@ -16,7 +16,8 @@ class Contasreceber extends Model
 		'parcela',	
 		'data',
 		'valor',
-		'descricao'
+		'descricao',
+		'status'
 
 	];
 

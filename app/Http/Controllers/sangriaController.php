@@ -57,6 +57,7 @@ class sangriaController extends Controller
         else{
             echo '<script>alert("O Valor da Sangria não deve ser maior que o saldo do Caixa!")</script>';
             echo '<script>window.location="caixa"</script>';
+            exit();
 
 
         }

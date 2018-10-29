@@ -145,7 +145,7 @@
  <div class="form-group">
   <label>Cidade</label>
   <span class="ob">*</span>
-  <select name="idcidade" class="form-control">
+  <select name="idcidade" class="form-control selectpicker" data-live-search="true">
    @foreach($cidade as $cid)
    <option value="{{$cid->idcidade}}"><!-- Aqui vai recuperar o objeto do banco -->
      {{$cid->nomeCidade}}

@@ -1,6 +1,6 @@
 <div class="modal fade modal-slide-in-right" aria-hidden="true"
-role="dialog" tabindex="-1" id="modal-delete-<?php echo e($cid->idcidade); ?>">
-	<?php echo e(Form::Open(array('action'=>array('CidadeController@destroy',$cid->idcidade),'method'=>'delete'))); ?>
+role="dialog" tabindex="-1" id="modal-delete-">
+	<?php echo e(Form::Open(array('action'=>array('CaixaController@destroy',$cid->idcidade),'method'=>'delete'))); ?>
 
 	<div class="modal-dialog">
 		<div class="modal-content">

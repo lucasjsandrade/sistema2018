@@ -2,16 +2,17 @@
 
 namespace sistemaLaravel\Http\Controllers;
 
+use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades;
+use Response;
 use sistemaLaravel\Caixa;
-use Illuminate\Support\Facades\Redirect;
 use sistemaLaravel\Http\Requests\CaixaFormRequest;
 use sistemaLaravel\MovimentacaoCaixa;
-use Carbon\Carbon;
-use Response;
-use DB;
-use Illuminate\Support\Collection;
+use Auth;
+
+
+
 
 class CaixaController extends Controller
 {
@@ -20,6 +21,7 @@ class CaixaController extends Controller
         $this->middleware('auth');
 
     }
+
 
     public function index(Request $request)
     {
@@ -31,6 +33,7 @@ class CaixaController extends Controller
                 ->select('c.idcaixa', 'c.data',
                     'c.saldoInicial', 'c.saldoAtual', 'c.saldoFinal', 'c.situacao')
                 ->where('c.idcaixa', 'LIKE', '%' . $query . '%')
+                ->where('c.idcaixa', '>', 0)
                 ->where('c.idcaixa', '>', 0)
                 ->select('c.idcaixa', 'c.data',
                     'c.saldoInicial', 'c.saldoAtual', 'c.saldoFinal', 'c.situacao')
@@ -64,6 +67,7 @@ class CaixaController extends Controller
         $caixa->saldoInicial = $request->get('saldoInicial');
         $caixa->saldoAtual = $request->get('saldoInicial');
         $caixa->situacao = 'Aberto';
+        $caixa->id = $request->get('idusuario');
         $mytime = Carbon::now('America/Sao_Paulo');
         $caixa->data = $mytime->toDateTimeString();
         $caixa->save();
@@ -71,15 +75,15 @@ class CaixaController extends Controller
 
         $valor = $request->get('saldoInicial');
         if ($caixa):
-            setcookie("caixa", "aberto", time() + (730 * 24 * 3600));
-            $cook_abrir = $_COOKIE['caixa'] = 'ABERTO';
+            //setcookie("caixa", "aberto", time() + (730 * 24 * 3600));
+
             $movimento = new movimentacaocaixa();
             $movimento->idcaixa = $caixa->idcaixa;
             $data = Carbon::now('America/Sao_Paulo');
             $movimento->data = $data->toDateTimeString();
             $movimento->descricao = $request->get('descricao');
             $movimento->valor = $valor;
-            $movimento->tipoMovimentacao ='Abertura';
+            $movimento->tipoMovimentacao = 'Abertura';
             $movimento->idrecebimento = 0;
             $movimento->idpagamento = 0;
             $movimento->save();
@@ -99,8 +103,9 @@ class CaixaController extends Controller
     public function show($id)
     {
         $caixa = DB::table('caixa as cai')
-            ->select('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao')
-            ->groupBy('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao')
+            ->join('users as usu','usu.id','=','cai.id')
+            ->select('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao','usu.id','usu.name')
+            ->groupBy('cai.idcaixa', 'cai.data', 'cai.saldoInicial', 'cai.saldoAtual', 'cai.saldoFinal', 'cai.situacao','usu.id','usu.name')
             ->where('cai.idcaixa', '=', $id)
             ->first();
 
@@ -117,32 +122,39 @@ class CaixaController extends Controller
 
     public function close()
     {
+
+        $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+        $idusuario = Auth::user()->id;
+
         try {
 
-            if ($_COOKIE['caixa'] == 'aberto') {
+        if ($last_id->situacao == "Aberto") {
+            if($last_id->id == $idusuario) {
                 DB::table('caixa')->update(['situacao' => 'Fechado']);
-                setcookie("caixa");
-                $last_id=DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
+                $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
                 $caixa = Caixa::findOrFail($last_id->idcaixa);
                 $caixa->saldoFInal = $caixa->saldoAtual;
                 $caixa->update();
                 echo '<script> alert("Caixa encerrado com Sucesso!");</script>';
                 echo '<script>window.location="caixa"</script>';
                 //fecha o caixa
+                exit;
             }
-        } catch (\Exception $Exception) {
+            else{
+                echo '<script> alert("Caixa deve ser fechado pelo Usuario que realizou a abertura! ID_USUARIO: '.$last_id->id.'");</script>';
+                echo '<script>window.location="caixa"</script>';
+                exit;
+            }
+        }
+        else{
             echo '<script>alert("Não Existe Caixa para ser Fechado!")</script>';
-            unset($_COOKIE['caixa']);
             echo '<script>window.location="/caixa"</script>';
+
         }
 
+        } catch (\Exception $Exception) {
 
-    }
-
-
-    public function destroy()
-    {
-
+        }
 
 
     }

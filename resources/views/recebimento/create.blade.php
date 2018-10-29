@@ -1,23 +1,34 @@
 @extends('layouts.admin')
 @section('conteudo')
-
     <?php
-
+    global $idusuario;
+    global $last_id;
+    $idusuario = Auth::user()->id;
+    $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
 
     try {
 
-        if ($_COOKIE['caixa'] == 'aberto') {
 
-            //Sessão Liberada.
+        if($last_id->situacao == 'Aberto'){
+
+            //Libera o Formulario
+
         }
-    } catch (\Exception $Exception) {
-        echo '<script>alert("Para Realizar um Recebimento o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
-        unset($_COOKIE['caixa']);
-        echo '<script>window.location="/caixa/create"</script>';
+
+
+        if($last_id->situacao !== 'Aberto'){
+
+            echo '<script>alert("Para Realizar um Recebimento o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
+            echo '<script>window.location="/caixa/create"</script>';
+            exit;
+        }
+    }
+    catch (\Exception $Exception) {
+
+
     }
 
     ?>
-
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <h3>Recebimento <i class="fa fa-money"></i></h3>
@@ -137,14 +148,14 @@
                     </div>
                 </div>
 
-                <div class="col-lg-1 col-sm-1 col-md-1  col-xs-1">
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
-                        <label for="numeroparcela">Cod Parcela</label>
+                        <label for="numeroparcela">N° Parcela</label>
                         <input type="integer" name="numeroparcela" id="pnumeroparcela" readonly
                                class="form-control">
                     </div>
                 </div>
-                <div class="col-lg-1 col-sm-1 col-md-1  col-xs-1">
+                <div class="col-lg-2 col-sm-2 col-md-2  col-xs-12">
                     <div class="form-group">
                         <label for="status">Status</label>
                         <input type="text" name="status" id="pstatus" readonly
@@ -179,7 +190,7 @@
                     <div class="form-group">
                         <label for="valorRecebimento">Valor Recebimento</label>
                         <span class="ob">*</span>
-                        <input type="number" name="valorRecebimento" value="{{old('valorRecebimento')}}"
+                        <input type="float" name="valorRecebimento" value="{{old('valorRecebimento')}}"
                                id="pvalorRecebimento" class="form-control" required
                                placeholder="Valor do Recebimento">
 
@@ -351,18 +362,24 @@
                 lvalorRecebimento = $("#pvalorRecebimento").val();
                 ltotal = lvalorRecebimento;
                 if (lvalorRecebimento != "") {
+                    if (lvalorRecebimento > 0) {
 
-                    var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status +'"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorRecebido[]" value="' + valorRecebido + '"></td> <td> <input type="text" name="lvalorRecebimento[]" value="' + lvalorRecebimento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
-                    cont++;
-                    console.log(valorRecebido);
-                    limpar();
-                    $("#total").val(ltotal);
+                        var linha = '<tr class="selected" id="linha' + cont + '">    <td> <button type="button" class="btn btn-warning" onclick="apagar(' + cont + ');"><i class="fa fa-close" ></i></button></td> <td> <input type="text" name="lidparcela[]" value="' + idparcela + '"></td> <td> <input type="text" name="lstatus" value="' + status + '"></td>  <td> <input type="text" name="ldataVencimento[]" value="' + dataVencimento + '"></td><td> <input type="text" name="lvalorParcela[]" value="' + valorParcela + '"></td> <td> <input type="text" name="lvalorRecebido[]" value="' + valorRecebido + '"></td> <td> <input type="text" name="lvalorRecebimento[]" value="' + lvalorRecebimento + '"></td> <td> <input type="text" name="ltotal[]" value="' + ltotal + '"></td></tr>'
+                        cont++;
+                        console.log(valorRecebido);
+                        limpar();
+                        $("#total").val(ltotal);
 
-                    ocultar();
-                    $('#detalhes').append(linha);
+                        ocultar();
+                        $('#detalhes').append(linha);
+
+                    }
+                    else {
+                        alert("Valor do Recebimento não pode ser negativo!!");
+
+                    }
 
                 }
-
                  else {
                 alert("Insira os dados Obrigatorios!!");
 

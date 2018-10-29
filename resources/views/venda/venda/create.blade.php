@@ -1,17 +1,31 @@
 @extends('layouts.admin')
 @section('conteudo')
     <?php
+    global $idusuario;
+    global $last_id;
+    $idusuario = Auth::user()->id;
+    $last_id = DB::table('caixa')->orderBy('idcaixa', 'DESC')->first();
 
     try {
 
-        if ($_COOKIE['caixa'] == 'aberto') {
 
-            //Sessão Liberada.
+        if($last_id->situacao == 'Aberto'){
+
+            //Libera o Formulario
+
         }
-    } catch (\Exception $Exception) {
-        echo '<script>alert("Para Realizar uma Venda o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
-        unset($_COOKIE['caixa']);
-        echo '<script>window.location="/caixa/create"</script>';
+
+
+        if($last_id->situacao !== 'Aberto'){
+
+            echo '<script>alert("Para Realizar uma Venda o Caixa deve estar aberto! Por favor faça a abertura do Caixa.")</script>';
+            echo '<script>window.location="/caixa/create"</script>';
+            exit;
+        }
+    }
+    catch (\Exception $Exception) {
+
+
     }
 
     ?>
@@ -40,7 +54,8 @@
                 <label>Funcionario</label>
                 <span class="ob">*</span>
                 <select name="idfuncionario" id="idfuncionario" class="form-control selectpicker"
-                        data-live-search="true">
+                        data-live-search="true" required>
+                    <option value="">Selecione um Funcionario</option>
                     @foreach($funcionario as $fun)
                         <option value="{{$fun->idfuncionario}}">
                             {{$fun->nomeFuncionario}}
@@ -54,7 +69,9 @@
             <div class="form-group">
                 <label>Cliente</label>
                 <span class="ob">*</span>
-                <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true">
+
+                <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true" required>
+                    <option value="">Selecione um Cliente</option>
                     @foreach($cliente as $cli)
                         <option value="{{$cli->idcliente}}">
                             {{$cli->nomeCliente}}
@@ -70,8 +87,8 @@
                 <label for="origemVenda">Origem Venda</label>
                 <span class="ob">*</span>
                 <select name="origemVenda" id="origemVenda" value="{{old('origemVenda')}}"
-                        id="origemVenda" class="form-control">
-
+                        id="origemVenda" class="form-control" required>
+                    <option value="">Selecione a Oringem da venda</option>
                     <option value="Balcao">Balcao</option>
                     <option value="Instalacao">Instalacao</option>
 
@@ -85,8 +102,8 @@
                 <label for="condicaoPagamento">Condição Pagamento</label>
                 <span class="ob">*</span>
                 <select name="condicaoPagamento" id="condicaoPagamento" value="{{old('condicaoPagamento')}}"
-                        id="condicaoPagamento" class="form-control">
-
+                        id="pcondicaoPagamento" class="form-control" required>
+                    <option value="">Selecione a Condicao</option>
                     <option value="Avista">Avista</option>
                     <option value="Aprazo">A prazo</option>
 
@@ -101,7 +118,7 @@
                 <span class="ob">*</span>
                 <label>Forma Pagamento</label>
                 <select name="formaPagamento" id="formaPagamento" class="form-control">
-
+                    <option value="">Selecione a Forma de pagamento</option>
                     <option value="Dinheiro">Dinheiro</option>
                     <option value="Boleto"> Boleto</option>
                     <option value="Cartão">Cartão</option>
@@ -116,7 +133,7 @@
             <div class="form-group">
                 <span class="ob">*</span>
                 <label>Numero De parcelas</label>
-                <select name="numeroDeParcelas" id="numeroDeParcelas" class="form-control">
+                <select name="numeroDeParcelas" id="numeroDeParcelas" class="form-control" >
 
                     <option value=1>1x</option>
                     <option value=2>2x</option>
@@ -368,6 +385,7 @@
                 $("#linha" + index).remove();
                 ocultar();
             }
+
 
 
         </script>

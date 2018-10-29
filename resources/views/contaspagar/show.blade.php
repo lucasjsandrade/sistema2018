@@ -76,6 +76,7 @@ function converteData($data){
             <th>Id</th>
             <th>Valor</th>
             <th>Data Vencimento</th>
+            <th>Status</th>
           </thead>
           <tfoot>
 
@@ -87,7 +88,7 @@ function converteData($data){
             <tr>
              <td>{{$pa->idparcela}}</td>
              <td>{{$pa->valorParcela}}</td>
-             <td>{{converteData($pa->dataVencimento)}}</td>
+             <td>{{($pa->status)}}</td>
 
 
 

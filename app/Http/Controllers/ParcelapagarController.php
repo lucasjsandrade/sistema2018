@@ -18,6 +18,7 @@ public function  get($id){
         ->join('contaspagar as cp', 'cp.idcontasp','=','parc.idcontasp')
         ->select('parc.idparcela','parc.dataVencimento','parc.valorParcela','parc.valorPago','parc.idcontasp','parc.status')
         ->where('parc.idparcela', '=',$id)
+        ->where('parc.status', '=','Pendente')
         ->get();
 
 
@@ -34,6 +35,7 @@ public function  get($id){
             ->join('contaspagar as cp', 'cp.idcontasp','=','parc.idcontasp')
             ->select('parc.idparcela','parc.dataVencimento','valorParcela','valorPago','parc.idcontasp')
             ->where('cp.idcontasp', '=',$id)
+            ->where('parc.status', '=','Pendente')
             ->get();
 
 

@@ -28,6 +28,7 @@
     24 => 'sistemaLaravel\\Providers\\EventServiceProvider',
     25 => 'sistemaLaravel\\Providers\\RouteServiceProvider',
     26 => 'Collective\\Html\\HtmlServiceProvider',
+    27 => 'Barryvdh\\DomPDF\\serviceProvider',
   ),
   'eager' => 
   array (
@@ -45,6 +46,7 @@
     11 => 'sistemaLaravel\\Providers\\AuthServiceProvider',
     12 => 'sistemaLaravel\\Providers\\EventServiceProvider',
     13 => 'sistemaLaravel\\Providers\\RouteServiceProvider',
+    14 => 'Barryvdh\\DomPDF\\serviceProvider',
   ),
   'deferred' => 
   array (

@@ -36,7 +36,7 @@ class fornecedorFormRequest extends FormRequest
             'whatsapp' => 'max:15',
             'email' => 'max:45',
             'logradouro' => 'required|max:45',
-            'bairro' => 'required|max:15',
+            'bairro' => 'required|max:45',
             'numero' => 'required|max:6',
             'cep' => 'required|max:15',
 
