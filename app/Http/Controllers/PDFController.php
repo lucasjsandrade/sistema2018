@@ -10,8 +10,10 @@ use sistemaLaravel\Cliente;
 use sistemaLaravel\Produto;
 use sistemaLaravel\Compra;
 use sistemaLaravel\Venda;
+use sistemaLaravel\Contaspagar;
 use sistemaLaravel\Caixa;
 use sistemaLaravel\Pagamento;
+use sistemaLaravel\Recebimento;
 use Illuminate\support\Facades\Redirect;
 use sistemaLaravel\Http\requests\CompraPDFFormRequest;
 use Illuminate\Support\Facades\Input;
@@ -32,6 +34,74 @@ class PDFController extends Controller
         $pdf = PDF::loadView('pdf.cliente', ['cliente' => $clientes]);
         //return $pdf->download('customer.pdf');
         return $pdf->stream('cliente.pdf', ['cliente' => $clientes]);
+
+
+    }
+
+
+    public function ClienteGetPDF()
+    {
+
+        $clientes = DB::table('cliente as c')
+            ->select('c.idcliente', 'c.nomeCliente', 'c.telefone', 'c.celular', 'c.email')
+            ->orderBy('c.nomeCliente', 'asc')
+            ->groupBy('c.idcliente', 'c.nomeCliente', 'c.telefone', 'c.celular', 'c.email')
+            ->get();
+        $pdf = PDF::loadView('pdf.cliente', ['cliente' => $clientes]);
+        return $pdf->stream('cliente.pdf', ['cliente' => $clientes]);
+
+
+    }
+
+    public function contaspagGetPDF()
+    {
+
+        $contasp = DB::table('contaspagar as c')
+            ->join('parcelapagar as p', 'p.idcontasp', '=', 'c.idcontasp')
+            ->join('compra as com', 'com.idcompra', '=', 'c.idcompra')
+            ->join('fornecedor as for', 'for.idfornecedor', '=', 'com.idfornecedor')
+
+            ->select('c.idcontasp', 'p.dataVencimento', 'p.valorParcela', 'c.descricao', 'c.parcela', 'c.idcompra', 'p.idparcela', 'p.status','for.razaoSocial','for.telefone')
+            ->where('p.status', '=', 'Pendente')
+            ->orderBy('c.idcontasp', 'asc')
+            ->get();
+            $pdf = PDF::loadView('pdf.contaspagar', ['contaspagar' => $contasp]);
+        return $pdf->stream('contaspagar.pdf', ['contaspagar' => $contasp]);
+
+
+    }
+
+    public function contasrecGetPDF()
+    {
+
+        $contasr = DB::table('contasreceber as c')
+            ->join('parcelareceber as p', 'p.idcontasr', '=', 'c.idcontasr')
+            ->join('venda as ven', 'ven.idvenda', '=', 'c.idvenda')
+            ->join('cliente as cli', 'cli.idcliente', '=', 'cli.idcliente')
+
+            ->select('c.idcontasr', 'p.dataVencimento', 'p.valorParcela', 'c.descricao', 'c.parcela', 'c.idvenda', 'p.idparcela', 'p.status','cli.nomeCliente','cli.telefone')
+            ->where('p.status', '=', 'Pendente')
+            ->orderBy('c.idcontasr', 'asc')
+            ->get();
+        $pdf = PDF::loadView('pdf.contasreceber', ['contasreceber' => $contasr]);
+        return $pdf->stream('contasreceber.pdf', ['contasreceber' => $contasr]);
+
+
+    }
+
+    public function fornecedorGetPDF()
+    {
+
+        $fornecedor = DB::table('fornecedor as f')
+            ->select('f.idfornecedor', 'f.razaoSocial', 'f.telefone', 'f.email')
+            ->orderBy('f.razaoSocial', 'asc')
+            ->groupBy('f.idfornecedor', 'f.razaoSocial', 'f.telefone', 'f.email')
+            ->get();
+
+
+        $pdf = PDF::loadView('pdf.fornecedor', ['fornecedor' => $fornecedor]);
+        //return $pdf->download('customer.pdf');
+        return $pdf->stream('fornecedor.pdf', ['fornecedor' => $fornecedor]);
 
 
     }
@@ -177,9 +247,12 @@ class PDFController extends Controller
         $dataFinal = Input::get('dataFinal');
 
         $caixa = DB::table('caixa as c')
-            ->whereBetween('data', [$dataInicial, $dataFinal])
+            ->join('movimentacaocaixa as m', 'm.idcaixa', '=', 'c.idcaixa')
+            ->select('c.idcaixa', 'c.data', 'c.saldoInicial', 'c.saldoFinal', 'c.situacao', 'm.tipoMovimentacao', 'm.valor')
+            ->whereBetween('c.data', [$dataInicial, $dataFinal])
             ->where('c.situacao', '=', 'Fechado')
-            ->orderBy('idcaixa')
+            ->orderBy('c.idcaixa')
+            ->groupBy('c.idcaixa', 'c.data', 'c.saldoInicial', 'c.saldoFinal', 'c.situacao', 'm.tipoMovimentacao', 'm.valor')
             ->get();
 
         $pdf = PDF::loadView('pdf.caixa', ['caixa' => $caixa]);
@@ -240,10 +313,64 @@ class PDFController extends Controller
         }
         $pdf = PDF::loadView('pdf.pagamento', ['pagamento' => $pagamento]);
         //return $pdf->download('customer.pdf');
-        return $pdf->stream('caixa.pdf', ['pagamento' => $pagamento]);
+        return $pdf->stream('pagamento.pdf', ['pagamento' => $pagamento]);
 
     }
 
+    public function RecebimentoIndex(Request $request)
+    {
+
+        if ($request) {
+            $query = trim($request->get('searchText'));
+            $recebimento = DB::table('recebimento as r')
+                ->select('r.idrecebimento')
+                ->get();
+            $cliente = DB::table('cliente')
+                ->where('status', '=', 'Ativo')
+                ->get();
+
+            return view('pdf.RecebimentoIndex', [
+                "recebimento" => $recebimento, "cliente" => $cliente, "searchText" => $query
+            ]);
+        }
+    }
+
+    public function RecebimentoGetPDF()
+    {
+
+        $dataInicial = Input::get('dataInicial');
+        $dataFinal = Input::get('dataFinal');
+        $cliente = Input::get('idcliente');
+        if ($cliente != 'T') {
+            $recebimento = DB::table('recebimento as r')
+                ->join('parcelareceber as pr', 'pr.idparcela', '=', 'r.idparcela')
+                ->join('contasreceber as c', 'c.idcontasr', '=', 'pr.idcontasr')
+                ->join('venda as ven', 'ven.idvenda', '=', 'c.idvenda')
+                ->join('cliente as cli', 'cli.idcliente', '=', 'c.idcliente')
+                ->select('r.data', 'pr.valorParcela', 'pr.valorRecebido', 'pr.status', 'pr.idparcela', 'r.idrecebimento', 'pr.idcontasr', 'c.parcela', 'cli.idcliente',
+                    'cli.nomeCliente', 'cli.telefone', 'ven.idvenda', 'ven.valorTotal', 'ven.numeroDeParcelas')
+                ->whereBetween('r.data', [$dataInicial, $dataFinal])
+                ->whereBetween('cli.idcliente', [$cliente, $cliente])
+                ->orderBy('idrecebimento')
+                ->get();
+        } else {
+
+            $recebimento = DB::table('recebimento as r')
+                ->join('parcelareceber as pr', 'pr.idparcela', '=', 'r.idparcela')
+                ->join('contasreceber as c', 'c.idcontasr', '=', 'pr.idcontasr')
+                ->join('venda as ven', 'ven.idvenda', '=', 'c.idvenda')
+                ->join('cliente as cli', 'cli.idcliente', '=', 'c.idcliente')
+                ->select('r.data', 'pr.valorParcela', 'pr.valorRecebido', 'pr.status', 'pr.idparcela', 'r.idrecebimento', 'pr.idcontasr', 'c.parcela', 'cli.idcliente',
+                    'cli.nomeCliente', 'cli.telefone', 'ven.idvenda', 'ven.valorTotal', 'ven.numeroDeParcelas')
+                ->whereBetween('r.data', [$dataInicial, $dataFinal])
+                ->orderBy('r.idrecebimento')
+                ->get();
+
+        }
+        $pdf = PDF::loadView('pdf.recebimento', ['recebimento' => $recebimento]);
+        //return $pdf->download('customer.pdf');
+        return $pdf->stream('recebimento.pdf', ['recebimento' => $recebimento]);
+
+    }
 
 }
-

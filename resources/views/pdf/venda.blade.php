@@ -1,4 +1,4 @@
-<?php  global  $soma_total; global $soma_compras;
+<?php  global  $soma_total; global $soma_vendas;
 
 function converteData($data)
 {
@@ -11,25 +11,26 @@ function converteData($data)
 
 <html>
 <head>
-    <h1>Relatório de Compras</h1>
-    <title><h1>Relatório de Compras</h1></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <h1>Relatório de Vendas</h1>
+    <title><h1>Relatório de Vendas</h1></title>
     <style type="text/css">
-        table {
-            width: 80%;
-            magin: 0;
-            border: 1px solid;
-
+        li {
+            color:red;
         }
     </style>
 </head>
 <body>
-<table>
+<table class="table table-condensed">
     <thead>
     <tr>
-        <td>Numero da Compra:</td>
-        <td>Data Compra:</td>
-        <td>Condicao de Pagamento:</td>
-        <td>Valor da Compra:</td>
+        <th>Numero da Venda:</th>
+        <th>Data Venda:</th>
+        <th>Condicao de Pagamento:</th>
+        <th>Valor da Venda:</th>
 
 
     </tr>
@@ -39,16 +40,16 @@ function converteData($data)
 
     <tbody>
 
-    @forelse($compra as $c)
+    @forelse($venda as $v)
         <tr>
 
-            <td>{{$c->idcompra}}</td>
-            <td>{{ converteData($c->dataCompra)}}</td>
-            <td>{{$c->condicaoPagamento}}</td>
-            <td>{{'R$ '.$c->totalCompra}}</td>
+            <td>{{$v->idvenda}}</td>
+            <td>{{ converteData($v->dataVenda)}}</td>
+            <td>{{$v->condicaoPagamento}}</td>
+            <td>{{'R$ '.$v->valorTotal}}</td>
 
-            <?php $soma_total =$soma_total   + $c->totalCompra;?>
-            <?php $soma_compras = $soma_compras + 1; ?>
+            <?php $soma_total =$soma_total   + $v->valorTotal;?>
+            <?php $soma_vendas = $soma_vendas + 1; ?>
 
 
 
@@ -58,19 +59,19 @@ function converteData($data)
     @empty
 
 <tr>
-    <li>Nenhum Produto Cadastrado.</li>
+    <li>Nenhuma Venda no Período.</li>
 
 </tr>
 
 
     @endforelse
     <tr>
-        <td>Compras no período:</td>
+        <th>Vendas no período:</th>
         <td></td>
         <td></td>
-        <td>Total de Compras:</td>
+        <th>Total de Vendas:</th>
     </tr>
-    <th><?php echo $soma_compras; ?></th>
+    <th><?php echo $soma_vendas; ?></th>
     <th></th>
     <th></th>
     <th><?php echo 'R$ '.$soma_total; ?></th>

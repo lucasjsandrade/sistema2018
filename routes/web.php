@@ -3,17 +3,6 @@
 use sistemaLaravel\Contaspagar;
 use sistemaLaravel\ParcelaPagar;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of the routes that are handled
-| by your application. Just tell Laravel the URIs it should respond
-| to using a Closure or controller method. Build something great!
-|
-*/
-
 Route::get('/', function () {
 	return view('auth/login');
 });
@@ -52,14 +41,19 @@ Route::resource('suprimento', 'suprimentoController');
 Route::auth  ();
 Auth::routes();
 Route::get('/home', 'HomeController@index');
+Route::get('/sobre', 'InfoController@index');
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/{slug?}', 'HomeController@index' );
 Route::get('/pdf/getPDF', 'PDFController@getPDF');
 Route::get('/pdf/produtoGetPDF', 'PDFController@ProdutoGetPDF');
+Route::get('/pdf/cliente', 'PDFController@ClienteGetPDF');
+Route::get('/pdf/fornecedor', 'PDFController@FornecedorGetPDF');
+Route::get('/pdf/contasPagar', 'PDFController@ContaspagGetPDF');
+Route::get('/pdf/contasReceber', 'PDFController@ContasrecGetPDF');
 Route::get('/pdf/compra', 'PDFController@CompraIndex');
 Route::post('/pdf/CompraGetPDF', 'PDFController@CompraGetPDF');
 Route::get('/pdf/venda', 'PDFController@VendaIndex');
-Route::post('/pdf/VendaGetPDF', 'PDFController@VendaGetPDF');
+Route::post('/pdf/vendaGetPDF', 'PDFController@VendaGetPDF');
 Route::get('/pdf/caixa', 'PDFController@CaixaIndex');
 Route::post('/pdf/CaixaGetPDF', 'PDFController@CaixaGetPDF');
 Route::get('/pdf/pagamento', 'PDFController@PagamentoIndex');

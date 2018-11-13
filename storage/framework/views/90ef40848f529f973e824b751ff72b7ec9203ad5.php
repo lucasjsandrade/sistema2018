@@ -1,7 +1,7 @@
 <?php $__env->startSection('conteudo'); ?>
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <h3>Relatório de Compras <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <i class="fa fa-shopping-cart"></i></h3>
+            <h3>Relatório de Vendas <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <i class="fa fa-shopping-cart"></i></h3>
             <?php if(count($errors)>0): ?>
                 <div class="alert alert-danger">
                     <ul>
@@ -16,7 +16,7 @@
     </div>
 
 
-    <?php echo Form::open(array('url'=>'/pdf/CompraGetPDF','method'=>'POST','autocomplete'=>'off')); ?>
+    <?php echo Form::open(array('url'=>'/pdf/vendaGetPDF','method'=>'POST','autocomplete'=>'off')); ?>
 
     <?php echo e(Form::token()); ?>
 

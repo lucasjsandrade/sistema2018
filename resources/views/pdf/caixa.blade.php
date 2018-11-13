@@ -11,24 +11,26 @@ function converteData($data)
 
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <h1>Relatório de Caixa</h1>
     <title><h1>Relatório de Caixa</h1></title>
     <style type="text/css">
-        table {
-            width: 80%;
-            magin: 0;
-            border: 1px solid;
+        li {
+            color: red;
 
         }
     </style>
 </head>
 <body>
-<table>
+<table class="table table-condensed">
     <thead>
     <tr>
-        <td>Numero do Caixa</td>
-        <td>Data Abertura:</td>
-        <td>Total do Caixa:</td>
+        <th>Numero do Caixa</th>
+        <th>Data Abertura:</th>
+        <th>Total do Caixa:</th>
 
 
     </tr>
@@ -56,22 +58,18 @@ function converteData($data)
     @empty
 
 <tr>
-    <li>Nenhum Caixa Encontrado no período.</li>
+    <li id="msg">Nenhum Caixa Encontrado no período.</li>
 
 </tr>
 
 
     @endforelse
     <tr>
-        <td>Caixas no período:</td>
-        <td></td>
-
-        <td>Total:</td>
+        <th colspan="1.5">Caixas no período:</th>
+        <th colspan="1.5">Total:</th>
     </tr>
-    <th><?php echo $soma_caixas; ?></th>
-    <th></th>
-
-    <th><?php echo 'R$ '.$valorFinal; ?></th>
+    <th colspan="1.5"><?php echo $soma_caixas; ?></th>
+    <th colspan="1.5"><?php echo 'R$ '.$valorFinal; ?></th>
 
 
     </tbody>

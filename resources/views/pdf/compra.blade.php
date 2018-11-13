@@ -11,25 +11,27 @@ function converteData($data)
 
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <h1>Relatório de Compras</h1>
     <title><h1>Relatório de Compras</h1></title>
     <style type="text/css">
-        table {
-            width: 80%;
-            magin: 0;
-            border: 1px solid;
-
+        li {
+            color: red;
         }
     </style>
 </head>
 <body>
-<table>
+<table class="table table-condensed">
+
     <thead>
     <tr>
-        <td>Numero da Compra:</td>
-        <td>Data Compra:</td>
-        <td>Condicao de Pagamento:</td>
-        <td>Valor da Compra:</td>
+        <th>Numero da Compra:</th>
+        <th>Data Compra:</th>
+        <th>Condição de Pagamento:</th>
+        <th>Valor da Compra:</th>
 
 
     </tr>
@@ -47,9 +49,8 @@ function converteData($data)
             <td>{{$c->condicaoPagamento}}</td>
             <td>{{'R$ '.$c->totalCompra}}</td>
 
-            <?php $soma_total =$soma_total   + $c->totalCompra;?>
+            <?php $soma_total = $soma_total + $c->totalCompra;?>
             <?php $soma_compras = $soma_compras + 1; ?>
-
 
 
         </tr>
@@ -57,23 +58,23 @@ function converteData($data)
 
     @empty
 
-<tr>
-    <li>Nenhum Produto Cadastrado.</li>
+        <tr>
+            <li>Nenhuma Compra no Período.</li>
 
-</tr>
+        </tr>
 
 
     @endforelse
     <tr>
-        <td>Compras no período:</td>
+        <th>Compras no período:</th>
         <td></td>
         <td></td>
-        <td>Total de Compras:</td>
+        <th>Total de Compras:</th>
     </tr>
     <th><?php echo $soma_compras; ?></th>
     <th></th>
     <th></th>
-    <th><?php echo 'R$ '.$soma_total; ?></th>
+    <th><?php echo 'R$ ' . $soma_total; ?></th>
 
 
     </tbody>

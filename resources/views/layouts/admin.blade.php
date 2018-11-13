@@ -190,7 +190,21 @@
                             <li><a href="/pdf/caixa"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Caixa</a></li>
                         </ul>
                         <ul class="treeview-menu">
+                            <li><a href="/pdf/cliente"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Cliente</a></li>
+                        </ul>
+                        <ul class="treeview-menu">
+                            <li><a href="/pdf/fornecedor"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Fornecedor</a></li>
+                        </ul>
+                        <ul class="treeview-menu">
                             <li><a href="/pdf/compra"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Compras</a>
+                            </li>
+                        </ul>
+                        <ul class="treeview-menu">
+                            <li><a href="/pdf/contasPagar"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Contas a Pagar</a>
+                            </li>
+                        </ul>
+                        <ul class="treeview-menu">
+                            <li><a href="/pdf/contasReceber"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Contas a Receber</a>
                             </li>
                         </ul>
                         <ul class="treeview-menu">
@@ -213,7 +227,7 @@
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/sobre">
                         <i class="fa fa-info-circle"></i> <span>Sobre...</span>
                         <small class="label pull-right bg-yellow">IT</small>
                     </a>

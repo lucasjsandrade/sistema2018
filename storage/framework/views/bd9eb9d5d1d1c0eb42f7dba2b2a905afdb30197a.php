@@ -11,25 +11,26 @@ function converteData($data)
 
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <h1>Relatório de Vendas</h1>
     <title><h1>Relatório de Vendas</h1></title>
     <style type="text/css">
-        table {
-            width: 80%;
-            magin: 0;
-            border: 1px solid;
-
+        li {
+            color:red;
         }
     </style>
 </head>
 <body>
-<table>
+<table class="table table-condensed">
     <thead>
     <tr>
-        <td>Numero da Venda:</td>
-        <td>Data Venda:</td>
-        <td>Condicao de Pagamento:</td>
-        <td>Valor da Vendaa:</td>
+        <th>Numero da Venda:</th>
+        <th>Data Venda:</th>
+        <th>Condicao de Pagamento:</th>
+        <th>Valor da Venda:</th>
 
 
     </tr>
@@ -47,7 +48,7 @@ function converteData($data)
             <td><?php echo e($v->condicaoPagamento); ?></td>
             <td><?php echo e('R$ '.$v->valorTotal); ?></td>
 
-            <?php $soma_total =$soma_total   + $v->valorTotal?>
+            <?php $soma_total =$soma_total   + $v->valorTotal;?>
             <?php $soma_vendas = $soma_vendas + 1; ?>
 
 
@@ -58,17 +59,17 @@ function converteData($data)
     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); if ($__empty_1): ?>
 
 <tr>
-    <li>Nenhum Produto Cadastrado.</li>
+    <li>Nenhuma Venda no Período.</li>
 
 </tr>
 
 
     <?php endif; ?>
     <tr>
-        <td>Vendas no período:</td>
+        <th>Vendas no período:</th>
         <td></td>
         <td></td>
-        <td>Total de Vendas:</td>
+        <th>Total de Vendas:</th>
     </tr>
     <th><?php echo $soma_vendas; ?></th>
     <th></th>

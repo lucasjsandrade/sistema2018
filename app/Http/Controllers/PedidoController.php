@@ -223,7 +223,7 @@ class pedidoController extends Controller
                 if ($condicaoPagamento == 'Avista') {
 
 
-                    if ($totalCompra <= $last_id->saldoAtual) {
+                    if ($totalCompra >= $last_id->saldoAtual) {
 
                         DB::beginTransaction();
 
