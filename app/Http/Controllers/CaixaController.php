@@ -22,11 +22,8 @@ class CaixaController extends Controller
 
     }
 
-
     public function index(Request $request)
     {
-
-
         if ($request) {
             $query = trim($request->get('searchText'));
             $caixa = DB::table('caixa as c')
@@ -42,23 +39,15 @@ class CaixaController extends Controller
             return view('caixa.index', [
                 "caixa" => $caixa, "searchText" => $query
             ]);
-
         }
 
-
     }
-
     public function create()
     {
-
         $caixa = DB::table('caixa')
             ->get();
-
         return view("caixa.create");
-
-
     }
-
 
     public function store(CaixaFormRequest $request)
     {
@@ -71,7 +60,6 @@ class CaixaController extends Controller
         $mytime = Carbon::now('America/Sao_Paulo');
         $caixa->data = $mytime->toDateTimeString();
         $caixa->save();
-
 
         $valor = $request->get('saldoInicial');
         if ($caixa):
@@ -96,9 +84,7 @@ class CaixaController extends Controller
             echo '<script>window.location="caixa/create"</script>';
         endif;
 
-
     }
-
 
     public function show($id)
     {
@@ -116,7 +102,6 @@ class CaixaController extends Controller
             ->get();
 
         return view("caixa.show", ["caixa" => $caixa, "movimentacaocaixa" => $movimentacaocaixa]);
-
 
     }
 
@@ -156,8 +141,6 @@ class CaixaController extends Controller
 
         }
 
-
     }
-
 
 }
